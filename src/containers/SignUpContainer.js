@@ -12,10 +12,16 @@ export class SignUpContainer extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    authenticated: state.session.authenticated
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     signup: (user) => dispatch(signup(user))
   }
 }
 
-export default connect(null, mapDispatchToProps)(SignUpContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpContainer)

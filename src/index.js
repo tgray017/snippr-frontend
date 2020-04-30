@@ -5,11 +5,13 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { sessionReducer, sessionService } from 'redux-react-session'
+import podcastsReducer from './reducers/podcastsReducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const reducers = {
-  session: sessionReducer
+  session: sessionReducer,
+  podcasts: podcastsReducer
 }
 const reducer = combineReducers(reducers)
 
