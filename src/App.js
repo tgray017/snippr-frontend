@@ -9,6 +9,8 @@ import LogOutContainer from './containers/LogOutContainer'
 import SearchContainer from './containers/SearchContainer'
 import Home from './components/Home'
 import NavBar from './components/NavBar'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 
 /* ElasticSearch Dependencies */
 /*
