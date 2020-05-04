@@ -6,12 +6,14 @@ import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { sessionReducer, sessionService } from 'redux-react-session'
 import podcastsReducer from './reducers/podcastsReducer'
+import currentAudioReducer from './reducers/currentAudioReducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const reducers = {
   session: sessionReducer,
-  podcasts: podcastsReducer
+  podcasts: podcastsReducer,
+  currentAudio: currentAudioReducer
 }
 const reducer = combineReducers(reducers)
 

@@ -6,7 +6,21 @@ import { fetchPodcasts } from '../actions/fetchPodcasts'
 
 class SearchContainer extends Component {
 
+  renderResults = () => this.props.results.map((result, idx) => {
+    let date = new Date(result.pub_date_ms).toString()
+    return (
+      <SearchResults
+        key={idx}
+        podcastTitle={result.podcast_title_original}
+        episodeTitle={result.title_original}
+        audio={result.audio}
+        airDate={date}
+      />
+    )
+  })
+
   render() {
+    this.renderResults()
     return (
       <div>
         <h2>Search!</h2>
@@ -14,9 +28,7 @@ class SearchContainer extends Component {
           fetchPodcasts={this.props.fetchPodcasts}
           results={this.props.results}
         />
-        <SearchResults
-          results={this.props.results}
-        />
+        {this.renderResults()}
       </div>
     )
   }

@@ -1,20 +1,29 @@
 import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
+import Moment from 'react-moment'
+import AudioContainer from '../containers/AudioContainer'
 
 export default class SearchResults extends Component {
   render() {
     return (
       <div>
-      <Card style={{ width: '18rem' }}>
-        <Card.Body>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the bulk of
-          </Card.Text>
-          <Card.Link href="#">Card Link</Card.Link>
-          <Card.Link href="#">Another Link</Card.Link>
-        </Card.Body>
+        <Card>
+          <Card.Body>
+            <Card.Title>{this.props.episodeTitle}</Card.Title>
+            <Card.Text>
+              {this.props.podcastTitle}
+            </Card.Text>
+            <Card.Subtitle className="mb-2 text-muted">
+              {'Aired' + ' '}
+              <Moment
+                format="MMM Do, YYYY">
+                {this.props.airDate}
+              </Moment>
+            </Card.Subtitle>
+          </Card.Body>
+          <Card.Footer>
+            <AudioContainer audio={this.props.audio}/>
+          </Card.Footer>
         </Card>
       </div>
     )
