@@ -6,14 +6,13 @@ export default function episodesReducer(state = {
     case 'START_FETCHING_EPISODES':
       return {
         ...state,
-        results: [...state.results],
         requesting: true
       }
 
     case 'FETCH_EPISODES':
       return {
         ...state,
-        results: action.payload.results,
+        results: action.payload.episodes,
         requesting: false
       }
 

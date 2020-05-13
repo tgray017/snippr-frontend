@@ -4,7 +4,6 @@ import SearchPodcastsResults from '../components/SearchPodcastsResults'
 import { connect } from 'react-redux'
 import { fetchPodcasts } from '../actions/fetchPodcasts'
 import { updateSearchInput } from '../actions/updateSearchInput'
-import { setPodcast } from '../actions/setPodcast'
 import PaginationContainer from './PaginationContainer'
 
 class SearchPodcastsContainer extends Component {
@@ -19,7 +18,6 @@ class SearchPodcastsContainer extends Component {
         thumbnail={result.thumbnail}
         lastAirDate={result.latest_pub_date_ms}
         id={result.id}
-        setPodcast={this.props.setPodcast}
       />
     )
   })
@@ -53,8 +51,7 @@ class SearchPodcastsContainer extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     updateSearchInput: (input) => dispatch(updateSearchInput(input)),
-    fetchPodcasts: (input, offset) => dispatch(fetchPodcasts(input, offset)),
-    setPodcast: (id) => dispatch(setPodcast(id))
+    fetchPodcasts: (input, offset) => dispatch(fetchPodcasts(input, offset))
   }
 }
 

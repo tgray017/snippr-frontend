@@ -1,4 +1,4 @@
-export const fetchEpisodes = input => {
+export const fetchEpisodes = podcastId => {
   return (dispatch) => {
     dispatch({ type: 'START_FETCHING_EPISODES' })
 
@@ -11,12 +11,11 @@ export const fetchEpisodes = input => {
       }
     }
 
-    let url = `https://listen-api.listennotes.com/api/v2/search?q=${input}&type=episode`
-    /*&only_in=title%2Cdescription*/
+    let url = `https://listen-api.listennotes.com/api/v2/podcasts/${podcastId}`
 
     fetch(url, obj)
       .then(resp => resp.json())
-      .then(podcasts => dispatch({ type: 'FETCH_EPISODES', payload: podcasts }))
-      .then(() => console.log(url))
+      .then(results => dispatch({ type: 'FETCH_EPISODES', payload: results }))
+      /*.then(episodes => dispatch({ type: 'FETCH_EPISODES', payload: episodes }))*/
   }
 }

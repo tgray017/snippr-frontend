@@ -14,6 +14,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const reducers = {
   session: sessionReducer,
   podcasts: podcastsReducer,
+  episodes: episodesReducer,
   currentAudio: currentAudioReducer
 }
 const reducer = combineReducers(reducers)

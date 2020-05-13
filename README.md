@@ -16,4 +16,5 @@ You will also see any lint errors in the console.
 
 ### Responsive thumbnail in podcast card--how can those be fixed width and height?
 ### Pagination component doesn't always work as expected when it reaches the end of the results
+### Pagination click updates offset before nextOffset
 ### Need better NavBar and SearchBar

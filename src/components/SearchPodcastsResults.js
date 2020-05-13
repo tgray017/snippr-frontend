@@ -7,13 +7,11 @@ import Image from 'react-bootstrap/Image'
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import { NavLink } from 'react-router-dom'
+
 
 
 export default class SearchPodcastsResults extends Component {
-
-  handleClick = () => {
-    this.props.setPodcast(this.props.id)
-  }
 
   render() {
     return (
@@ -26,34 +24,40 @@ export default class SearchPodcastsResults extends Component {
       }}
       animationConfig='wobbly'
       >
-        <Card onClick={this.handleClick}>
-          <Container>
-            <Row className="align-items-center">
-              <Col>
-                <Image src={this.props.image} thumbnail/>
-              </Col>
-              <Col xs={10}>
-                <Card.Body>
-                  <Card.Title>{this.props.title}</Card.Title>
-                  <Card.Text>
-                    <TextTruncate
-                      line={2}
-                      truncateText="…"
-                      text={this.props.description}
-                    />
-                  </Card.Text>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    {'Last aired '}
-                    <Moment
-                      format="MMM Do, YYYY">
-                      {this.props.lastAirDate}
-                    </Moment>
-                  </Card.Subtitle>
-                </Card.Body>
-              </Col>
-            </Row>
-          </Container>
-        </Card>
+
+        <NavLink
+          to={`/podcasts/${this.props.id}`}
+          style={{ color: 'inherit', textDecoration: 'inherit'}}
+        >
+          <Card>
+            <Container>
+              <Row className="align-items-center">
+                <Col>
+                  <Image src={this.props.image} thumbnail/>
+                </Col>
+                <Col xs={10}>
+                  <Card.Body>
+                    <Card.Title>{this.props.title}</Card.Title>
+                    <Card.Text>
+                      <TextTruncate
+                        line={2}
+                        truncateText="…"
+                        text={this.props.description}
+                      />
+                    </Card.Text>
+                    <Card.Subtitle className="mb-2 text-muted">
+                      {'Last aired '}
+                      <Moment
+                        format="MMM Do, YYYY">
+                        {this.props.lastAirDate}
+                      </Moment>
+                    </Card.Subtitle>
+                  </Card.Body>
+                </Col>
+              </Row>
+            </Container>
+          </Card>
+        </NavLink>
       </AnimationWrapper>
     )
   }
