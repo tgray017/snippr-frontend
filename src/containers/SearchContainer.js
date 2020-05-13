@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import SearchInput from '../components/SearchInput'
 import SearchResults from '../components/SearchResults'
 import { connect } from 'react-redux'
-import { fetchPodcasts } from '../actions/fetchPodcasts'
+import { fetchEpisodes } from '../actions/fetchEpisodes'
 
 class SearchContainer extends Component {
 
@@ -25,7 +25,7 @@ class SearchContainer extends Component {
       <div>
         <h2>Search!</h2>
         <SearchInput
-          fetchPodcasts={this.props.fetchPodcasts}
+          fetchEpisodes={this.props.fetchEpisodes}
           results={this.props.results}
         />
         {this.renderResults()}
@@ -36,7 +36,7 @@ class SearchContainer extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPodcasts: () => dispatch(fetchPodcasts())
+    fetchEpisodes: (input) => dispatch(fetchEpisodes(input))
   }
 }
 

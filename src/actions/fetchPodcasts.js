@@ -1,4 +1,4 @@
-export const fetchPodcasts = () => {
+export const fetchPodcasts = (input, offset = 0) => {
   return (dispatch) => {
     dispatch({ type: 'START_FETCHING_PODCASTS' })
 
@@ -11,8 +11,12 @@ export const fetchPodcasts = () => {
       }
     }
 
-    fetch('https://listen-api.listennotes.com/api/v2/search?q=star%20wars&only_in=title%2Cdescription', obj)
+    let url = `https://listen-api.listennotes.com/api/v2/search?q=${input}&type=podcast&offset=${offset}`
+
+    fetch(url, obj)
       .then(resp => resp.json())
-      .then(podcasts => dispatch({ type: 'FETCH_PODCASTS', payload: podcasts }))
+      .then(podcasts => {
+        dispatch({ type: 'FETCH_PODCASTS', payload: podcasts })
+      })
   }
 }

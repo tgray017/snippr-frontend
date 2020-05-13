@@ -14,7 +14,7 @@ export default class SearchResults extends Component {
               {this.props.podcastTitle}
             </Card.Text>
             <Card.Subtitle className="mb-2 text-muted">
-              {'Aired' + ' '}
+              {'Aired '}
               <Moment
                 format="MMM Do, YYYY">
                 {this.props.airDate}

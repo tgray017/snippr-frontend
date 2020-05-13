@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-/*import ReactSearchBox from 'react-search-box'*/
 
 export default class SearchInput extends Component {
 
@@ -10,10 +9,11 @@ export default class SearchInput extends Component {
   handleChange = event => {
     this.setState({
       ...this.state,
+      /* Need to store this is state before fetching in order for pagination components to work */
       searchInput: event.target.value
+    }, () => {
+      this.props.fetchEpisodes(this.state.searchInput)
     })
-    this.props.fetchPodcasts()
-    console.log(event.target.value)
   }
 
   render() {

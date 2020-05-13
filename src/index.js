@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { sessionReducer, sessionService } from 'redux-react-session'
+import episodesReducer from './reducers/episodesReducer'
 import podcastsReducer from './reducers/podcastsReducer'
 import currentAudioReducer from './reducers/currentAudioReducer'
 
