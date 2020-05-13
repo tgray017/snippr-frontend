@@ -32,6 +32,12 @@ export default function podcastsReducer(state = {
         offset: action.payload.offset
       }
 
+    case 'SET_PODCAST':
+      return {
+        ...state,
+        podcastId: action.payload.id
+      }
+
     default:
       return state
   }

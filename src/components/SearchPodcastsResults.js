@@ -10,6 +10,11 @@ import Row from 'react-bootstrap/Row'
 
 
 export default class SearchPodcastsResults extends Component {
+
+  handleClick = () => {
+    this.props.setPodcast(this.props.id)
+  }
+
   render() {
     return (
       <AnimationWrapper
@@ -21,7 +26,7 @@ export default class SearchPodcastsResults extends Component {
       }}
       animationConfig='wobbly'
       >
-        <Card>
+        <Card onClick={this.handleClick}>
           <Container>
             <Row className="align-items-center">
               <Col>
