@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import AudioElement from '../components/AudioElement'
+import Bar from '../components/Audio/Bar'
+import PlayPause from '../components/Audio/PlayPause'
+
 import StartSnip from '../components/buttons/StartSnip'
 import StopSnip from '../components/buttons/StopSnip'
 import GeneratePreview from '../components/buttons/GeneratePreview'
@@ -9,7 +11,15 @@ import { stopSnipping } from '../actions/stopSnipping'
 import { setAudio } from '../actions/setAudio'
 import { connect } from 'react-redux'
 
+import '../stylesheets/Audio.css'
+
+
 class AudioContainer extends Component {
+
+  constructor() {
+    super()
+    this.audioRef = React.createRef()
+  }
 
   renderSnipButton = () => {
     if(this.props.audio === this.props.currentAudio) {
@@ -40,9 +50,23 @@ class AudioContainer extends Component {
     }
   }
 
+  handlePlayClick = () => {
+    console.log(this.audioRef)
+  }
+
   render() {
     return (
       <div style={{display: 'flex', alignItems:'center'}}>
+        <audio
+          src={this.props.audio}
+          ref={this.audioRef}
+        />
+        <PlayPause
+          audioRef={this.audioRef}
+        />
+        <Bar/>
+
+        {/*
         <AudioElement
           audio={this.props.audio}
           setAudio={this.props.setAudio}
@@ -50,6 +74,7 @@ class AudioContainer extends Component {
           currentAudio={this.props.currentAudio}
           ref={(input) => {this.audioRef = input}}
         />
+        */}
         {this.renderSnipButton()}
 
       </div>

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PaginationComponent from '../components/PaginationComponent'
+import Podcast from '../components/Podcast'
+import EpisodesContainer from './EpisodesContainer'
 import { connect } from 'react-redux'
-import { setPodcast } from '../actions/setPodcast'
+import { fetchPodcast } from '../actions/fetchPodcast'
 import { fetchEpisodes } from '../actions/fetchEpisodes'
 
 
@@ -9,26 +11,39 @@ class PodcastContainer extends Component {
 
   componentDidMount() {
     const { match: { params } } = this.props
-    this.props.setPodcast(params.podcastId)
-    this.props.fetchEpisodes(params.podcastId)
-    console.log(params.podcastId)
+    this.props.fetchPodcast(params.podcastId)
   }
 
   render() {
     return (
-      'Podcasts container!'
+      <div>
+        <div style={{height: "30vh", "overflow-y": "scroll"}}>
+          <Podcast {...this.props}/>
+        </div>
+        <div style={{height: "60vh", "overflow-y": "scroll"}}>
+          <EpisodesContainer/>
+        </div>
+      </div>
     )
   }
 }
 
 const mapStateToProps = state => {
   return {
+    title: state.podcasts.currentPodcast.title,
+    publisher: state.podcasts.currentPodcast.publisher,
+    image: state.podcasts.currentPodcast.image,
+    thumbnail: state.podcasts.currentPodcast.thumbnail,
+    description: state.podcasts.currentPodcast.description,
+    lastAirDate: state.podcasts.currentPodcast.lastAirDate,
+    nextEpisodePubDate: state.podcasts.currentPodcast.nextEpisodePubDate,
+    episodes: state.podcasts.currentPodcast.episodes
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPodcast: (id) => dispatch(setPodcast(id)),
+    fetchPodcast: (id) => dispatch(fetchPodcast(id)),
     fetchEpisodes: (podcastId) => dispatch(fetchEpisodes(podcastId))
   }
 }

@@ -1,4 +1,4 @@
-export const fetchEpisodes = podcastId => {
+export const fetchEpisodes = (podcastId, nextEpisodePubDate) => {
   return (dispatch) => {
     dispatch({ type: 'START_FETCHING_EPISODES' })
 
@@ -11,7 +11,7 @@ export const fetchEpisodes = podcastId => {
       }
     }
 
-    let url = `https://listen-api.listennotes.com/api/v2/podcasts/${podcastId}`
+    let url = `https://listen-api.listennotes.com/api/v2/podcasts/${podcastId}?next_episode_pub_date=${nextEpisodePubDate}`
 
     fetch(url, obj)
       .then(resp => resp.json())
