@@ -11,13 +11,13 @@ export default class Episode extends Component {
   render() {
     return (
       <AnimationWrapper
-      config={{
-        color: {
-          initial: 'black',
-          onHover: 'blue',
-        },
-      }}
-      animationConfig='wobbly'
+        reset={true}
+        config={{
+          color: {
+            initial: 'black',
+            onHover: 'blue',
+          },
+        }}
       >
         <Card>
           <Card.Body>
@@ -40,6 +40,7 @@ export default class Episode extends Component {
           <Card.Footer>
             <AudioContainer
               audio={this.props.audio}
+              audioLength={this.props.audioLength}
             />
           </Card.Footer>
         </Card>

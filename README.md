@@ -19,3 +19,4 @@ You will also see any lint errors in the console.
 ### Pagination click updates offset before nextOffset
 ### Need better NavBar and SearchBar
 ### NavBar, Podcast component, and Episodes Container should all be sized relative to the viewport height (VH) together. e.g. Navbar style = 10 VH, Podcast = 30 VH, and Episodes Container = 60 VH -- how to make child compents size responsively?
+### Audio knob gets squished at the end of the episode

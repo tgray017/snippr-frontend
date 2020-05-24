@@ -3,12 +3,8 @@ import { PauseCircleFilled, PlayCircleFilled } from '@material-ui/icons'
 
 export default class PlayPause extends Component {
 
-  state = {
-    playing: false
-  }
-
   renderButton = () => {
-    if(this.state.playing) {
+    if(this.props.playing) {
       return (
         <PauseCircleFilled/>
       )
@@ -20,10 +16,7 @@ export default class PlayPause extends Component {
   }
 
   handleClick = () => {
-    this.state.playing ? this.props.audioRef.current.pause() : this.props.audioRef.current.play()
-    this.setState({
-      playing: !this.state.playing
-    })
+    this.props.togglePlay()
   }
 
   render() {

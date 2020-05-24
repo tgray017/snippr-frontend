@@ -5,13 +5,13 @@ import { connect } from 'react-redux'
 class EpisodeContainer extends Component {
 
   render() {
-    console.log(this.props.description)
     return (
       <Episode
         title={this.props.title}
         description={this.props.description.replace(/(<([^>]+)>)/ig,"")}
         airDate={this.props.airDate}
         audio={this.props.audio}
+        audioLength={this.props.audioLength}
       />
     )
   }

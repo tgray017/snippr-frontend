@@ -12,6 +12,7 @@
   height: 10px;
   border-radius: 15px;
   background: rgba(0,0,0,.3);
+  margin: 10px;
 }
 
 .bar__progress__knob {
@@ -21,4 +22,17 @@
   border: 1.5px solid black;
   background-color: white;
   border-radius: 50%;
+}
+
+.bar__time {
+  display: flex;
+  justify-content: center;
+}
+
+.bar__time.sm {
+  width: 55px;
+}
+
+.bar__time.lg {
+  width: 95px;
 }

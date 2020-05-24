@@ -13,6 +13,7 @@ class EpisodesContainer extends Component {
         description={episode.description}
         airDate={episode.pub_date_ms}
         audio={episode.audio}
+        audioLength={episode.audio_length_sec}
       />
     )
   }) : null

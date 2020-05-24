@@ -12,6 +12,7 @@
     "bootstrap": "^4.4.1",
     "mdbreact": "^4.26.0",
     "moment": "^2.24.0",
+    "moment-duration-format": "^2.3.2",
     "pagination": "github:react-bootstrap/Pagination",
     "react": "^16.13.1",
     "react-audio-player": "^0.13.0",
