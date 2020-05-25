@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Bar from '../components/Audio/Bar'
 import PlayPause from '../components/Audio/PlayPause'
-
 import StartSnip from '../components/buttons/StartSnip'
 import StopSnip from '../components/buttons/StopSnip'
 import GeneratePreview from '../components/buttons/GeneratePreview'
@@ -29,10 +28,7 @@ class AudioContainer extends Component {
     }
   }
 
-  componentDidUpdate() {
-    console.log('component updated!')
-  }
-
+  /*
   renderSnipButton = () => {
     if(this.props.audio === this.props.currentAudio) {
       if(this.props.snipping) {
@@ -61,6 +57,7 @@ class AudioContainer extends Component {
       }
     }
   }
+  */
 
   togglePlay = () => {
     this.setState({
@@ -103,12 +100,15 @@ class AudioContainer extends Component {
   }
 
   handleKnobClick = () => {
-    console.log('knob clicked!')
     let playAfterDrag = this.state.playing ? true : false
     this.setState({
       ...this.state,
       playAfterDrag: playAfterDrag
     })
+  }
+
+  handlePlay = () => {
+    this.props.setAudio(this.props.id, this.props.audio)
   }
 
   render() {
@@ -118,6 +118,7 @@ class AudioContainer extends Component {
           src={this.props.audio}
           ref={this.audioRef}
           onTimeUpdate={this.handleTimeUpdate}
+          onPlay={this.handlePlay}
         />
         <PlayPause
           togglePlay={this.togglePlay}
@@ -133,7 +134,9 @@ class AudioContainer extends Component {
           handleTimeDrag={this.handleTimeDrag}
           handleMouseUp={this.handleMouseUp}
         />
+      {/*
         {this.renderSnipButton()}
+      */}
       </div>
     )
   }
@@ -141,8 +144,9 @@ class AudioContainer extends Component {
 
 const mapStateToProps = state => {
   return {
+    audioId: state.currentAudio.audioId,
+    audioUrl: state.currentAudio.audioUrl,
     snipping: state.currentAudio.snipping,
-    currentAudio: state.currentAudio.audioUrl,
     startTime: state.currentAudio.startTime,
     endTime: state.currentAudio.endTime,
     showGeneratePreview: state.currentAudio.showGeneratePreview,
@@ -153,7 +157,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setAudio: (audioUrl) => dispatch(setAudio(audioUrl)),
+    setAudio: (audioId, audioUrl) => dispatch(setAudio(audioId, audioUrl)),
     startSnipping: (startTime) => dispatch(startSnipping(startTime)),
     stopSnipping: (endTime) => dispatch(stopSnipping(endTime)),
     setAudioDuration: (duration) => dispatch(setAudioDuration(duration)),

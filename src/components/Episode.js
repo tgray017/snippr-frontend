@@ -1,12 +1,22 @@
 import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
 import AudioContainer from '../containers/AudioContainer'
+import SnippingContainer from '../containers/SnippingContainer'
 import Moment from 'react-moment'
 import { AnimationWrapper } from 'react-hover-animation'
+import { connect } from 'react-redux'
 import TextTruncate from 'react-text-truncate'
 
 
-export default class Episode extends Component {
+class Episode extends Component {
+
+  renderSnippingContainer = () => {
+    if(this.props.id === this.props.currentAudioId) {
+      return (
+        <SnippingContainer/>
+      )
+    }
+  }
 
   render() {
     return (
@@ -39,12 +49,23 @@ export default class Episode extends Component {
           </Card.Body>
           <Card.Footer>
             <AudioContainer
+              id={this.props.id}
               audio={this.props.audio}
               audioLength={this.props.audioLength}
             />
+            {this.renderSnippingContainer()}
           </Card.Footer>
         </Card>
       </AnimationWrapper>
     )
   }
 }
+
+
+const mapStateToProps = state => {
+  return {
+    currentAudioId: state.currentAudio.audioId
+  }
+}
+
+export default connect(mapStateToProps)(Episode)

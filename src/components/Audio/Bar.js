@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import '../../stylesheets/Audio.css'
-var momentDurationFormatSetup = require("moment-duration-format");
+var momentDurationFormatSetup = require('moment-duration-format')
 
 
 

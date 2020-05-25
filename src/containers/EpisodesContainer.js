@@ -9,11 +9,12 @@ class EpisodesContainer extends Component {
     return (
       <EpisodeContainer
         key={idx}
+        id={episode.id}
+        audio={episode.audio}
+        audioLength={episode.audio_length_sec}
         title={episode.title}
         description={episode.description}
         airDate={episode.pub_date_ms}
-        audio={episode.audio}
-        audioLength={episode.audio_length_sec}
       />
     )
   }) : null

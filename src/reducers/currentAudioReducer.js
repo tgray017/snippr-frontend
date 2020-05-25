@@ -8,11 +8,8 @@ export default function currentAudioReducer(state = {
     case 'SET_AUDIO':
       return {
         ...state,
-        audioUrl: action.payload.audioUrl,
-        snipping: false,
-        startTime: null,
-        endTime: null,
-        showGeneratePreview: false
+        audioId: action.payload.audioId,
+        audioUrl: action.payload.audioUrl
       }
 
     case 'SET_AUDIO_DURATION':

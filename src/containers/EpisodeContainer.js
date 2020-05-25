@@ -12,6 +12,7 @@ class EpisodeContainer extends Component {
         airDate={this.props.airDate}
         audio={this.props.audio}
         audioLength={this.props.audioLength}
+        id={this.props.id}
       />
     )
   }
