@@ -36,3 +36,20 @@
 .bar__time.lg {
   width: 95px;
 }
+
+.snipping-container {
+  height: 75px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  width: 40px;
+  height: 40px;
+}
+
+div.menu-options > .dropdown-toggle:after {
+  content: none;
+  display: none;
+}

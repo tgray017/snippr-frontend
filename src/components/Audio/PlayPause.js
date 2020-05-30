@@ -21,7 +21,7 @@ export default class PlayPause extends Component {
 
   render() {
     return (
-      <button className="player__button" onClick={() => this.handleClick()}>
+      <button className="player__button btn btn-outline-dark" onClick={() => this.handleClick()}>
         {this.renderButton()}
       </button>
     )

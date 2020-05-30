@@ -20,3 +20,7 @@ You will also see any lint errors in the console.
 ### Need better NavBar and SearchBar
 ### NavBar, Podcast component, and Episodes Container should all be sized relative to the viewport height (VH) together. e.g. Navbar style = 10 VH, Podcast = 30 VH, and Episodes Container = 60 VH -- how to make child compents size responsively?
 ### Audio knob gets squished at the end of the episode
+### Add the following to the footer:
+#### <div>Icons made by <a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> to the footer
+#### Icons made by <a href="https://www.flaticon.com/authors/tomas-knop" title="Tomas Knop">Tomas Knop</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+#### Maybe pull play/pause button from here for consistency
