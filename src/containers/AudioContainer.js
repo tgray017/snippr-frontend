@@ -5,7 +5,7 @@ import StartSnip from '../components/buttons/StartSnip'
 import StopSnip from '../components/buttons/StopSnip'
 import GeneratePreview from '../components/buttons/GeneratePreview'
 import DiscardSnip from '../components/buttons/DiscardSnip'
-import { startSnipping } from '../actions/startSnipping'
+import { setSnipStartTime } from '../actions/setSnipStartTime'
 import { stopSnipping } from '../actions/stopSnipping'
 import { setAudio } from '../actions/setAudio'
 import { setAudioDuration } from '../actions/setAudioDuration'
@@ -23,41 +23,11 @@ class AudioContainer extends Component {
     this.state = {
       audioLength: this.props.audioLength,
       currentTime: 0,
+      startSnipTime: 0,
       playing: false,
       playAfterDrag: false
     }
   }
-
-  /*
-  renderSnipButton = () => {
-    if(this.props.audio === this.props.currentAudio) {
-      if(this.props.snipping) {
-        return (
-          <StopSnip
-            stopSnipping={this.props.stopSnipping}
-            audioRef={this.audioRef.audioRef}
-          />
-        )
-      } else {
-        if(this.props.showGeneratePreview) {
-          return (
-            <>
-              <GeneratePreview/>
-              <DiscardSnip/>
-            </>
-          )
-        } else {
-          return (
-            <StartSnip
-              startSnipping={this.props.startSnipping}
-              audioRef={this.audioRef.audioRef}
-            />
-          )
-        }
-      }
-    }
-  }
-  */
 
   togglePlay = () => {
     this.setState({
@@ -89,14 +59,33 @@ class AudioContainer extends Component {
     }
   }
 
-  handleTimeDrag = (offsetRatio) => {
-    let currentTime = this.state.audioLength*offsetRatio
-    this.setState({
-      ...this.state,
-      currentTime: currentTime
-    }, () => {
-      this.audioRef.current.currentTime = this.state.currentTime
-    })
+  handleTimeDrag = (elementName, offsetRatio) => {
+    if(elementName === "playProgressKnob") {
+      let currentTime = this.state.audioLength*offsetRatio
+      this.setState({
+        ...this.state,
+        currentTime: currentTime
+      }, () => {
+        this.audioRef.current.currentTime = this.state.currentTime
+      })
+    } else if (elementName === "startSnipKnob") {
+      console.log(offsetRatio)
+      console.log(this.state.audioLength)
+      let selectedTime = this.state.audioLength*offsetRatio
+      this.props.setSnipStartTime(selectedTime)
+      /*
+      this.setState({
+        ...this.state,
+        startSnipTime: selectedTime
+      })
+      */
+    } else {
+      console.log('endSnipKnob')
+    }
+  }
+
+  handleStartSnipKnobMove = () => {
+
   }
 
   handleKnobClick = () => {
@@ -130,6 +119,7 @@ class AudioContainer extends Component {
           timeFromEnd={this.state.audioLength - this.state.currentTime}
           timeFromStart={this.state.currentTime}
           offsetRatio={(this.state.currentTime/this.state.audioLength)*100}
+          startSnipOffsetRatio={(this.props.snipStartTime/this.state.audioLength)*100}
           handleKnobClick={this.handleKnobClick}
           handleTimeDrag={this.handleTimeDrag}
           handleMouseUp={this.handleMouseUp}
@@ -147,7 +137,7 @@ const mapStateToProps = state => {
     audioId: state.currentAudio.audioId,
     audioUrl: state.currentAudio.audioUrl,
     snipping: state.currentAudio.snipping,
-    startTime: state.currentAudio.startTime,
+    snipStartTime: state.currentAudio.snipStartTime,
     endTime: state.currentAudio.endTime,
     showGeneratePreview: state.currentAudio.showGeneratePreview,
     currentTime: state.currentAudio.audioCurrentTime,
@@ -158,7 +148,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setAudio: (audioId, audioUrl) => dispatch(setAudio(audioId, audioUrl)),
-    startSnipping: (startTime) => dispatch(startSnipping(startTime)),
+    setSnipStartTime: (startTime) => dispatch(setSnipStartTime(startTime)),
     stopSnipping: (endTime) => dispatch(stopSnipping(endTime)),
     setAudioDuration: (duration) => dispatch(setAudioDuration(duration)),
     setAudioCurrentTime: (currentTime) => dispatch(setAudioCurrentTime(currentTime))
