@@ -8,7 +8,6 @@ export default class Bar extends Component {
   state = {}
 
   mouseMove = e => {
-    if(e.target.className === 'bar__progress') {
       let timelineWidth = this.timeline.offsetWidth
       let handleWidth = this.handle.getBoundingClientRect().width
       let handlePosition = e.pageX - this.timeline.offsetLeft - (handleWidth/2)
@@ -33,7 +32,6 @@ export default class Bar extends Component {
         this.handle.style.marginLeft = "100%"
       }
       this.props.handleTimeDrag("playProgressKnob", offsetRatio)
-    }
   }
 
   mouseDown = (e) => {
@@ -41,12 +39,12 @@ export default class Bar extends Component {
     if(e.target.className === "bar__progress__knob") {
       this.setState({
         ...this.state,
-        dragElement: "playProgressKnob"
+        dragElement: this.handle
       }, () => {
         window.addEventListener('mousemove', this.mouseMove)
         window.addEventListener('mouseup', this.mouseUp)
         console.log(this.state)
-        console.log(this.props.audioLength)
+        console.log(this.state.dragElement.className)
       })
     }
   }
@@ -58,35 +56,27 @@ export default class Bar extends Component {
   }
 
   startSnipMouseMove = (e) => {
-    console.log(`startSnipMouseMove (prior to if statement): ${e.pageX}`)
-    /*
-    if(e.target.className === 'bar__snipping__knob') {
-    */
-      console.log(`startSnipMouseMove (within if statement): ${e.pageX}`)
-      let timelineWidth = this.timeline.offsetWidth
-      let handleWidth = this.startSnipHandle.getBoundingClientRect().width
-      let handlePosition = e.pageX - this.timeline.offsetLeft - (handleWidth/2)
+    let timelineWidth = this.timeline.offsetWidth
+    let handleWidth = this.startSnipHandle.getBoundingClientRect().width
+    let handlePosition = e.pageX - this.timeline.offsetLeft - (handleWidth/2)
 
-      console.log(handlePosition)
+    let offsetRatio
 
-      let offsetRatio
-
-      if(handlePosition/timelineWidth < 0) {
-        offsetRatio = 0
-      } else if (handlePosition/timelineWidth > 1) {
-        offsetRatio = 1
-      } else {
-        offsetRatio = handlePosition/timelineWidth
-      }
-
-      console.log(offsetRatio)
-
-      /*this.startSnipHandle.style.marginLeft = `${offsetRatio*100}%`*/
-
-      this.props.handleTimeDrag("startSnipKnob", offsetRatio)
-      /*
+    if(handlePosition/timelineWidth < 0) {
+      offsetRatio = 0
+    } else if (handlePosition/timelineWidth > 1) {
+      offsetRatio = 1
+    } else {
+      offsetRatio = handlePosition/timelineWidth
     }
-    */
+
+    this.setState({
+      ...this.state,
+      offsetRatio: offsetRatio
+    }, () => {
+      console.log(this.state)
+      this.props.handleTimeDrag("startSnipKnob", offsetRatio)
+    })
   }
 
   startSnipMouseDown = (e) => {
@@ -94,7 +84,7 @@ export default class Bar extends Component {
     if(e.target.className === "bar__snipping__knob") {
       this.setState({
         ...this.state,
-        dragElement: "startSnipKnob"
+        dragElement: this.startSnipHandle
       }, () => {
         window.addEventListener('mousemove', this.startSnipMouseMove)
         window.addEventListener('mouseup', this.startSnipMouseUp)
@@ -104,9 +94,23 @@ export default class Bar extends Component {
   }
 
   startSnipMouseUp = (e) => {
-    console.log(`startSnipMouseUp: ${e.pageX}`)
     window.removeEventListener('mousemove', this.startSnipMouseMove)
     window.removeEventListener('mouseup', this.startSnipMouseUp)
+  }
+
+  renderStartSnipKnob = () => {
+    if(true) {
+      return (
+        <span
+          className="bar__snipping__knob"
+          ref={(startSnipHandle) => { this.startSnipHandle = startSnipHandle }}
+          onMouseDown={this.startSnipMouseDown}
+          style={{
+            marginLeft: `${this.props.startSnipOffsetRatio}%`
+          }}
+        />
+      )
+    }
   }
 
   render() {
@@ -119,6 +123,8 @@ export default class Bar extends Component {
       format = 'mm:ss'
       widthClass = 'sm'
     }
+
+    console.log(`render method offset: ${this.props.startSnipOffsetRatio}`)
 
     return (
       <div className="bar">
@@ -140,15 +146,7 @@ export default class Bar extends Component {
               marginLeft: `${this.props.offsetRatio}%`
             }}
           />
-
-          <span
-            className="bar__snipping__knob"
-            ref={(startSnipHandle) => { this.startSnipHandle = startSnipHandle }}
-            style={{
-              marginLeft: `${this.props.startSnipOffsetRatio}%`
-            }}
-            onMouseDown={this.startSnipMouseDown}
-          />
+          {this.renderStartSnipKnob()}
         </div>
         <span className={`bar__time ${widthClass}`}>
           {moment.duration(this.props.timeFromEnd, 'seconds').format(format, {

@@ -69,10 +69,11 @@ class AudioContainer extends Component {
         this.audioRef.current.currentTime = this.state.currentTime
       })
     } else if (elementName === "startSnipKnob") {
-      console.log(offsetRatio)
-      console.log(this.state.audioLength)
-      let selectedTime = this.state.audioLength*offsetRatio
-      this.props.setSnipStartTime(selectedTime)
+      let snipStartTime = this.state.audioLength*offsetRatio
+      this.setState({
+        ...this.state,
+        snipStartTime: snipStartTime
+      })
       /*
       this.setState({
         ...this.state,
@@ -119,7 +120,8 @@ class AudioContainer extends Component {
           timeFromEnd={this.state.audioLength - this.state.currentTime}
           timeFromStart={this.state.currentTime}
           offsetRatio={(this.state.currentTime/this.state.audioLength)*100}
-          startSnipOffsetRatio={(this.props.snipStartTime/this.state.audioLength)*100}
+          startSnipOffsetRatio={(this.state.snipStartTime/this.state.audioLength)*100}
+          snipStartTime={this.state.snipStartTime}
           handleKnobClick={this.handleKnobClick}
           handleTimeDrag={this.handleTimeDrag}
           handleMouseUp={this.handleMouseUp}
