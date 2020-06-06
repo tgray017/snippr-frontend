@@ -11,7 +11,7 @@
   align-items: center;
   width: 90%;
   height: 10px;
-  margin: 20px;
+  margin: 20px 5px 20px 5px;
   border-radius: 15px;
   background: rgba(0,0,0,.3);
 }
@@ -25,12 +25,25 @@
   border-radius: 50%;
 }
 
+.bar__snipping__knob__container {
+  display: flex;
+  align-items: center;
+}
+
 .bar__snipping__knob {
   position: absolute;
   height: 30px;
   width: 5px;
   background-color: red;
   border-radius: 5%;
+}
+
+.bar__snipping__knob__time {
+  position: absolute;
+  color: red;
+  margin: auto;
+  top: 20px;
+  left: -10px;
 }
 
 .bar__time {

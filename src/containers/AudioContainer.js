@@ -59,30 +59,14 @@ class AudioContainer extends Component {
     }
   }
 
-  handleTimeDrag = (elementName, offsetRatio) => {
-    if(elementName === "playProgressKnob") {
-      let currentTime = this.state.audioLength*offsetRatio
-      this.setState({
-        ...this.state,
-        currentTime: currentTime
-      }, () => {
-        this.audioRef.current.currentTime = this.state.currentTime
-      })
-    } else if (elementName === "startSnipKnob") {
-      let snipStartTime = this.state.audioLength*offsetRatio
-      this.setState({
-        ...this.state,
-        snipStartTime: snipStartTime
-      })
-      /*
-      this.setState({
-        ...this.state,
-        startSnipTime: selectedTime
-      })
-      */
-    } else {
-      console.log('endSnipKnob')
-    }
+  handleTimeDrag = (offsetRatio) => {
+    let currentTime = this.state.audioLength*offsetRatio
+    this.setState({
+      ...this.state,
+      currentTime: currentTime
+    }, () => {
+      this.audioRef.current.currentTime = this.state.currentTime
+    })
   }
 
   handleStartSnipKnobMove = () => {
@@ -126,9 +110,6 @@ class AudioContainer extends Component {
           handleTimeDrag={this.handleTimeDrag}
           handleMouseUp={this.handleMouseUp}
         />
-      {/*
-        {this.renderSnipButton()}
-      */}
       </div>
     )
   }
