@@ -10,14 +10,6 @@ import TextTruncate from 'react-text-truncate'
 
 class Episode extends Component {
 
-  renderSnippingContainer = () => {
-    if(this.props.id === this.props.currentAudioId) {
-      return (
-        <SnippingContainer/>
-      )
-    }
-  }
-
   render() {
     return (
       <AnimationWrapper
@@ -53,7 +45,6 @@ class Episode extends Component {
               audio={this.props.audio}
               audioLength={this.props.audioLength}
             />
-            {this.renderSnippingContainer()}
           </Card.Footer>
         </Card>
       </AnimationWrapper>

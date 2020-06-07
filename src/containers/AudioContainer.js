@@ -5,8 +5,11 @@ import StartSnip from '../components/buttons/StartSnip'
 import StopSnip from '../components/buttons/StopSnip'
 import GeneratePreview from '../components/buttons/GeneratePreview'
 import DiscardSnip from '../components/buttons/DiscardSnip'
+import SnippingContainer from './SnippingContainer'
 import { setSnipStartTime } from '../actions/setSnipStartTime'
 import { stopSnipping } from '../actions/stopSnipping'
+import { play } from '../actions/play'
+import { pause } from '../actions/pause'
 import { setAudio } from '../actions/setAudio'
 import { setAudioDuration } from '../actions/setAudioDuration'
 import { setAudioCurrentTime } from '../actions/setAudioCurrentTime'
@@ -30,6 +33,16 @@ class AudioContainer extends Component {
   }
 
   togglePlay = () => {
+
+    if(this.props.playing && this.audioRef.current.src === this.props.audioUrl) {
+      this.props.pause()
+      this.audioRef.current.pause()
+    } else {
+      this.props.play()
+      this.audioRef.current.play()
+    }
+
+    /*
     this.setState({
       ...this.state,
       playing: this.state.playAfterDrag ? true : !this.state.playing
@@ -40,14 +53,18 @@ class AudioContainer extends Component {
         playAfterDrag: false
       })
     })
+    */
   }
 
   handleTimeUpdate = () => {
+    let currentTime = this.audioRef.current.currentTime >= this.props.audioLength ? this.props.audioLength : this.audioRef.current.currentTime
     this.setState({
       ...this.state,
-      currentTime: this.audioRef.current.currentTime
+      currentTime: currentTime
     })
   }
+
+  /*
 
   handleMouseUp = async () => {
     if(this.state.playAfterDrag) {
@@ -58,6 +75,7 @@ class AudioContainer extends Component {
       })
     }
   }
+  */
 
   handleTimeDrag = (offsetRatio) => {
     let currentTime = this.state.audioLength*offsetRatio
@@ -73,6 +91,7 @@ class AudioContainer extends Component {
 
   }
 
+  /*
   handleKnobClick = () => {
     let playAfterDrag = this.state.playing ? true : false
     this.setState({
@@ -80,37 +99,56 @@ class AudioContainer extends Component {
       playAfterDrag: playAfterDrag
     })
   }
+  */
 
   handlePlay = () => {
     this.props.setAudio(this.props.id, this.props.audio)
   }
 
+  renderSnippingContainer = () => {
+    if(this.props.id === this.props.audioId) {
+      return (
+        <SnippingContainer
+        />
+      )
+    }
+  }
+
   render() {
     return (
-      <div style={{display: 'flex', alignItems:'center'}}>
-        <audio
-          src={this.props.audio}
-          ref={this.audioRef}
-          onTimeUpdate={this.handleTimeUpdate}
-          onPlay={this.handlePlay}
-        />
-        <PlayPause
-          togglePlay={this.togglePlay}
-          playing={this.state.playing}
-        />
-        <Bar
-          audioRef={this.audioRef}
-          audioLength={this.state.audioLength}
-          timeFromEnd={this.state.audioLength - this.state.currentTime}
-          timeFromStart={this.state.currentTime}
-          offsetRatio={(this.state.currentTime/this.state.audioLength)*100}
-          startSnipOffsetRatio={(this.state.snipStartTime/this.state.audioLength)*100}
-          snipStartTime={this.state.snipStartTime}
-          handleKnobClick={this.handleKnobClick}
-          handleTimeDrag={this.handleTimeDrag}
-          handleMouseUp={this.handleMouseUp}
-        />
-      </div>
+      <>
+        <div style={{display: 'flex', alignItems:'center'}}>
+          <audio
+            src={this.props.audio}
+            ref={this.audioRef}
+            onTimeUpdate={this.handleTimeUpdate}
+            onPlay={this.handlePlay}
+          />
+          <PlayPause
+            togglePlay={this.togglePlay}
+            playing={this.props.playing}
+            currentAudioUrl={this.props.audioUrl}
+            audioRef={this.audioRef}
+            currentAudioId={this.props.audioId}
+            audioId={this.props.id}
+            stopSnipping={this.props.stopSnipping}
+          />
+          <Bar
+            audioRef={this.audioRef}
+            audioLength={this.state.audioLength}
+            audioId={this.props.id}
+            currentAudioId={this.props.audioId}
+            timeFromEnd={this.state.audioLength - this.state.currentTime}
+            timeFromStart={this.state.currentTime}
+            offsetRatio={(this.state.currentTime/this.state.audioLength)*100}
+            /*handleKnobClick={this.handleKnobClick}*/
+            handleTimeDrag={this.handleTimeDrag}
+            /*handleMouseUp={this.handleMouseUp}*/
+            snipping={this.props.snipping}
+          />
+        </div>
+        {this.renderSnippingContainer()}
+      </>
     )
   }
 }
@@ -120,6 +158,7 @@ const mapStateToProps = state => {
     audioId: state.currentAudio.audioId,
     audioUrl: state.currentAudio.audioUrl,
     snipping: state.currentAudio.snipping,
+    playing: state.currentAudio.playing,
     snipStartTime: state.currentAudio.snipStartTime,
     endTime: state.currentAudio.endTime,
     showGeneratePreview: state.currentAudio.showGeneratePreview,
@@ -132,7 +171,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setAudio: (audioId, audioUrl) => dispatch(setAudio(audioId, audioUrl)),
     setSnipStartTime: (startTime) => dispatch(setSnipStartTime(startTime)),
-    stopSnipping: (endTime) => dispatch(stopSnipping(endTime)),
+    stopSnipping: () => dispatch(stopSnipping()),
+    play: () => dispatch(play()),
+    pause: () => dispatch(pause()),
     setAudioDuration: (duration) => dispatch(setAudioDuration(duration)),
     setAudioCurrentTime: (currentTime) => dispatch(setAudioCurrentTime(currentTime))
   }

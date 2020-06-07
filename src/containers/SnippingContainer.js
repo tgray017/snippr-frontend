@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Dropdown, DropdownButton } from 'react-bootstrap'
+import { startSnipping } from '../actions/startSnipping'
 import '../stylesheets/Audio.css'
 
 class SnippingContainer extends Component {
 
   handleClick = () => {
-    console.log('hello')
+    this.props.startSnipping()
   }
 
   render() {
@@ -41,7 +42,7 @@ class SnippingContainer extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-
+    startSnipping: () => dispatch(startSnipping())
   }
 }
 

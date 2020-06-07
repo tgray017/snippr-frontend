@@ -4,7 +4,7 @@ import { PauseCircleFilled, PlayCircleFilled } from '@material-ui/icons'
 export default class PlayPause extends Component {
 
   renderButton = () => {
-    if(this.props.playing) {
+    if(this.props.playing && this.props.currentAudioId === this.props.audioId) {
       return (
         <PauseCircleFilled/>
       )
@@ -16,6 +16,13 @@ export default class PlayPause extends Component {
   }
 
   handleClick = () => {
+    /* should togglePlay in audioContainer accept a url instead? */
+    /* this feels messy */
+    let prevAudio = document.querySelector(`audio[src='${this.props.currentAudioUrl}']`)
+    if(prevAudio && this.props.currentAudioUrl !== this.props.audioRef.current.src) {
+      prevAudio.pause()
+      this.props.stopSnipping()
+    }
     this.props.togglePlay()
   }
 

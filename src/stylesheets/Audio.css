@@ -16,6 +16,13 @@
   background: rgba(0,0,0,.3);
 }
 
+.bar__progress__knob__container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .bar__progress__knob {
   position: absolute;
   height: 20px;
@@ -26,8 +33,10 @@
 }
 
 .bar__snipping__knob__container {
+  position: absolute;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .bar__snipping__knob {
@@ -41,9 +50,7 @@
 .bar__snipping__knob__time {
   position: absolute;
   color: red;
-  margin: auto;
-  top: 20px;
-  left: -10px;
+  top: 15px;
 }
 
 .bar__time {

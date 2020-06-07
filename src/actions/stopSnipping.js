@@ -1,8 +1,6 @@
-export const stopSnipping = (endTime) => {
+export const stopSnipping = () => {
 
   return (dispatch) => {
-    dispatch({type: 'STOP_SNIPPING', payload: {
-      endTime: endTime
-    }})
+    dispatch({type: 'STOP_SNIPPING'})
   }
 }

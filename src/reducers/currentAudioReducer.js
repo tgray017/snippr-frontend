@@ -1,5 +1,6 @@
 export default function currentAudioReducer(state = {
   snipping: false,
+  playing: false,
   showGeneratePreview: false,
   audioDuration: 0,
   audioCurrentTime: 0,
@@ -31,12 +32,28 @@ export default function currentAudioReducer(state = {
         snipStartTime: action.payload.snipStartTime
       }
 
+    case 'START_SNIPPING':
+      return {
+        ...state,
+        snipping: true
+      }
+
     case 'STOP_SNIPPING':
       return {
         ...state,
-        snipping: false,
-        endTime: action.payload.endTime,
-        showGeneratePreview: true
+        snipping: false
+      }
+
+    case 'PLAY':
+      return {
+        ...state,
+        playing: true
+      }
+
+    case 'PAUSE':
+      return {
+        ...state,
+        playing: false
       }
 
     default:
