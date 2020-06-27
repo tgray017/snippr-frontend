@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import SearchPodcastsInput from '../components/SearchPodcastsInput'
 import SearchPodcastsResults from '../components/SearchPodcastsResults'
+import Container from 'react-bootstrap/Container'
 import { connect } from 'react-redux'
 import { fetchPodcasts } from '../actions/fetchPodcasts'
 import { updateSearchInput } from '../actions/updateSearchInput'
@@ -32,8 +33,7 @@ class SearchPodcastsContainer extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Search!</h2>
+      <Container>
         <SearchPodcastsInput
           updateSearchInput={this.props.updateSearchInput}
           searchInput={this.props.searchInput}
@@ -43,7 +43,7 @@ class SearchPodcastsContainer extends Component {
         />
         {this.renderResults()}
         {this.renderPaginationContainer()}
-      </div>
+      </Container>
     )
   }
 }

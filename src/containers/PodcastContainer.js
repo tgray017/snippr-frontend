@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PaginationComponent from '../components/PaginationComponent'
 import Podcast from '../components/Podcast'
 import EpisodesContainer from './EpisodesContainer'
+import Container from 'react-bootstrap/Container'
 import { connect } from 'react-redux'
 import { fetchPodcast } from '../actions/fetchPodcast'
 import { fetchEpisodes } from '../actions/fetchEpisodes'
@@ -20,7 +21,7 @@ class PodcastContainer extends Component {
         <div style={{height: "30vh", "overflow-y": "scroll"}}>
           <Podcast {...this.props}/>
         </div>
-        <div style={{height: "60vh", "overflow-y": "scroll"}}>
+        <div className = "m-3" style={{height: "60vh", "overflow-y": "scroll"}}>
           <EpisodesContainer/>
         </div>
       </div>

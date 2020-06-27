@@ -21,7 +21,9 @@ class Episode extends Component {
           },
         }}
       >
-        <Card>
+        <Card
+          className="mb-3"
+        >
           <Card.Body>
             <Card.Title>{this.props.title}</Card.Title>
             <Card.Text>

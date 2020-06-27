@@ -1,60 +1,31 @@
-import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { PureComponent } from 'react'
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
 import { connect } from 'react-redux'
 
-class NavBar extends Component {
+class NavBar extends PureComponent {
+
   render() {
     if(this.props.authenticated) {
       return (
-        <div style={{ borderBottom: '2px solid black', paddingBottom: '10px', marginBottom: '12px' }}>
-          <NavLink
-            style={{ marginRight: '10px' }}
-            to="/"
-          >
-            Home
-          </NavLink>
-          <NavLink
-            style={{ marginRight: '10px' }}
-            to="/search"
-          >
-            Search
-          </NavLink>
-          <NavLink
-            style={{ marginRight: '10px' }}
-            to="/library"
-          >
-            Library
-          </NavLink>
-          <NavLink
-            style={{ marginRight: '10px' }}
-            to="/logout"
-          >
-            Log Out
-          </NavLink>
-        </div>
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand href="/" eventKey="/">snippr</Navbar.Brand>
+          <Nav className="mr-auto">
+            <Nav.Link href="/search" eventKey="/search">search</Nav.Link>
+            <Nav.Link href="/library" eventKey="/library">library</Nav.Link>
+            <Nav.Link href="/logout" eventKey="/logout">logout</Nav.Link>
+          </Nav>
+        </Navbar>
       )
     } else {
       return (
-        <div style={{ borderBottom: '2px solid black', paddingBottom: '10px', marginBottom: '12px' }}>
-          <NavLink
-            style={{ marginRight: '10px' }}
-            to="/"
-          >
-            Home
-          </NavLink>
-          <NavLink
-            style={{ marginRight: '10px' }}
-            to="/login"
-          >
-            Log In
-          </NavLink>
-          <NavLink
-            style={{ marginRight: '10px' }}
-            to="/signup"
-          >
-            Sign Up
-          </NavLink>
-        </div>
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand href="/" eventKey="/">snippr</Navbar.Brand>
+          <Nav className="mr-auto">
+            <Nav.Link href="/login" eventKey="/login">login</Nav.Link>
+            <Nav.Link href="/signup" eventKey="/signup">signup</Nav.Link>
+          </Nav>
+        </Navbar>
       )
     }
   }

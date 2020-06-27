@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import LogOut from '../components/LogOut'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../actions/logout'
@@ -7,7 +6,8 @@ import { logout } from '../actions/logout'
 
 export class LogOutContainer extends Component {
   render() {
-    return this.props.authenticated ? <LogOut logout={this.props.logout}/> : <Redirect to='/' />
+    this.props.logout()
+    return <Redirect to='/' />
   }
 }
 
@@ -19,7 +19,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout: (user) => dispatch(logout(user))
+    logout: () => dispatch(logout())
   }
 }
 

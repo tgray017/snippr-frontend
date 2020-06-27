@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Form from 'react-bootstrap/Form'
 
 export default class SearchPodcastsInput extends Component {
 
@@ -27,16 +28,16 @@ export default class SearchPodcastsInput extends Component {
 
   render() {
     return (
-      <div>
-        <form>
-          <input
+      <Form className="m-4">
+        <Form.Group controlId="search-podcasts">
+          <Form.Control
             type="text"
             placeholder="Search podcasts"
             onChange={this.handleChange}
             value={this.state.searchInput}
           />
-        </form>
-      </div>
+        </Form.Group>
+      </Form>
     )
   }
 }

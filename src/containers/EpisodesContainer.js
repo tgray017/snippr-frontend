@@ -21,9 +21,9 @@ class EpisodesContainer extends Component {
 
   render() {
     return (
-      <div>
+      <>
         {this.renderEpisodes()}
-      </div>
+      </>
     )
   }
 }
