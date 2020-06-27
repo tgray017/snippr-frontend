@@ -24,3 +24,4 @@ You will also see any lint errors in the console.
 #### <div>Icons made by <a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> to the footer
 #### Icons made by <a href="https://www.flaticon.com/authors/tomas-knop" title="Tomas Knop">Tomas Knop</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 #### Maybe pull play/pause button from here for consistency
+#### AlertContainer not fading properly--either get rid of the junk or make it work

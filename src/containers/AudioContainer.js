@@ -7,7 +7,10 @@ import GeneratePreview from '../components/buttons/GeneratePreview'
 import DiscardSnip from '../components/buttons/DiscardSnip'
 import SnippingContainer from './SnippingContainer'
 import { setSnipStartTime } from '../actions/setSnipStartTime'
+import { setSnipStopTime } from '../actions/setSnipStopTime'
+import { startSnipping } from '../actions/startSnipping'
 import { stopSnipping } from '../actions/stopSnipping'
+import { discardSnip } from '../actions/discardSnip'
 import { play } from '../actions/play'
 import { pause } from '../actions/pause'
 import { setAudio } from '../actions/setAudio'
@@ -109,6 +112,18 @@ class AudioContainer extends Component {
     if(this.props.id === this.props.audioId) {
       return (
         <SnippingContainer
+          currentTime={this.state.currentTime}
+          audioLength={this.state.audioLength}
+          startSnipping={this.props.startSnipping}
+          stopSnipping={this.props.stopSnipping}
+          discardSnip={this.props.discardSnip}
+          setSnipStartTime={this.props.setSnipStartTime}
+          setSnipStopTime={this.props.setSnipStopTime}
+          snipStartTime={this.props.snipStartTime}
+          snipStopTime={this.props.snipStopTime}
+          audioUrl={this.props.audioUrl}
+          snipping={this.props.snipping}
+          src={this.props.audio}
         />
       )
     }
@@ -145,6 +160,10 @@ class AudioContainer extends Component {
             handleTimeDrag={this.handleTimeDrag}
             /*handleMouseUp={this.handleMouseUp}*/
             snipping={this.props.snipping}
+            snipStartTime={this.props.snipStartTime}
+            snipStopTime={this.props.snipStopTime}
+            setSnipStartTime={this.props.setSnipStartTime}
+            setSnipStopTime={this.props.setSnipStopTime}
           />
         </div>
         {this.renderSnippingContainer()}
@@ -160,6 +179,7 @@ const mapStateToProps = state => {
     snipping: state.currentAudio.snipping,
     playing: state.currentAudio.playing,
     snipStartTime: state.currentAudio.snipStartTime,
+    snipStopTime: state.currentAudio.snipStopTime,
     endTime: state.currentAudio.endTime,
     showGeneratePreview: state.currentAudio.showGeneratePreview,
     currentTime: state.currentAudio.audioCurrentTime,
@@ -171,7 +191,10 @@ const mapDispatchToProps = dispatch => {
   return {
     setAudio: (audioId, audioUrl) => dispatch(setAudio(audioId, audioUrl)),
     setSnipStartTime: (startTime) => dispatch(setSnipStartTime(startTime)),
+    setSnipStopTime: (stopTime) => dispatch(setSnipStopTime(stopTime)),
+    startSnipping: () => dispatch(startSnipping()),
     stopSnipping: () => dispatch(stopSnipping()),
+    discardSnip: () => dispatch(discardSnip()),
     play: () => dispatch(play()),
     pause: () => dispatch(pause()),
     setAudioDuration: (duration) => dispatch(setAudioDuration(duration)),

@@ -19,7 +19,9 @@ export default class Bar extends Component {
 
     this.state = {
       timeFormat: timeFormat,
-      timeWidthClass: timeWidthClass
+      timeWidthClass: timeWidthClass,
+      snipStartTime: null,
+      snipStopTime: null
     }
   }
 
@@ -51,12 +53,12 @@ export default class Bar extends Component {
   }
 
   mouseDown = (e) => {
+    e.preventDefault()
     if(e.target === this.barProgressKnob) {
       this.setState({
         ...this.state,
         dragElement: this.barProgressKnobContainer
       }, () => {
-        /*this.props.handleKnobClick()*/
         window.addEventListener('mousemove', this.mouseMove)
         window.addEventListener('mouseup', this.mouseUp)
       })
@@ -66,7 +68,6 @@ export default class Bar extends Component {
   mouseUp = (e) => {
     window.removeEventListener('mousemove', this.mouseMove)
     window.removeEventListener('mouseup', this.mouseUp)
-    /*this.props.handleMouseUp()*/
   }
 
   startSnipMouseMove = (e) => {
@@ -84,27 +85,91 @@ export default class Bar extends Component {
       offsetRatio = handlePosition/timelineWidth
     }
 
-    if (handlePosition >= 0 && handlePosition <= timelineWidth) {
-      this.state.dragElement.style.marginLeft = `${offsetRatio*100}%`
-      this.startSnipHandleTime.innerText = moment.duration(this.props.audioLength*offsetRatio, 'seconds').format(this.state.timeFormat, {
+    if(this.stopSnipHandleContainer && handlePosition > this.stopSnipHandleContainer.offsetLeft) {
+      this.stopSnipMouseMove(e)
+    }
+
+    let startSnipHandleTime
+
+    if(handlePosition >= 0 && handlePosition <= timelineWidth) {
+      this.startSnipHandleContainer.style.marginLeft = `${offsetRatio*100}%`
+      startSnipHandleTime = this.props.audioLength*offsetRatio
+      this.startSnipHandleTime.innerText = moment.duration(startSnipHandleTime, 'seconds').format(this.state.timeFormat, {
         trim: false
       })
     }
-    if (handlePosition < 0) {
-      this.state.dragElement.style.marginLeft = "0%"
-      this.startSnipHandleTime.innerText = moment.duration(0, 'seconds').format(this.state.timeFormat, {
+    if(handlePosition < 0) {
+      this.startSnipHandleContainer.style.marginLeft = "0%"
+      startSnipHandleTime = 0
+      this.startSnipHandleTime.innerText = moment.duration(startSnipHandleTime, 'seconds').format(this.state.timeFormat, {
         trim: false
       })
     }
-    if (handlePosition > timelineWidth) {
-      this.state.dragElement.style.marginLeft = "100%"
-      this.startSnipHandleTime.innerText = moment.duration(this.props.audioLength, 'seconds').format(this.state.timeFormat, {
+    if(handlePosition > timelineWidth) {
+      this.startSnipHandleContainer.style.marginLeft = "100%"
+      startSnipHandleTime = this.props.audioLength
+      this.startSnipHandleTime.innerText = moment.duration(startSnipHandleTime, 'seconds').format(this.state.timeFormat, {
         trim: false
       })
     }
+
+    this.setState({
+      ...this.state,
+      snipStartTime: startSnipHandleTime
+    })
+  }
+
+  stopSnipMouseMove = (e) => {
+    let timelineWidth = this.timeline.offsetWidth
+    let handleWidth = this.state.dragElement.getBoundingClientRect().width
+    let handlePosition = e.pageX - this.timeline.offsetLeft - (handleWidth/2)
+
+    let offsetRatio
+
+    if(handlePosition/timelineWidth < 0) {
+      offsetRatio = 0
+    } else if (handlePosition/timelineWidth > 1) {
+      offsetRatio = 1
+    } else {
+      offsetRatio = handlePosition/timelineWidth
+    }
+
+    if(this.startSnipHandleContainer && handlePosition < this.startSnipHandleContainer.offsetLeft) {
+      this.startSnipMouseMove(e)
+    }
+
+    let stopSnipHandleTime
+
+    if(handlePosition >= 0 && handlePosition <= timelineWidth) {
+      this.stopSnipHandleContainer.style.marginLeft = `${offsetRatio*100}%`
+      stopSnipHandleTime = this.props.audioLength*offsetRatio
+      this.stopSnipHandleTime.innerText = moment.duration(stopSnipHandleTime, 'seconds').format(this.state.timeFormat, {
+        trim: false
+      })
+    }
+    if(handlePosition < 0) {
+      this.stopSnipHandleContainer.style.marginLeft = "0%"
+      stopSnipHandleTime = 0
+      this.stopSnipHandleTime.innerText = moment.duration(stopSnipHandleTime, 'seconds').format(this.state.timeFormat, {
+        trim: false
+      })
+    }
+    if(handlePosition > timelineWidth) {
+      this.stopSnipHandleContainer.style.marginLeft = "100%"
+      stopSnipHandleTime = this.props.audioLength
+      this.stopSnipHandleTime.innerText = moment.duration(stopSnipHandleTime, 'seconds').format(this.state.timeFormat, {
+        trim: false
+      })
+    }
+
+    this.setState({
+      ...this.state,
+      snipStopTime: stopSnipHandleTime
+    })
   }
 
   startSnipMouseDown = (e) => {
+    e.preventDefault()
     if(e.target === this.startSnipHandle) {
       this.setState({
         ...this.state,
@@ -116,9 +181,39 @@ export default class Bar extends Component {
     }
   }
 
+  stopSnipMouseDown = (e) => {
+    e.preventDefault()
+    if(e.target === this.stopSnipHandle) {
+      this.setState({
+        ...this.state,
+        dragElement: this.stopSnipHandleContainer
+      }, () => {
+        window.addEventListener('mousemove', this.stopSnipMouseMove)
+        window.addEventListener('mouseup', this.stopSnipMouseUp)
+      })
+    }
+  }
+
   startSnipMouseUp = (e) => {
     window.removeEventListener('mousemove', this.startSnipMouseMove)
     window.removeEventListener('mouseup', this.startSnipMouseUp)
+    if(this.state.snipStartTime || this.state.snipStartTime === 0) {
+      this.props.setSnipStartTime(this.state.snipStartTime)
+    }
+    if(this.state.snipStopTime || this.state.snipStopTime === 0) {
+      this.props.setSnipStopTime(this.state.snipStopTime)
+    }
+  }
+
+  stopSnipMouseUp = (e) => {
+    window.removeEventListener('mousemove', this.stopSnipMouseMove)
+    window.removeEventListener('mouseup', this.stopSnipMouseUp)
+    if(this.state.snipStartTime || this.state.snipStartTime === 0) {
+      this.props.setSnipStartTime(this.state.snipStartTime)
+    }
+    if(this.state.snipStopTime || this.state.snipStopTime === 0) {
+      this.props.setSnipStopTime(this.state.snipStopTime)
+    }
   }
 
   timelineClick = (e) => {
@@ -134,23 +229,61 @@ export default class Bar extends Component {
   }
 
   renderStartSnipKnob = () => {
-    if(this.props.snipping && this.props.audioId === this.props.currentAudioId) {
+    let offsetRatio = (this.props.snipStartTime/this.props.audioLength)*100
+
+    if(this.props.snipping && (this.props.snipStartTime || this.props.snipStartTime === 0) && this.props.audioId === this.props.currentAudioId) {
       return (
         <div
           className="bar__snipping__knob__container"
           ref={(startSnipHandleContainer) => { this.startSnipHandleContainer = startSnipHandleContainer }}
+          style={{
+            marginLeft: `${offsetRatio}%`
+          }}
         >
           <span
-            className="bar__snipping__knob"
+            className="bar__snip__start__knob"
             ref={(startSnipHandle) => { this.startSnipHandle = startSnipHandle }}
             onMouseDown={this.startSnipMouseDown}
           >
           </span>
           <span
-            className="bar__snipping__knob__time"
+            className="bar__snip__start__knob__time"
             ref={(startSnipHandleTime) => { this.startSnipHandleTime = startSnipHandleTime }}
           >
-          {this.state.timeWidthClass === 'lg' ? '00:00:00' : '00:00'}
+          {moment.duration(this.props.snipStartTime, 'seconds').format(this.state.timeFormat, {
+            trim: false
+          })}
+          </span>
+        </div>
+      )
+    }
+  }
+
+  renderStopSnipKnob = () => {
+    let offsetRatio = (this.props.snipStopTime/this.props.audioLength)*100
+
+    if(this.props.snipping && (this.props.snipStopTime || this.props.snipStopTime === 0) && this.props.audioId === this.props.currentAudioId) {
+      return (
+        <div
+          className="bar__snipping__knob__container"
+          ref={(stopSnipHandleContainer) => { this.stopSnipHandleContainer = stopSnipHandleContainer }}
+          style={{
+            marginLeft: `${offsetRatio}%`
+          }}
+        >
+          <span
+            className="bar__snip__stop__knob"
+            ref={(stopSnipHandle) => { this.stopSnipHandle = stopSnipHandle }}
+            onMouseDown={this.stopSnipMouseDown}
+          >
+          </span>
+          <span
+            className="bar__snip__stop__knob__time"
+            ref={(stopSnipHandleTime) => { this.stopSnipHandleTime = stopSnipHandleTime }}
+          >
+          {moment.duration(this.props.snipStopTime, 'seconds').format(this.state.timeFormat, {
+            trim: false
+          })}
           </span>
         </div>
       )
@@ -184,6 +317,7 @@ export default class Bar extends Component {
           />
         </div>
           {this.renderStartSnipKnob()}
+          {this.renderStopSnipKnob()}
         </div>
         <span className={`bar__time ${this.state.timeWidthClass}`}>
           {moment.duration(this.props.timeFromEnd, 'seconds').format(this.state.timeFormat, {
