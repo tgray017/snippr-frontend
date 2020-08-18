@@ -9,22 +9,30 @@ import PaginationContainer from './PaginationContainer'
 
 class SearchPodcastsContainer extends Component {
 
-  renderResults = () => this.props.results.map((result, idx) => {
-    return (
-      <SearchPodcastsResults
-        key={idx}
-        title={result.title_original}
-        description={result.description_original}
-        image={result.image}
-        thumbnail={result.thumbnail}
-        lastAirDate={result.latest_pub_date_ms}
-        id={result.id}
-      />
-    )
-  })
+  renderResults = () => {
+    if (this.props.results) {
+      return (
+        this.props.results.map((result, idx) => {
+          return (
+            <SearchPodcastsResults
+              key={idx}
+              title={result.title_original}
+              description={result.description_original}
+              image={result.image}
+              thumbnail={result.thumbnail}
+              lastAirDate={result.latest_pub_date_ms}
+              id={result.id}
+            />
+          )
+        })
+      )
+    } else {
+      return null
+    }
+  }
 
   renderPaginationContainer = () => {
-    if(this.props.results.length !== 0) {
+    if(this.props.results && this.props.results.length !== 0) {
       return (
         <PaginationContainer/>
       )

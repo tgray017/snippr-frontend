@@ -16,7 +16,7 @@ export default class PaginationComponent extends Component {
   render() {
     return (
       <div>
-        <Pagination size="lg">
+        <Pagination size="lg" className="justify-content-md-center">
           <Pagination.Prev disabled={ this.props.offset === 0 } onClick={() => this.handleClick('prev')}/>
           <Pagination.Next onClick={() => this.handleClick('next')}/>
         </Pagination>

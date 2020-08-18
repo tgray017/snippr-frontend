@@ -21,7 +21,7 @@ class PodcastContainer extends Component {
         <div style={{height: "30vh", "overflow-y": "scroll"}}>
           <Podcast {...this.props}/>
         </div>
-        <div className = "m-3" style={{height: "60vh", "overflow-y": "scroll"}}>
+        <div style={{height: "60vh", "overflow-y": "scroll"}}>
           <EpisodesContainer/>
         </div>
       </div>

@@ -11,7 +11,7 @@ export const fetchPodcasts = (input, offset = 0) => {
       }
     }
 
-    let url = `https://listen-api.listennotes.com/api/v2/search?q=${input}&type=podcast&offset=${offset}`
+    let url = `https://listen-api.listennotes.com/api/v2/search?q=${input}&type=podcast&language=English&offset=${offset}`
 
     fetch(url, obj)
       .then(resp => resp.json())

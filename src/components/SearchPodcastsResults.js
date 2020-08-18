@@ -19,7 +19,7 @@ export default class SearchPodcastsResults extends Component {
       config={{
         color: {
           initial: 'black',
-          onHover: 'blue',
+          onHover: '#4e54c8'
         },
       }}
       animationConfig='wobbly'
@@ -29,7 +29,7 @@ export default class SearchPodcastsResults extends Component {
           to={`/podcasts/${this.props.id}`}
           style={{ color: 'inherit', textDecoration: 'inherit'}}
         >
-          <Card>
+          <Card className="mb-3">
             <Container>
               <Row className="align-items-center">
                 <Col>

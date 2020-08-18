@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 class EpisodesContainer extends Component {
 
   renderEpisodes = () => this.props.episodes ? this.props.episodes.map((episode, idx) => {
+    let audioType = 'searchEpisode'
     return (
       <EpisodeContainer
         key={idx}
@@ -15,6 +16,7 @@ class EpisodesContainer extends Component {
         title={episode.title}
         description={episode.description}
         airDate={episode.pub_date_ms}
+        audioType={audioType}
       />
     )
   }) : null

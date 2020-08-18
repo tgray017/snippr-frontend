@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { logout } from '../actions/logout'
 
 
-export class LogOutContainer extends Component {
+class LogOutContainer extends Component {
   render() {
     this.props.logout()
     return <Redirect to='/' />

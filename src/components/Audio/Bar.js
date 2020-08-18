@@ -25,10 +25,18 @@ export default class Bar extends Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({
+      ...this.state,
+      dragElement: this.barProgressKnobContainer
+    })
+  }
+
   mouseMove = e => {
+    let episodeOffsetLeft = document.getElementsByClassName('episode')[0].offsetLeft
     let timelineWidth = this.timeline.offsetWidth
     let handleWidth = this.state.dragElement.getBoundingClientRect().width
-    let handlePosition = e.pageX - this.timeline.offsetLeft - (handleWidth/2)
+    let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
 
     let offsetRatio
 
@@ -71,9 +79,10 @@ export default class Bar extends Component {
   }
 
   startSnipMouseMove = (e) => {
+    let episodeOffsetLeft = document.getElementsByClassName('episode')[0].offsetLeft
     let timelineWidth = this.timeline.offsetWidth
     let handleWidth = this.state.dragElement.getBoundingClientRect().width
-    let handlePosition = e.pageX - this.timeline.offsetLeft - (handleWidth/2)
+    let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
 
     let offsetRatio
 
@@ -120,9 +129,10 @@ export default class Bar extends Component {
   }
 
   stopSnipMouseMove = (e) => {
+    let episodeOffsetLeft = document.getElementsByClassName('episode')[0].offsetLeft
     let timelineWidth = this.timeline.offsetWidth
     let handleWidth = this.state.dragElement.getBoundingClientRect().width
-    let handlePosition = e.pageX - this.timeline.offsetLeft - (handleWidth/2)
+    let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
 
     let offsetRatio
 
@@ -217,7 +227,7 @@ export default class Bar extends Component {
   }
 
   timelineClick = (e) => {
-    if(e.target === this.timeline) {
+    if(e.target === this.timeline && this.state.dragElement === this.barProgressKnobContainer) {
       e.persist()
       this.setState({
         ...this.state,
@@ -311,7 +321,7 @@ export default class Bar extends Component {
           }}
         >
           <span
-            className="bar__progress__knob"
+            className="bar__progress__knob lady-lips-gradient color-block-5 mx-auto rounded-circle z-depth-1-half"
             ref={(barProgressKnob) => { this.barProgressKnob = barProgressKnob }}
             onMouseDown={this.mouseDown}
           />

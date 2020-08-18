@@ -1,5 +1,6 @@
 export default function alertReducer(state = {
-  showAlert: false
+  showAlert: false,
+  downloading: false
 }, action) {
   switch (action.type) {
     case 'SET_ALERT':
@@ -14,6 +15,18 @@ export default function alertReducer(state = {
       return {
         ...state,
         showAlert: false
+      }
+
+    case 'START_DOWNLOADING_SNIP':
+      return {
+        ...state,
+        downloading: true
+      }
+
+    case 'STOP_DOWNLOADING_SNIP':
+      return {
+        ...state,
+        downloading: false
       }
 
     default:

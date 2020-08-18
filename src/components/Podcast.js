@@ -24,7 +24,7 @@ export default class Podcast extends Component {
       return (
         <div>
           {this.props.description}
-          <a href="#" onClick={this.handleClick}> Hide</a>
+          <a href="#" onClick={this.handleClick}><br/>Hide</a>
         </div>
       )
     } else {
@@ -33,7 +33,7 @@ export default class Podcast extends Component {
           line={2}
           truncateText=""
           text={this.props.description}
-          textTruncateChild={<a href="#" onClick={this.handleClick}>...Read on</a>}
+          textTruncateChild={<a href="#" onClick={this.handleClick}><br/>... Show more</a>}
         />
       )
     }

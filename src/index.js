@@ -9,6 +9,7 @@ import episodesReducer from './reducers/episodesReducer'
 import podcastsReducer from './reducers/podcastsReducer'
 import currentAudioReducer from './reducers/currentAudioReducer'
 import alertReducer from './reducers/alertReducer'
+import libraryReducer from './reducers/libraryReducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -17,7 +18,8 @@ const reducers = {
   podcasts: podcastsReducer,
   episodes: episodesReducer,
   currentAudio: currentAudioReducer,
-  alerts: alertReducer
+  alerts: alertReducer,
+  library: libraryReducer
 }
 const reducer = combineReducers(reducers)
 

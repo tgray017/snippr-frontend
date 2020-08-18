@@ -26,9 +26,11 @@ class AudioContainer extends Component {
   constructor(props) {
     super(props)
     this.audioRef = React.createRef()
+    let currentTime = this.props.audioType === 'snippet' ? this.props.startTime : 0
+
     this.state = {
       audioLength: this.props.audioLength,
-      currentTime: 0,
+      currentTime: currentTime,
       startSnipTime: 0,
       playing: false,
       playAfterDrag: false
@@ -37,12 +39,15 @@ class AudioContainer extends Component {
 
   togglePlay = () => {
 
-    if(this.props.playing && this.audioRef.current.src === this.props.audioUrl) {
+    if (this.props.playing && this.audioRef.current.src === this.props.audioUrl) {
       this.props.pause()
       this.audioRef.current.pause()
     } else {
-      this.props.play()
-      this.audioRef.current.play()
+      let endTime = this.props.audioType === 'snippet' ? this.props.stopTime : this.state.audioLength
+      if (!(this.audioRef.current.currentTime >= endTime)) {
+        this.props.play()
+        this.audioRef.current.play()
+      }
     }
 
     /*
@@ -60,7 +65,18 @@ class AudioContainer extends Component {
   }
 
   handleTimeUpdate = () => {
-    let currentTime = this.audioRef.current.currentTime >= this.props.audioLength ? this.props.audioLength : this.audioRef.current.currentTime
+    let currentTime
+    if (this.props.audioType === 'snippet') {
+      currentTime = this.audioRef.current.currentTime >= this.props.stopTime ? this.props.stopTime : this.audioRef.current.currentTime
+    } else {
+      currentTime = this.audioRef.current.currentTime >= this.state.audioLength ? this.state.audioLength : this.audioRef.current.currentTime
+    }
+
+    if (currentTime >= this.props.stopTime) {
+      this.props.pause()
+      this.audioRef.current.pause()
+    }
+
     this.setState({
       ...this.state,
       currentTime: currentTime
@@ -81,7 +97,13 @@ class AudioContainer extends Component {
   */
 
   handleTimeDrag = (offsetRatio) => {
-    let currentTime = this.state.audioLength*offsetRatio
+    let currentTime
+    if (this.props.audioType === 'snippet') {
+      currentTime = this.props.startTime + (this.state.audioLength*offsetRatio)
+    } else {
+      currentTime = this.state.audioLength*offsetRatio
+    }
+
     this.setState({
       ...this.state,
       currentTime: currentTime
@@ -109,7 +131,7 @@ class AudioContainer extends Component {
   }
 
   renderSnippingContainer = () => {
-    if(this.props.id === this.props.audioId) {
+    if(this.props.id === this.props.audioId && this.props.audioType === 'searchEpisode') {
       return (
         <SnippingContainer
           currentTime={this.state.currentTime}
@@ -121,6 +143,9 @@ class AudioContainer extends Component {
           setSnipStopTime={this.props.setSnipStopTime}
           snipStartTime={this.props.snipStartTime}
           snipStopTime={this.props.snipStopTime}
+          audio={this.props.audio}
+          title={this.props.title}
+          description={this.props.description}
           audioUrl={this.props.audioUrl}
           snipping={this.props.snipping}
           src={this.props.audio}
@@ -130,6 +155,16 @@ class AudioContainer extends Component {
   }
 
   render() {
+    let offsetRatio
+    let timeFromEnd
+    if (this.props.audioType === 'snippet') {
+      offsetRatio = ((this.state.currentTime - this.props.startTime)/this.state.audioLength)*100
+      timeFromEnd = (this.props.stopTime - this.state.currentTime) + this.props.startTime
+    } else {
+      offsetRatio = (this.state.currentTime/this.state.audioLength)*100
+      timeFromEnd = this.state.audioLength - this.state.currentTime
+    }
+
     return (
       <>
         <div style={{display: 'flex', alignItems:'center'}}>
@@ -153,9 +188,9 @@ class AudioContainer extends Component {
             audioLength={this.state.audioLength}
             audioId={this.props.id}
             currentAudioId={this.props.audioId}
-            timeFromEnd={this.state.audioLength - this.state.currentTime}
+            timeFromEnd={timeFromEnd}
             timeFromStart={this.state.currentTime}
-            offsetRatio={(this.state.currentTime/this.state.audioLength)*100}
+            offsetRatio={offsetRatio}
             /*handleKnobClick={this.handleKnobClick}*/
             handleTimeDrag={this.handleTimeDrag}
             /*handleMouseUp={this.handleMouseUp}*/

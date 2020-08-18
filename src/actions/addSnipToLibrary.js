@@ -1,10 +1,12 @@
 import { setAlert } from './setAlert'
 
-export const addSnipToLibrary = (userId, audioUrl, rawSrc, snipStartTime, snipStopTime) => {
+export const addSnipToLibrary = (userId, title, audio, audioLength, podcastName, podcastId, rawSrc, snipStartTime, snipStopTime) => {
   return (dispatch) => {
     dispatch({ type: 'ADD_SNIP_TO_LIBRARY' })
-
-    let src = `${rawSrc}#t=${snipStartTime},${snipStopTime}`
+    let titleStart = Math.round(snipStartTime)
+    let titleEnd = Math.round(snipStopTime)
+    let length = snipStopTime - snipStartTime
+    let audio = `${rawSrc}#t=${snipStartTime},${snipStopTime}`
     fetch(`http://localhost:3000/api/v1/users/${userId}/snippets`, {
       headers: {
         'Content-Type': 'application/json',
@@ -13,15 +15,20 @@ export const addSnipToLibrary = (userId, audioUrl, rawSrc, snipStartTime, snipSt
       method: 'POST',
       body: JSON.stringify({
         user_id: userId,
-        audioUrl: audioUrl,
+        title: `${title} (${titleStart}-${titleEnd} sec)`,
+        audio: audio,
+        audio_length_sec: length,
+        podcast_name: podcastName,
+        podcast_id: podcastId,
+        original_episode_name: title,
         raw_src: rawSrc,
         start_time: snipStartTime,
-        stop_time: snipStopTime,
-        src: src
+        stop_time: snipStopTime
       })
     })
     .then(response => response.json())
     .then(snip => {
+      console.log(snip)
       if(snip.errors) {
         dispatch(setAlert('error', snip.errors))
       } else {

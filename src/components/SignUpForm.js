@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import { Button } from 'react-bootstrap'
 
 export default class SignUpForm extends Component {
 
@@ -11,7 +14,7 @@ export default class SignUpForm extends Component {
   handleChange = event => {
     this.setState({
       ...this.state,
-      [event.target.name]: event.target.value
+      [event.currentTarget.name]: event.currentTarget.value
     })
   }
 
@@ -27,41 +30,43 @@ export default class SignUpForm extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <input
-              type="text"
+      <Container>
+        <Form className="m-4" onSubmit={this.handleSubmit}>
+          <Form.Group controlId="signup-email">
+            <Form.Control
+              type="email"
               name="email"
-              placeholder="Email"
+              placeholder="Email address"
               onChange={this.handleChange}
               value={this.state.email}
-              autoComplete="on" />
-            <label htmlFor="email">Email</label>
-          </div>
-          <div>
-            <input
+              autoComplete="on"
+            />
+          </Form.Group>
+          <Form.Group controlId="signup-password">
+            <Form.Control
               type="password"
               name="password"
               placeholder="Password"
               onChange={this.handleChange}
               value={this.state.password}
-              autoComplete="on" />
-            <label htmlFor="password">Password</label>
-          </div>
-          <div>
-            <input
+              autoComplete="on"
+            />
+          </Form.Group>
+          <Form.Group controlId="signup-password-confirmation">
+            <Form.Control
               type="password"
               name="password_confirmation"
-              placeholder="Password Confirmation"
+              placeholder="Confirm password"
               onChange={this.handleChange}
               value={this.state.password_confirmation}
-              autoComplete="on" />
-            <label htmlFor="password_confirmation">Password Confirmation</label>
-          </div>
-          <input type="submit" value="Sign Up" />
-        </form>
-      </div>
+              autoComplete="on"
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit" className="submit-button">
+            Sign up
+          </Button>
+        </Form>
+      </Container>
     )
   }
 }

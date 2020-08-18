@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { login } from '../actions/login'
 
 
-export class LogInContainer extends Component {
+class LogInContainer extends Component {
   render() {
     return this.props.authenticated ? <Redirect to='/' /> : <LogInForm login={this.props.login}/>
   }

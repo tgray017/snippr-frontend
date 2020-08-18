@@ -6,24 +6,44 @@ import { connect } from 'react-redux'
 class NavBar extends PureComponent {
 
   render() {
+    let logo = require('../images/snippr-logo-gray.svg')
     if(this.props.authenticated) {
       return (
-        <Navbar bg="dark" variant="dark">
-          <Navbar.Brand href="/" eventKey="/">snippr</Navbar.Brand>
-          <Nav className="mr-auto">
-            <Nav.Link href="/search" eventKey="/search">search</Nav.Link>
-            <Nav.Link href="/library" eventKey="/library">library</Nav.Link>
-            <Nav.Link href="/logout" eventKey="/logout">logout</Nav.Link>
+        <Navbar bg="dark" variant="dark" className="navbar-snippr">
+          <Navbar.Brand href="/" eventKey="/">
+            <img
+              src={logo}
+              style={{
+                color: 'blue'
+              }}
+              width="60"
+              alt="snippr logo"
+            />
+          </Navbar.Brand>
+          <Nav>
+            <Nav.Link className="pt-0" href="/search" eventKey="/search">search</Nav.Link>
+            <Nav.Link className="pt-0" href="/library" eventKey="/library">library</Nav.Link>
+            <Nav.Link className="pt-0" href="/logout" eventKey="/logout">logout</Nav.Link>
           </Nav>
         </Navbar>
       )
     } else {
       return (
         <Navbar bg="dark" variant="dark">
-          <Navbar.Brand href="/" eventKey="/">snippr</Navbar.Brand>
-          <Nav className="mr-auto">
-            <Nav.Link href="/login" eventKey="/login">login</Nav.Link>
-            <Nav.Link href="/signup" eventKey="/signup">signup</Nav.Link>
+          <Navbar.Brand href="/" eventKey="/">
+            <img
+              src={logo}
+              style={{
+                color: 'blue'
+              }}
+              width="60"
+              alt="snippr logo"
+            />
+          </Navbar.Brand>
+          <Nav>
+            <Nav.Link className="pt-0" href="/search" eventKey="/search">search</Nav.Link>
+            <Nav.Link className="pt-0" href="/login" eventKey="/login">login</Nav.Link>
+            <Nav.Link className="pt-0" href="/signup" eventKey="/signup">signup</Nav.Link>
           </Nav>
         </Navbar>
       )

@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import { Button } from 'react-bootstrap'
 
 export default class LogInForm extends Component {
 
@@ -10,7 +13,7 @@ export default class LogInForm extends Component {
   handleChange = event => {
     this.setState({
       ...this.state,
-      [event.target.name]: event.target.value
+      [event.currentTarget.name]: event.currentTarget.value
     })
   }
 
@@ -25,31 +28,33 @@ export default class LogInForm extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <input
-              type="text"
+      <Container>
+        <Form className="m-4" onSubmit={this.handleSubmit}>
+          <Form.Group controlId="login-email">
+            <Form.Control
+              type="email"
               name="email"
-              placeholder="Email"
+              placeholder="Email address"
               onChange={this.handleChange}
               value={this.state.email}
-              autoComplete="on" />
-            <label htmlFor="email">Email</label>
-          </div>
-          <div>
-            <input
+              autoComplete="on"
+            />
+          </Form.Group>
+          <Form.Group controlId="login-password">
+            <Form.Control
               type="password"
               name="password"
               placeholder="Password"
               onChange={this.handleChange}
               value={this.state.password}
-              autoComplete="on" />
-            <label htmlFor="password">Password</label>
-          </div>
-          <input type="submit" value="Login" />
-        </form>
-      </div>
+              autoComplete="on"
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit" className="submit-button">
+            Log in
+          </Button>
+        </Form>
+      </Container>
     )
   }
 }
