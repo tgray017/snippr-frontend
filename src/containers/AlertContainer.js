@@ -10,12 +10,25 @@ class AlertContainer extends Component {
     this.props.hideAlert()
   }
 
+  renderErrorMessage = () => {
+    const listItems = this.props.message.map((message) =>
+      <li>{message}</li>
+    )
+
+    return (
+      <ul className="mb-0">
+        {listItems}
+      </ul>
+    )
+  }
+
   render() {
     let variant = this.props.status === 'success' ? 'success' : 'danger'
+
     if(this.props.showAlert) {
       setTimeout(() => {
         this.props.hideAlert()
-      }, 3000)
+      }, 5000)
 
       return (
       <>
@@ -31,7 +44,7 @@ class AlertContainer extends Component {
             onClose={this.handleClose}
             dismissible
           >
-            {this.props.message}
+            {this.renderErrorMessage()}
           </Alert>
         </Collapse>
       </>

@@ -2,7 +2,9 @@ export default function podcastsReducer(state = {
   results: [],
   offset: 0,
   requesting: false,
-  currentPodcast: {}
+  currentPodcast: {
+    previousPages: []
+  }
 }, action) {
   switch (action.type) {
     case 'UPDATE_SEARCH_INPUT':
@@ -26,10 +28,19 @@ export default function podcastsReducer(state = {
         requesting: false
       }
 
-    case 'UPDATE_OFFSET':
+    case 'UPDATE_PODCASTS_OFFSET':
       return {
         ...state,
         offset: action.payload.offset
+      }
+
+    case 'UPDATE_NEXT_EPISODE_PUB_DATE':
+      return {
+        ...state,
+        currentPodcast: {
+          ...state.currentPodcast,
+          nextEpisodePubDate: action.payload.nextEpisodePubDate
+        }
       }
 
     case 'START_FETCHING_PODCAST':
@@ -39,9 +50,11 @@ export default function podcastsReducer(state = {
       }
 
     case 'FETCH_PODCAST':
+      console.log(action.payload)
       return {
         ...state,
         currentPodcast: {
+          ...state.currentPodcast,
           id: action.payload.id,
           title: action.payload.title,
           publisher: action.payload.publisher,
@@ -51,6 +64,44 @@ export default function podcastsReducer(state = {
           description: action.payload.description,
           language: action.payload.language,
           lastAirDate: action.payload.latest_pub_date_ms,
+          nextEpisodePubDate: action.payload.next_episode_pub_date,
+          earliestEpisodePubDate: action.payload.earliest_pub_date_ms,
+          episodes: action.payload.episodes
+        },
+        requesting: false
+      }
+
+    case 'START_FETCHING_EPISODES':
+      return {
+        ...state,
+        requesting: true
+      }
+
+    /* rename this to ADD_PREV_PAGE */
+    case 'TRACK_PREV_PAGE':
+      return {
+        ...state,
+        currentPodcast: {
+          ...state.currentPodcast,
+          previousPages: state.currentPodcast.previousPages.concat(action.payload.episodePubDate)
+        }
+      }
+
+    /* rename this to REMOVE_PREV_PAGE */
+    case 'UPDATE_PREV_PAGES':
+      return {
+        ...state,
+        currentPodcast: {
+          ...state.currentPodcast,
+          previousPages: state.currentPodcast.previousPages.slice(0, -1)
+        }
+      }
+
+    case 'FETCH_EPISODES':
+      return {
+        ...state,
+        currentPodcast: {
+          ...state.currentPodcast,
           nextEpisodePubDate: action.payload.next_episode_pub_date,
           episodes: action.payload.episodes
         },

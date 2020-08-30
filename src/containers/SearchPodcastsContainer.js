@@ -34,7 +34,7 @@ class SearchPodcastsContainer extends Component {
   renderPaginationContainer = () => {
     if(this.props.results && this.props.results.length !== 0) {
       return (
-        <PaginationContainer/>
+        <PaginationContainer paginationType={"podcasts"}/>
       )
     }
   }

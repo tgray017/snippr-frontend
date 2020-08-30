@@ -13,9 +13,6 @@ class NavBar extends PureComponent {
           <Navbar.Brand href="/" eventKey="/">
             <img
               src={logo}
-              style={{
-                color: 'blue'
-              }}
               width="60"
               alt="snippr logo"
             />

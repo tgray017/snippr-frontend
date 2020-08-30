@@ -1,8 +1,10 @@
+import { setAlert } from './setAlert'
 import { sessionService } from 'redux-react-session'
+import { alertify } from '../Utils.js'
 
 export const login = (userObject) => {
 
-  return () => {
+  return (dispatch) => {
     fetch('http://localhost:3000/api/v1/sessions/', {
       headers: {
         'Content-Type': 'application/json',
@@ -13,8 +15,10 @@ export const login = (userObject) => {
     })
     .then(response => response.json())
     .then(user => {
-      if(user.errors) {
+      if (user.errors) {
         console.log(user)
+        console.log(user.errors)
+        dispatch(setAlert('error', alertify(user.errors)))
       } else {
         sessionService.saveSession(user)
         sessionService.saveUser(user)

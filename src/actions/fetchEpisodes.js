@@ -1,6 +1,11 @@
-export const fetchEpisodes = (podcastId, nextEpisodePubDate) => {
+export const fetchEpisodes = (podcastId, nextEpisodePubDate, direction) => {
   return (dispatch) => {
+    /* can we ignore the payload in this dispatch? */
     dispatch({ type: 'START_FETCHING_EPISODES' })
+
+    if(direction === 'next') {
+      dispatch({ type: 'TRACK_PREV_PAGE', payload: {episodePubDate: nextEpisodePubDate} })
+    }
 
     let obj = {
       method: 'GET',
@@ -16,6 +21,5 @@ export const fetchEpisodes = (podcastId, nextEpisodePubDate) => {
     fetch(url, obj)
       .then(resp => resp.json())
       .then(results => dispatch({ type: 'FETCH_EPISODES', payload: results }))
-      /*.then(episodes => dispatch({ type: 'FETCH_EPISODES', payload: episodes }))*/
   }
 }

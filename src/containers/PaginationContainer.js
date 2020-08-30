@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PaginationComponent from '../components/PaginationComponent'
 import { fetchPodcasts } from '../actions/fetchPodcasts'
+import { fetchEpisodes } from '../actions/fetchEpisodes'
 import { updateOffset } from '../actions/updateOffset'
+import { updatePrevPages } from '../actions/updatePrevPages'
 import { connect } from 'react-redux'
 
 class PaginationContainer extends Component {
@@ -11,26 +13,38 @@ class PaginationContainer extends Component {
       <PaginationComponent
         offset={this.props.offset}
         nextOffset={this.props.nextOffset}
-        fetchPodcasts={this.props.fetchPodcasts}
-        searchInput={this.props.searchInput}
         updateOffset={this.props.updateOffset}
+        nextEpisodePubDate={this.props.nextEpisodePubDate}
+        earliestEpisodePubDate={this.props.earliestEpisodePubDate}
+        podcastId={this.props.podcastId}
+        fetchEpisodes={this.props.fetchEpisodes}
+        previousPages={this.props.previousPages}
+        previousPagePubDate={this.props.previousPagePubDate}
+        updatePrevPages={this.props.updatePrevPages}
+        paginationType={this.props.paginationType}
       />
     )
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    paginationType: ownProps.paginationType,
     offset: state.podcasts.offset,
     nextOffset: state.podcasts.nextOffset,
-    searchInput: state.podcasts.searchInput
+    nextEpisodePubDate: state.podcasts.currentPodcast.nextEpisodePubDate,
+    earliestEpisodePubDate: state.podcasts.currentPodcast.earliestEpisodePubDate,
+    previousPagePubDate: state.podcasts.currentPodcast.previousPages[state.podcasts.currentPodcast.previousPages.length - 2],
+    previousPages: state.podcasts.currentPodcast.previousPages,
+    podcastId: state.podcasts.currentPodcast.id
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPodcasts: (input, offset) => dispatch(fetchPodcasts(input, offset)),
-    updateOffset: (offset) => dispatch(updateOffset(offset))
+    updateOffset: (offset) => dispatch(updateOffset(offset)),
+    updatePrevPages: () => new Promise( () => dispatch(updatePrevPages())),
+    fetchEpisodes: (podcastId, nextEpisodePubDate, direction) => dispatch(fetchEpisodes(podcastId, nextEpisodePubDate, direction))
   }
 }
 

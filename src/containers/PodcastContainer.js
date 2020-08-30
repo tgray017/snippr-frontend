@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PaginationComponent from '../components/PaginationComponent'
 import Podcast from '../components/Podcast'
 import EpisodesContainer from './EpisodesContainer'
 import Container from 'react-bootstrap/Container'

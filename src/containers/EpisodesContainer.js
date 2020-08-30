@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PaginationComponent from '../components/PaginationComponent'
+import PaginationContainer from '../containers/PaginationContainer'
 import EpisodeContainer from '../containers/EpisodeContainer'
 import { connect } from 'react-redux'
 
@@ -21,10 +21,22 @@ class EpisodesContainer extends Component {
     )
   }) : null
 
+  renderPaginationContainer = () => {
+    if(this.props.episodes && this.props.episodes.length !== 0) {
+      return (
+        <PaginationContainer
+          paginationType={"episodes"}
+          nextEpisodePubDate={this.props.nextEpisodePubDate}
+        />
+      )
+    }
+  }
+
   render() {
     return (
       <>
         {this.renderEpisodes()}
+        {this.renderPaginationContainer()}
       </>
     )
   }
@@ -32,7 +44,8 @@ class EpisodesContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    episodes: state.podcasts.currentPodcast.episodes
+    episodes: state.podcasts.currentPodcast.episodes,
+    nextEpisodePubDate: state.podcasts.currentPodcast.nextEpisodePubDate
   }
 }
 

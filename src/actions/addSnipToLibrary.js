@@ -1,4 +1,5 @@
 import { setAlert } from './setAlert'
+import { alertify } from '../Utils.js'
 
 export const addSnipToLibrary = (userId, title, audio, audioLength, podcastName, podcastId, rawSrc, snipStartTime, snipStopTime) => {
   return (dispatch) => {
@@ -28,11 +29,10 @@ export const addSnipToLibrary = (userId, title, audio, audioLength, podcastName,
     })
     .then(response => response.json())
     .then(snip => {
-      console.log(snip)
       if(snip.errors) {
-        dispatch(setAlert('error', snip.errors))
+        dispatch(setAlert('error', alertify(snip.errors)))
       } else {
-        dispatch(setAlert('success', 'Snip added to library'))
+        dispatch(setAlert('success', alertify('Snip added to library')))
       }
     })
 

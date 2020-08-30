@@ -1,4 +1,5 @@
 import { setAlert } from './setAlert'
+import { alertify } from '../Utils.js'
 
 export const addEpisodeToLibrary = (userId, title, description, audio, audioLength, podcastName, podcastId, rawSrc) => {
   return (dispatch) => {
@@ -23,11 +24,10 @@ export const addEpisodeToLibrary = (userId, title, description, audio, audioLeng
     })
     .then(response => response.json())
     .then(episode => {
-      console.log(episode)
       if(episode.errors) {
-        dispatch(setAlert('error', episode.errors))
+        dispatch(setAlert('error', alertify(episode.errors)))
       } else {
-        dispatch(setAlert('success', 'Episode added to library'))
+        dispatch(setAlert('success', alertify('Episode added to library')))
       }
     })
 

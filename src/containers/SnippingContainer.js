@@ -63,7 +63,7 @@ class SnippingContainer extends Component {
     } else if (type === 'episode-library') {
       snipToolTipText = (this.props.authenticated || this.state.clickNumber !== 2)  ? 'Add episode to library' : 'Log in to add episode to library'
     } else if (type === 'snippet-library') {
-      snipToolTipText = (this.props.authenticated || this.state.clickNumber !== 2) ? 'Add snippet to library' : 'Log in to add snippet to library'
+      snipToolTipText = (this.props.authenticated) ? 'Add snippet to library' : 'Log in to add snippet to library'
     } else if (type === 'snippet-download') {
       snipToolTipText = 'Download snippet'
     }
