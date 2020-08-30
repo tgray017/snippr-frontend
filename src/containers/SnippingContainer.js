@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Dropdown, DropdownButton } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { addSnipToLibrary } from '../actions/addSnipToLibrary'
 import { addEpisodeToLibrary } from '../actions/addEpisodeToLibrary'
 import { downloadSnip } from '../actions/downloadSnip'
@@ -111,7 +111,7 @@ class SnippingContainer extends Component {
            disabled={addSnipOption}
            onClick={() => this.handleActionClick('snippet-download')}
         >
-          <img className='button' src={`${downloadSnippetImage}`}></img>
+          <img className='button' src={`${downloadSnippetImage}`} alt='download snippet'></img>
         </Button>
       )
     }
@@ -151,7 +151,7 @@ class SnippingContainer extends Component {
                className="m-2 p-1 button-container"
                onClick={this.handleSnipClick}
             >
-              <img className='button' src={`${snipImage}`}></img>
+              <img className='button' src={`${snipImage}`} alt= 'snip button'></img>
             </Button>
           </div>
         </OverlayTrigger>
@@ -168,7 +168,7 @@ class SnippingContainer extends Component {
                disabled={!this.props.authenticated}
                onClick={() => this.handleActionClick('episode-library')}
             >
-              <img className='button' src={`${addEpisodeToLibraryImage}`}></img>
+              <img className='button' src={`${addEpisodeToLibraryImage}`} alt='add episode to library'></img>
             </Button>
           </div>
         </OverlayTrigger>
@@ -185,7 +185,7 @@ class SnippingContainer extends Component {
                disabled={addSnipOption || !this.props.authenticated}
                onClick={() => this.handleActionClick('snippet-library')}
             >
-              <img className='button' src={`${addSnippetToLibraryImage}`}></img>
+              <img className='button' src={`${addSnippetToLibraryImage}`} alt='add snippet to library'></img>
             </Button>
           </div>
         </OverlayTrigger>
@@ -213,7 +213,6 @@ const mapStateToProps = state => {
     downloading: state.alerts.downloading
   }
 }
-
 
 const mapDispatchToProps = dispatch => {
   return {

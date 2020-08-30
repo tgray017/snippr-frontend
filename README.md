@@ -24,6 +24,7 @@ You will also see any lint errors in the console.
 ### Make navbar fixed
 ### Add instructions for install to this README
 ### Add instructions for registering w/ API and installing ffmpeg to this readme
+### Move API key to a .gitignore file
 
 
 ## Improve

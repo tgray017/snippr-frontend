@@ -10,7 +10,7 @@ class NavBar extends PureComponent {
     if(this.props.authenticated) {
       return (
         <Navbar bg="dark" variant="dark" className="navbar-snippr">
-          <Navbar.Brand href="/" eventKey="/">
+          <Navbar.Brand href="/">
             <img
               src={logo}
               width="60"
@@ -27,7 +27,7 @@ class NavBar extends PureComponent {
     } else {
       return (
         <Navbar bg="dark" variant="dark">
-          <Navbar.Brand href="/" eventKey="/">
+          <Navbar.Brand href="/">
             <img
               src={logo}
               style={{

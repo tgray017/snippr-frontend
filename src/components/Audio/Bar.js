@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import '../../stylesheets/Audio.css'
-var momentDurationFormatSetup = require('moment-duration-format')
 
 export default class Bar extends Component {
 

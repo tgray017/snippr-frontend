@@ -50,7 +50,6 @@ export default function podcastsReducer(state = {
       }
 
     case 'FETCH_PODCAST':
-      console.log(action.payload)
       return {
         ...state,
         currentPodcast: {

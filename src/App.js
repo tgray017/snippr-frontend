@@ -6,7 +6,6 @@ import {
 import SignUpContainer from './containers/SignUpContainer'
 import LogInContainer from './containers/LogInContainer'
 import LogOutContainer from './containers/LogOutContainer'
-import SearchContainer from './containers/SearchContainer'
 import AlertContainer from './containers/AlertContainer'
 import SearchPodcastsContainer from './containers/SearchPodcastsContainer'
 import PodcastContainer from './containers/PodcastContainer'

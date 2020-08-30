@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PaginationComponent from '../components/PaginationComponent'
-import { fetchPodcasts } from '../actions/fetchPodcasts'
 import { fetchEpisodes } from '../actions/fetchEpisodes'
 import { updateOffset } from '../actions/updateOffset'
 import { updatePrevPages } from '../actions/updatePrevPages'

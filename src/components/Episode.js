@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
 import AudioContainer from '../containers/AudioContainer'
-import SnippingContainer from '../containers/SnippingContainer'
 import Moment from 'react-moment'
 import { AnimationWrapper } from 'react-hover-animation'
 import { connect } from 'react-redux'
@@ -16,6 +15,7 @@ class Episode extends Component {
         <Card.Text>
           <TextTruncate
             line={2}
+            element="span"
             truncateText="…"
             text={this.props.description}
           />

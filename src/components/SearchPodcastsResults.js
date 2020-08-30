@@ -41,6 +41,7 @@ export default class SearchPodcastsResults extends Component {
                     <Card.Text>
                       <TextTruncate
                         line={2}
+                        element="span"
                         truncateText="…"
                         text={this.props.description}
                       />
