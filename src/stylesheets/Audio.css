@@ -154,3 +154,18 @@ div.menu-options > .dropdown-toggle:after {
   background-color: #4e54c8 !important;
   border-color: #4e54c8 !important;
 }
+
+.audio-type-indicator {
+  border: solid;
+  border-radius: 5px;
+  padding: 0px 5px 0px 5px;
+  float: right;
+}
+
+.audio-type-snippet {
+  color: #4e54c8;
+}
+
+.audio-type-episode {
+  color: #de8767;
+}

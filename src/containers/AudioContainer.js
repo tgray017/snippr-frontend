@@ -127,7 +127,7 @@ class AudioContainer extends Component {
   }
 
   renderSnippingContainer = () => {
-    if(this.props.id === this.props.audioId && this.props.audioType === 'searchEpisode') {
+    if(this.props.id === this.props.audioId && this.props.audioType !== 'snippet') {
       return (
         <SnippingContainer
           currentTime={this.state.currentTime}
@@ -145,6 +145,7 @@ class AudioContainer extends Component {
           audioUrl={this.props.audioUrl}
           snipping={this.props.snipping}
           src={this.props.audio}
+          audioType={this.props.audioType}
         />
       )
     }

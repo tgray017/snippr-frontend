@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { fetchLibrary } from '../actions/fetchLibrary'
 import { connect } from 'react-redux'
-import EpisodeContainer from './EpisodeContainer'
+import LibraryElementContainer from './LibraryElementContainer'
 
 
 class LibraryContainer extends Component {
@@ -13,9 +13,9 @@ class LibraryContainer extends Component {
   }
 
   renderLibrary = () => this.props.library ? this.props.library.map((audioElement, idx) => {
-    let audioType = audioElement.audio_type === 'Snippet' ? 'snippet' : 'episode'
+    let audioType = audioElement.audio_type === 'Snippet' ? 'snippet' : 'library-episode'
     return (
-      <EpisodeContainer
+      <LibraryElementContainer
         key={idx}
         id={audioElement.audio.id}
         audio={audioElement.audio.audio}

@@ -117,6 +117,31 @@ class SnippingContainer extends Component {
     }
   }
 
+  renderAddEpisodeToLibrary = () => {
+    let addEpisodeToLibraryImage = require('../images/add-episode-to-library.svg')
+
+    if (this.props.audioType !== 'library-episode') {
+      return (
+        <OverlayTrigger
+          placement="bottom"
+          delay={{ show: 100, hide: 100 }}
+          overlay={this.renderTooltip('episode-library')}
+        >
+          <div>
+            <Button
+               variant="outline-secondary"
+               className="m-2 p-1 button-container"
+               disabled={!this.props.authenticated}
+               onClick={() => this.handleActionClick('episode-library')}
+            >
+              <img className='button' src={`${addEpisodeToLibraryImage}`} alt='add episode to library'></img>
+            </Button>
+          </div>
+        </OverlayTrigger>
+      )
+    }
+  }
+
   render() {
     let snipImage
     let snipToolTipText
@@ -135,7 +160,6 @@ class SnippingContainer extends Component {
       addSnipOption = false
     }
 
-    let addEpisodeToLibraryImage = require('../images/add-episode-to-library.svg')
     let addSnippetToLibraryImage = require('../images/add-snippet-to-library.svg')
 
     return (
@@ -156,22 +180,7 @@ class SnippingContainer extends Component {
           </div>
         </OverlayTrigger>
 
-        <OverlayTrigger
-          placement="bottom"
-          delay={{ show: 100, hide: 100 }}
-          overlay={this.renderTooltip('episode-library')}
-        >
-          <div>
-            <Button
-               variant="outline-secondary"
-               className="m-2 p-1 button-container"
-               disabled={!this.props.authenticated}
-               onClick={() => this.handleActionClick('episode-library')}
-            >
-              <img className='button' src={`${addEpisodeToLibraryImage}`} alt='add episode to library'></img>
-            </Button>
-          </div>
-        </OverlayTrigger>
+        {this.renderAddEpisodeToLibrary()}
 
         <OverlayTrigger
           placement="bottom"

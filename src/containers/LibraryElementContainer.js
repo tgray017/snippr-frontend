@@ -1,19 +1,14 @@
 import React, { Component } from 'react'
-import Episode from '../components/Episode'
-/*import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'*/
+import LibraryElement from '../components/LibraryElement'
 import { connect } from 'react-redux'
 
-class EpisodeContainer extends Component {
-
-  createDescription = () => {
-    return this.props.description ? this.props.description.replace(/(<([^>]+)>)/ig,"") : null
-  }
+class LibraryElementContainer extends Component {
 
   render() {
     return (
-      <Episode
+      <LibraryElement
         title={this.props.title}
-        description={this.createDescription()}
+        description={this.props.description}
         airDate={this.props.airDate}
         audio={this.props.audio}
         audioLength={this.props.audioLength}
@@ -24,6 +19,7 @@ class EpisodeContainer extends Component {
         originalEpisodeName={this.props.originalEpisodeName}
         podcastName={this.props.podcastName}
         podcastId={this.props.podcastId}
+        audioType={this.props.audioType}
       />
     )
   }
@@ -38,4 +34,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(EpisodeContainer)
+export default connect(null, mapDispatchToProps)(LibraryElementContainer)
