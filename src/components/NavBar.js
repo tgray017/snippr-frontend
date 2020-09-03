@@ -9,7 +9,7 @@ class NavBar extends PureComponent {
     let logo = require('../images/snippr-logo-gray.svg')
     if(this.props.authenticated) {
       return (
-        <Navbar bg="dark" variant="dark" className="navbar-snippr">
+        <Navbar bg="dark" variant="dark" sticky="top" className="navbar-snippr">
           <Navbar.Brand href="/">
             <img
               src={logo}
@@ -26,7 +26,7 @@ class NavBar extends PureComponent {
       )
     } else {
       return (
-        <Navbar bg="dark" variant="dark">
+        <Navbar bg="dark" variant="dark" sticky="top">
           <Navbar.Brand href="/">
             <img
               src={logo}

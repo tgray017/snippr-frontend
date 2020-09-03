@@ -9,18 +9,35 @@ import TextTruncate from 'react-text-truncate'
 
 class Episode extends Component {
 
+  state = {
+    showDescription: false
+  }
+
+  handleClick = () => {
+    this.setState({
+      showDescription: !this.state.showDescription
+    })
+  }
+
   renderDescription = () => {
-    if (this.props.description) {
-      return (
-        <Card.Text>
+    if(this.props.description) {
+      if(this.state.showDescription) {
+        return (
+          <div>
+            {this.props.description}
+            <a href="#" onClick={this.handleClick}><br/>Hide</a>
+          </div>
+        )
+      } else {
+        return (
           <TextTruncate
             line={2}
-            element="span"
-            truncateText="…"
+            truncateText=""
             text={this.props.description}
+            textTruncateChild={<a href="#" onClick={this.handleClick}><br/>... Show more</a>}
           />
-        </Card.Text>
-      )
+        )
+      }
     }
   }
 
@@ -102,7 +119,9 @@ class Episode extends Component {
         >
           <Card.Body>
             <Card.Title>{this.props.title}</Card.Title>
-            {this.renderDescription()}
+            <Card.Text>
+              {this.renderDescription()}
+            </Card.Text>
             {this.renderSourceDetails()}
             {this.renderDate()}
           </Card.Body>

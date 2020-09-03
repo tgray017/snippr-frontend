@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 import Episode from '../components/Episode'
+/*import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'*/
 import { connect } from 'react-redux'
 
 class EpisodeContainer extends Component {
 
+  createDescription = () => {
+    return this.props.description ? this.props.description.replace(/(<([^>]+)>)/ig,"") : null
+  }
+
   render() {
-    let description = this.props.description ? this.props.description.replace(/(<([^>]+)>)/ig,"") : null
     return (
       <Episode
         title={this.props.title}
-        description={description}
+        description={this.createDescription()}
         airDate={this.props.airDate}
         audio={this.props.audio}
         audioLength={this.props.audioLength}
@@ -20,10 +24,13 @@ class EpisodeContainer extends Component {
         originalEpisodeName={this.props.originalEpisodeName}
         podcastName={this.props.podcastName}
         podcastId={this.props.podcastId}
+        audioType={this.props.audioType}
       />
     )
   }
 }
+
+
 
 
 const mapDispatchToProps = dispatch => {

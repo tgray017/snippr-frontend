@@ -20,7 +20,7 @@ export default class Podcast extends Component {
   }
 
   renderDescription = () => {
-    if(this.state.showDescription === true) {
+    if(this.state.showDescription) {
       return (
         <div>
           {this.props.description}
