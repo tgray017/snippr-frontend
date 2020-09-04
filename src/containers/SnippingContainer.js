@@ -217,8 +217,6 @@ const mapStateToProps = state => {
   return {
     authenticated: state.session.authenticated,
     userId: state.session.user.id,
-    podcastName: state.podcasts.currentPodcast.title,
-    podcastId: state.podcasts.currentPodcast.id,
     downloading: state.alerts.downloading
   }
 }

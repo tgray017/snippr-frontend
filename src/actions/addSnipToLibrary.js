@@ -2,6 +2,8 @@ import { setAlert } from './setAlert'
 import { alertify } from '../Utils.js'
 
 export const addSnipToLibrary = (userId, title, audio, audioLength, podcastName, podcastId, rawSrc, snipStartTime, snipStopTime) => {
+  console.log(audio)
+  console.log(podcastName)
   return (dispatch) => {
     dispatch({ type: 'ADD_SNIP_TO_LIBRARY' })
     let titleStart = Math.round(snipStartTime)

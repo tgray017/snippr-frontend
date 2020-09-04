@@ -150,6 +150,8 @@ class LibraryElement extends Component {
               audioType={this.props.audioType}
               startTime={this.props.startTime}
               stopTime={this.props.stopTime}
+              podcastName={this.props.podcastName}
+              podcastId={this.props.podcastId}
             />
           </Card.Footer>
         </Card>

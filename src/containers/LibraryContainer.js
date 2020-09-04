@@ -7,7 +7,7 @@ import LibraryElementContainer from './LibraryElementContainer'
 class LibraryContainer extends Component {
 
   componentDidUpdate(prevProps) {
-    if (this.props.userId && prevProps.userId !== this.props.userId) {
+    if (this.props.userId && (prevProps.userId !== this.props.userId)) {
       this.props.fetchLibrary(this.props.userId)
     }
   }
@@ -37,6 +37,7 @@ class LibraryContainer extends Component {
   //* add audio_length_sec to snippets and episodes
 
   render() {
+    console.log(this.props.library)
     return (
       <>
         {this.renderLibrary()}

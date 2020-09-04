@@ -79,19 +79,6 @@ class AudioContainer extends Component {
     })
   }
 
-  /*
-
-  handleMouseUp = async () => {
-    if(this.state.playAfterDrag) {
-      await this.togglePlay()
-      this.setState({
-        ...this.state,
-        playAfterDrag: false
-      })
-    }
-  }
-  */
-
   handleTimeDrag = (offsetRatio) => {
     let currentTime
     if (this.props.audioType === 'snippet') {
@@ -108,22 +95,8 @@ class AudioContainer extends Component {
     })
   }
 
-  handleStartSnipKnobMove = () => {
-
-  }
-
-  /*
-  handleKnobClick = () => {
-    let playAfterDrag = this.state.playing ? true : false
-    this.setState({
-      ...this.state,
-      playAfterDrag: playAfterDrag
-    })
-  }
-  */
-
   handlePlay = () => {
-    this.props.setAudio(this.props.id, this.props.audio)
+    this.props.setAudio(this.props.id, this.props.audio, this.props.podcastName, this.props.podcastId, this.props.description)
   }
 
   renderSnippingContainer = () => {
@@ -142,6 +115,8 @@ class AudioContainer extends Component {
           audio={this.props.audio}
           title={this.props.title}
           description={this.props.description}
+          podcastName={this.props.podcastName}
+          podcastId={this.props.podcastId}
           audioUrl={this.props.audioUrl}
           snipping={this.props.snipping}
           src={this.props.audio}
@@ -213,15 +188,14 @@ const mapStateToProps = state => {
     snipStartTime: state.currentAudio.snipStartTime,
     snipStopTime: state.currentAudio.snipStopTime,
     endTime: state.currentAudio.endTime,
-    showGeneratePreview: state.currentAudio.showGeneratePreview,
     currentTime: state.currentAudio.audioCurrentTime,
-    duration: state.currentAudio.audioDuration
+    duration: state.currentAudio.audioDuration,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setAudio: (audioId, audioUrl) => dispatch(setAudio(audioId, audioUrl)),
+    setAudio: (audioId, audioUrl, podcastName, podcastId, description) => dispatch(setAudio(audioId, audioUrl, podcastName, podcastId, description)),
     setSnipStartTime: (startTime) => dispatch(setSnipStartTime(startTime)),
     setSnipStopTime: (stopTime) => dispatch(setSnipStopTime(stopTime)),
     startSnipping: () => dispatch(startSnipping()),

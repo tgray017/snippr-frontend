@@ -9,7 +9,10 @@ export default function currentAudioReducer(state = {
       return {
         ...state,
         audioId: action.payload.audioId,
-        audioUrl: action.payload.audioUrl
+        audioUrl: action.payload.audioUrl,
+        podcastName: action.payload.podcastName,
+        podcastId: action.payload.podcastId,
+        description: action.payload.description
       }
 
     case 'SET_AUDIO_DURATION':

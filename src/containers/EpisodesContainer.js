@@ -15,6 +15,8 @@ class EpisodesContainer extends Component {
         audioLength={episode.audio_length_sec}
         title={episode.title}
         description={episode.description}
+        podcastName={this.props.podcastName}
+        podcastId={this.props.podcastId}
         airDate={episode.pub_date_ms}
       />
     )
@@ -44,7 +46,9 @@ class EpisodesContainer extends Component {
 const mapStateToProps = state => {
   return {
     episodes: state.podcasts.currentPodcast.episodes,
-    nextEpisodePubDate: state.podcasts.currentPodcast.nextEpisodePubDate
+    nextEpisodePubDate: state.podcasts.currentPodcast.nextEpisodePubDate,
+    podcastName: state.podcasts.currentPodcast.title,
+    podcastId: state.podcasts.currentPodcast.id
   }
 }
 
