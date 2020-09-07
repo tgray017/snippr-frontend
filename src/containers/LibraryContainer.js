@@ -40,7 +40,6 @@ class LibraryContainer extends Component {
   //* add audio_length_sec to snippets and episodes
 
   render() {
-    console.log(this.props.library)
     return (
       <>
         {this.renderLibrary()}

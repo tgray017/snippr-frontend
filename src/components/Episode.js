@@ -35,6 +35,7 @@ class Episode extends Component {
             truncateText=""
             text={this.props.description}
             textTruncateChild={<a href="#/" onClick={this.handleClick}><br/>... Show more</a>}
+            element="span"
           />
         )
       }
@@ -61,7 +62,7 @@ class Episode extends Component {
             <Card.Text>
               {this.renderDescription()}
             </Card.Text>
-              <Card.Subtitle className="mb-2 text-muted">
+              <Card.Subtitle className="text-muted">
                 {'Aired '}
                 <Moment
                   format="MMM Do, YYYY">

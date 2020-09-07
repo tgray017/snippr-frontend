@@ -9,7 +9,7 @@ import { Button } from 'react-bootstrap'
 
 /*import EditableLabel from 'react-inline-editing'*/
 
-class LibraryElement extends Component {
+export default class LibraryElement extends Component {
 
   state = {
     showDescription: false
@@ -59,21 +59,19 @@ class LibraryElement extends Component {
   }
 
   renderSourceDetails = () => {
-    if (this.props.audioType !== 'search-episode') {
-      let link = `/podcasts/${this.props.podcastId}`
-      return (
-        <Card.Text>
-          {this.renderSourceEpisode()}
-          See more from <Card.Link href={link}>{this.props.podcastName}</Card.Link>
-        </Card.Text>
-      )
-    }
+    let link = `/podcasts/${this.props.podcastId}`
+    return (
+      <Card.Text>
+        {this.renderSourceEpisode()}
+        See more from <Card.Link href={link}>{this.props.podcastName}</Card.Link>
+      </Card.Text>
+    )
   }
 
   renderDate = () => {
     if (this.props.audioType === 'snippet') {
       return (
-        <Card.Subtitle className="mb-2 text-muted">
+        <Card.Subtitle className="text-muted">
           {'Snipped '}
           <Moment
             format="MMM Do, YYYY">
@@ -81,20 +79,10 @@ class LibraryElement extends Component {
           </Moment>
         </Card.Subtitle>
       )
-    } else if (this.props.audioType === 'library-episode') {
-      return (
-        <Card.Subtitle className="mb-2 text-muted">
-          {'Added '}
-          <Moment
-            format="MMM Do, YYYY">
-            {this.props.airDate}
-          </Moment>
-        </Card.Subtitle>
-      )
     } else {
       return (
-        <Card.Subtitle className="mb-2 text-muted">
-          {'Aired '}
+        <Card.Subtitle className="text-muted">
+          {'Added '}
           <Moment
             format="MMM Do, YYYY">
             {this.props.airDate}
@@ -173,12 +161,3 @@ class LibraryElement extends Component {
     )
   }
 }
-
-/* why is this here? */
-const mapStateToProps = state => {
-  return {
-    currentAudioId: state.currentAudio.audioId
-  }
-}
-
-export default connect(mapStateToProps)(LibraryElement)

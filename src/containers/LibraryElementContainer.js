@@ -20,7 +20,6 @@ class LibraryElementContainer extends Component {
         originalEpisodeName={this.props.originalEpisodeName}
         podcastName={this.props.podcastName}
         podcastId={this.props.podcastId}
-        audioType={this.props.audioType}
         userId={this.props.userId}
         removeFromLibrary={this.props.removeFromLibrary}
       />

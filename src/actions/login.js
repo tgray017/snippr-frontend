@@ -16,8 +16,6 @@ export const login = (userObject) => {
     .then(response => response.json())
     .then(user => {
       if (user.errors) {
-        console.log(user)
-        console.log(user.errors)
         dispatch(setAlert('error', alertify(user.errors)))
       } else {
         sessionService.saveSession(user)

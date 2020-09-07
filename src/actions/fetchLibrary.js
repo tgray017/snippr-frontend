@@ -11,7 +11,6 @@ export const fetchLibrary = (userId) => {
       if(library.errors) {
         dispatch(setAlert('error', library.errors))
       } else {
-        console.log(library)
         dispatch({ type: 'FETCH_LIBRARY', payload: { library: library } })
       }
     })
