@@ -5,7 +5,9 @@ import Moment from 'react-moment'
 import { AnimationWrapper } from 'react-hover-animation'
 import { connect } from 'react-redux'
 import TextTruncate from 'react-text-truncate'
+import { Button } from 'react-bootstrap'
 
+/*import EditableLabel from 'react-inline-editing'*/
 
 class LibraryElement extends Component {
 
@@ -17,6 +19,10 @@ class LibraryElement extends Component {
     this.setState({
       showDescription: !this.state.showDescription
     })
+  }
+
+  removeFromLibrary = () => {
+    this.props.removeFromLibrary(this.props.id, this.props.userId)
   }
 
   renderDescription = () => {
@@ -99,19 +105,25 @@ class LibraryElement extends Component {
   }
 
   renderAudioTypeIndicator = () => {
-    if (this.props.audioType === 'snippet') {
-      return (
-        <span className='audio-type-indicator audio-type-snippet'>
-          snippet
+    let audioType = this.props.audioType === 'snippet' ? 'snippet' : 'episode'
+    return (
+      <div className='float-right library-indicator-remove-container'>
+        <span className={`audio-type-indicator audio-type-${audioType}`}>
+          {audioType}
         </span>
-      )
-    } else {
-      return (
-        <span className='audio-type-indicator audio-type-episode'>
-          episode
-        </span>
-      )
-    }
+        <Button
+           className='ml-2 p-0'
+           onClick={() => this.removeFromLibrary()}
+           variant='link'
+        >
+          <img
+            src={require('../images/remove-from-library.svg')}
+            width='30'
+            alt='delete'
+          />
+        </Button>
+      </div>
+    )
   }
 
   render() {
@@ -133,6 +145,7 @@ class LibraryElement extends Component {
             <Card.Title>
               {this.props.title}
               {this.renderAudioTypeIndicator()}
+
             </Card.Title>
             <Card.Text>
               {this.renderDescription()}
@@ -161,7 +174,7 @@ class LibraryElement extends Component {
   }
 }
 
-
+/* why is this here? */
 const mapStateToProps = state => {
   return {
     currentAudioId: state.currentAudio.audioId

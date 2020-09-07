@@ -8,7 +8,9 @@ class LibraryContainer extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.userId && (prevProps.userId !== this.props.userId)) {
-      this.props.fetchLibrary(this.props.userId)
+      if (!this.props.library) {
+        this.props.fetchLibrary(this.props.userId)
+      }
     }
   }
 
@@ -17,7 +19,7 @@ class LibraryContainer extends Component {
     return (
       <LibraryElementContainer
         key={idx}
-        id={audioElement.audio.id}
+        id={audioElement.id}
         audio={audioElement.audio.audio}
         audioLength={audioElement.audio.audio_length_sec}
         title={audioElement.audio.title}
@@ -29,6 +31,7 @@ class LibraryContainer extends Component {
         originalEpisodeName={audioElement.audio.original_episode_name}
         podcastName={audioElement.audio.podcast_name}
         podcastId={audioElement.audio.podcast_id}
+        userId={this.props.userId}
       />
     )
   }) : null

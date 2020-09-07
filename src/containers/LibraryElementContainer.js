@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import LibraryElement from '../components/LibraryElement'
+import { removeFromLibrary } from '../actions/removeFromLibrary'
 import { connect } from 'react-redux'
 
 class LibraryElementContainer extends Component {
@@ -20,17 +21,16 @@ class LibraryElementContainer extends Component {
         podcastName={this.props.podcastName}
         podcastId={this.props.podcastId}
         audioType={this.props.audioType}
+        userId={this.props.userId}
+        removeFromLibrary={this.props.removeFromLibrary}
       />
     )
   }
 }
 
-
-
-
 const mapDispatchToProps = dispatch => {
   return {
-
+    removeFromLibrary: (audioId, userId) => dispatch(removeFromLibrary(audioId, userId))
   }
 }
 

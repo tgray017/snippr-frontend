@@ -1,4 +1,5 @@
 import { setAlert } from './setAlert'
+import { alertify } from '../Utils.js'
 var contentDisposition = require('content-disposition')
 
 export const downloadSnip = (title, audio, audioLength, snipStartTime, snipStopTime) => {
@@ -26,13 +27,17 @@ export const downloadSnip = (title, audio, audioLength, snipStartTime, snipStopT
       })
     })
     .then(response => {
-      let cd = response.headers.get('content-disposition')
-      fileName = contentDisposition.parse(cd).parameters.filename
-      return response.blob()
+      if (response.ok) {
+        let cd = response.headers.get('content-disposition')
+        fileName = contentDisposition.parse(cd).parameters.filename
+        return response.blob()
+      } else {
+        return response.json()
+      }
     })
     .then(snip => {
       if(snip.errors) {
-        dispatch(setAlert('error', snip.errors))
+        dispatch(setAlert('error', alertify(snip.errors)))
       } else {
         let url = window.URL.createObjectURL(snip)
         let a = document.createElement('a')
@@ -44,6 +49,5 @@ export const downloadSnip = (title, audio, audioLength, snipStartTime, snipStopT
       }
       dispatch({ type: 'STOP_DOWNLOADING_SNIP' })
     })
-
   }
 }

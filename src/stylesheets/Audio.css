@@ -159,7 +159,6 @@ div.menu-options > .dropdown-toggle:after {
   border: solid;
   border-radius: 5px;
   padding: 0px 5px 0px 5px;
-  float: right;
 }
 
 .audio-type-snippet {
@@ -168,4 +167,9 @@ div.menu-options > .dropdown-toggle:after {
 
 .audio-type-episode {
   color: #de8767;
+}
+
+.library-indicator-remove-container {
+  display: flex;
+  align-items: center;
 }
