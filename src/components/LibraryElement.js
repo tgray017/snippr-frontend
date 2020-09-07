@@ -5,6 +5,9 @@ import Moment from 'react-moment'
 import { AnimationWrapper } from 'react-hover-animation'
 import TextTruncate from 'react-text-truncate'
 import { Button } from 'react-bootstrap'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+
 
 /*import EditableLabel from 'react-inline-editing'*/
 
@@ -91,6 +94,14 @@ export default class LibraryElement extends Component {
     }
   }
 
+  renderTooltip = () => {
+    return (
+      <Tooltip className="button-tooltip">
+        Remove from library
+      </Tooltip>
+    )
+  }
+
   renderAudioTypeIndicator = () => {
     let audioType = this.props.audioType === 'snippet' ? 'snippet' : 'episode'
     return (
@@ -98,17 +109,23 @@ export default class LibraryElement extends Component {
         <span className={`audio-type-indicator audio-type-${audioType}`}>
           {audioType}
         </span>
-        <Button
-           className='ml-2 p-0'
-           onClick={() => this.removeFromLibrary()}
-           variant='link'
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 100, hide: 100 }}
+          overlay={this.renderTooltip()}
         >
-          <img
-            src={require('../images/remove-from-library.svg')}
-            width='30'
-            alt='delete'
-          />
-        </Button>
+          <Button
+             className='ml-2 p-0'
+             onClick={() => this.removeFromLibrary()}
+             variant='link'
+          >
+            <img
+              src={require('../images/remove-from-library.svg')}
+              width='30'
+              alt='delete'
+            />
+          </Button>
+        </OverlayTrigger>
       </div>
     )
   }
