@@ -1,5 +1,6 @@
 import { setAlert } from './setAlert'
 import { alertify } from '../Utils.js'
+import { fetchLibrary } from './fetchLibrary'
 
 export const addSnipToLibrary = (userId, title, audio, audioLength, podcastName, podcastId, rawSrc, snipStartTime, snipStopTime) => {
   return (dispatch) => {
@@ -33,6 +34,7 @@ export const addSnipToLibrary = (userId, title, audio, audioLength, podcastName,
         dispatch(setAlert('error', alertify(snip.errors)))
       } else {
         dispatch(setAlert('success', alertify('Snip added to library')))
+        dispatch(fetchLibrary(userId))
       }
     })
 
