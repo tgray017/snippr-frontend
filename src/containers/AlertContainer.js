@@ -28,7 +28,7 @@ class AlertContainer extends Component {
     if(this.props.showAlert) {
       setTimeout(() => {
         this.props.hideAlert()
-      }, 5000)
+      }, 10000)
 
       return (
       <>

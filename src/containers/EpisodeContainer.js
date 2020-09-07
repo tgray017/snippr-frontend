@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import Episode from '../components/Episode'
 /*import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'*/
-import { connect } from 'react-redux'
 
-class EpisodeContainer extends Component {
+export default class EpisodeContainer extends Component {
 
   createDescription = () => {
     return this.props.description ? this.props.description.replace(/(<([^>]+)>)/ig,"") : null
@@ -28,14 +27,3 @@ class EpisodeContainer extends Component {
     )
   }
 }
-
-
-
-
-const mapDispatchToProps = dispatch => {
-  return {
-
-  }
-}
-
-export default connect(null, mapDispatchToProps)(EpisodeContainer)
