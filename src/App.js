@@ -11,7 +11,7 @@ import SearchPodcastsContainer from './containers/SearchPodcastsContainer'
 import PodcastContainer from './containers/PodcastContainer'
 import LibraryContainer from './containers/LibraryContainer'
 import Home from './components/Home'
-import NavBar from './components/NavBar'
+import NavBarContainer from './containers/NavBarContainer'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -20,7 +20,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <NavBar />
+          <NavBarContainer />
           <AlertContainer />
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={LogInContainer} />

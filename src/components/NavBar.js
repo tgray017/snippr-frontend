@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-import { connect } from 'react-redux'
 
-class NavBar extends PureComponent {
+export default class NavBar extends PureComponent {
 
   render() {
     let logo = require('../images/snippr-logo-gray.svg')
@@ -30,9 +29,6 @@ class NavBar extends PureComponent {
           <Navbar.Brand href="/">
             <img
               src={logo}
-              style={{
-                color: 'blue'
-              }}
               width="60"
               alt="snippr logo"
             />
@@ -47,12 +43,3 @@ class NavBar extends PureComponent {
     }
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    user: state.session.user,
-    authenticated: state.session.authenticated
-  }
-}
-
-export default connect(mapStateToProps)(NavBar)
