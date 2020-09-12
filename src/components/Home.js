@@ -9,17 +9,9 @@ export default class Home extends Component {
         <header className="mb-4">
           <h2 >Welcome to Snippr!</h2>
         </header>
-        <body className='text-body'>
-          <p>
-            Snippr allows users to take an episode of whatever podcast they choose, split it up into smaller audio clips, or "snippets", and either download that clip or add it to their library. To get started, simply click <a href="/search">search</a> in the navigation bar above and search for whatever podcast you like.
-          </p>
-
-          <p>
-            This project was inspired by my mom, a professor of journalism at Penn State's College of Communications, who teaches a course in podcasting and expressed the need to send small clips of podcast episodes to her students in order to highlight the dos and don'ts of podcasting. She has a podcast herself, <a href="podcasts/af679e331dad496f8c3ee0b93c42a618">Dead Centre</a>, about the stories, people, and events that make up the rich history of Centre County, Pennsylvania. Check it out!
-          </p>
-
+        <main className='text-body'>
           <p className="mb-0">
-            Here's a quick mini tutorial:
+            Snippr allows users to take an episode of whatever podcast they choose, split it up into smaller audio clips, or "snippets", and either download those clips or add them to their library. To get started, simply click <a href="/search">search</a> in the navigation bar above and search for whatever podcast you like. Here's a quick mini tutorial:
           </p>
 
           <p>
@@ -34,9 +26,13 @@ export default class Home extends Component {
           </p>
 
           <p>
+            This project was inspired by my mom, a professor of journalism at Penn State's College of Communications, who teaches a course in podcasting and expressed the need to send small clips of podcast episodes to her students in order to highlight the dos and don'ts of podcasting. She has a podcast herself, <a href="podcasts/af679e331dad496f8c3ee0b93c42a618">Dead Centre</a>, about the stories, people, and events that make up the rich history of Centre County, Pennsylvania. Check it out!
+          </p>
+
+          <p>
             Snippr is a frontend React application backed by a Rails API. In addition to this same-origin API, Snippr also communicates with the third party <a href="https://www.listennotes.com/api/">ListenNotes API</a> in order to fetch podcasts and episodes.
           </p>
-        </body>
+        </main>
         <footer className='text-secondary'>
           © 2020 Thomas Gray
         </footer>

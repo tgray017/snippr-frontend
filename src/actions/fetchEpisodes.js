@@ -12,7 +12,7 @@ export const fetchEpisodes = (podcastId, nextEpisodePubDate, direction) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'X-ListenAPI-Key': '55c1a6eaea8046f890097b0e256d7e71'
+        'X-ListenAPI-Key': `${process.env.REACT_APP_LISTEN_NOTES_API_KEY}`
       }
     }
 

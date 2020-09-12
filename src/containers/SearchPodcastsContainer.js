@@ -39,6 +39,22 @@ class SearchPodcastsContainer extends Component {
     }
   }
 
+  renderListenNotesLogo = () => {
+    if(this.props.results && this.props.results.length !== 0) {
+      return (
+        <div
+          className="mb-4 text-center"
+        >
+          <img
+            src={require('../images/listen-notes-logo.png')}
+            width='200'
+            alt='listen-notes-logo'
+          />
+        </div>
+      )
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -51,6 +67,7 @@ class SearchPodcastsContainer extends Component {
         />
         {this.renderResults()}
         {this.renderPaginationContainer()}
+        {this.renderListenNotesLogo()}
       </Container>
     )
   }
