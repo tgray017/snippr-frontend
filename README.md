@@ -4,6 +4,12 @@ Frontend for the Snippr app. Snippr allows users to take an episode of whatever 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Installation
+1. Register for your own ListenNotes API key by following the instructions at https://www.listennotes.com/api/. You'll need this to fetch podcasts and episodes.
+2. Fork and clone this repo down to your local machine.
+3. In the project directory, run `npm install`.
+4. To start the development server, run `npm start`.
+
 ## TODOs
 1. Move API key server-side
 2. Make titles/descriptions editable in the library
