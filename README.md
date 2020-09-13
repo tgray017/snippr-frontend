@@ -1,13 +1,13 @@
 # Snippr
 ## Description
-Frontend for the Snippr app. Snippr allows users to take an episode of whatever podcast they choose, split it up into smaller audio clips, or "snippets", and either download those clips or add them to their library. This is a frontend React application with a Rails API backend that stores users' podcast episodes and snippets. In addition to this same-origin API, Snippr also communicates with the third party ListenNotes API in order to fetch podcasts and episodes.
+Frontend for the Snippr app. Snippr allows users to take an episode of whatever podcast they choose, split it up into smaller audio clips, or "snippets", and either download those clips or add them to their library. Snippr is a frontend React application with a [Rails API backend](https://github.com/tgray017/snippr-backend) that stores users' podcast episodes and snippets. In addition to this same-origin API, Snippr also communicates with the third party ListenNotes API in order to fetch podcasts and episodes.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Installation
 1. Register for your own ListenNotes API key by following the instructions at https://www.listennotes.com/api/. You'll need this to fetch podcasts and episodes.
 2. Fork and clone this repo down to your local machine.
-3. In the project directory, run `npm install`.
+3. In the project directory, run `npm install` to install dependencies.
 4. To start the development server, run `npm start`.
 
 ## TODOs
