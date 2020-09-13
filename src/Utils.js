@@ -3,12 +3,7 @@ export const alertify = (message) => {
   if (typeof message === "string") {
     messages.push(message)
   } else {
-    for (const key in message) {
-      let messageStart = (key[0].toUpperCase() + key.substring(1)).replace('_', ' ')
-      let messageEnd = `${message[key]}`.toLowerCase()
-      let newMessage = messageStart + ' ' + messageEnd;
-      messages.push(newMessage)
-    }
+    message.forEach(m => messages.push(m))
   }
   return messages
 }
