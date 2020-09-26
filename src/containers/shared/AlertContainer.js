@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { hideAlert } from '../actions/hideAlert'
-import AlertComponent from '../components/AlertComponent'
+import { hideAlert } from '../../actions/hideAlert'
+import AlertComponent from '../../components/shared/AlertComponent'
 import { connect } from 'react-redux'
 
 class AlertContainer extends Component {

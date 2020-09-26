@@ -24,3 +24,5 @@ export const login = (userObject) => {
     })
   }
 }
+// if (response.ok)
+// throw new Error(user.errors)

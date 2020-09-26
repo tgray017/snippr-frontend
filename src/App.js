@@ -3,15 +3,15 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom'
-import SignUpContainer from './containers/SignUpContainer'
-import LogInContainer from './containers/LogInContainer'
-import LogOutContainer from './containers/LogOutContainer'
-import AlertContainer from './containers/AlertContainer'
-import SearchPodcastsContainer from './containers/SearchPodcastsContainer'
-import PodcastContainer from './containers/PodcastContainer'
-import LibraryContainer from './containers/LibraryContainer'
+import NavBarContainer from './containers/shared/NavBarContainer'
+import AlertContainer from './containers/shared/AlertContainer'
+import SignUpContainer from './containers/user/SignUpContainer'
+import LogInContainer from './containers/user/LogInContainer'
+import LogOutContainer from './containers/user/LogOutContainer'
+import SearchPodcastsContainer from './containers/search/SearchPodcastsContainer'
+import PodcastContainer from './containers/search/PodcastContainer'
+import LibraryContainer from './containers/library/LibraryContainer'
 import Home from './components/Home'
-import NavBarContainer from './containers/NavBarContainer'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 

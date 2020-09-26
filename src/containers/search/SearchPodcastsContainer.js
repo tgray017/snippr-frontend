@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import SearchPodcastsInput from '../components/SearchPodcastsInput'
-import SearchPodcastsResults from '../components/SearchPodcastsResults'
+import SearchPodcastsInput from '../../components/search/SearchPodcastsInput'
+import SearchPodcastsResults from '../../components/search/SearchPodcastsResults'
 import Container from 'react-bootstrap/Container'
 import { connect } from 'react-redux'
-import { fetchPodcasts } from '../actions/fetchPodcasts'
-import { updateSearchInput } from '../actions/updateSearchInput'
+import { fetchPodcasts } from '../../actions/fetchPodcasts'
+import { updateSearchInput } from '../../actions/updateSearchInput'
 import PaginationContainer from './PaginationContainer'
 
 class SearchPodcastsContainer extends Component {
@@ -46,7 +46,7 @@ class SearchPodcastsContainer extends Component {
           className="mb-4 text-center"
         >
           <img
-            src={require('../images/listen-notes-logo.png')}
+            src={require('../../assets/images/logos/listen-notes-logo.png')}
             width='200'
             alt='listen-notes-logo'
           />

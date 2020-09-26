@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
-import AudioContainer from '../containers/AudioContainer'
+import AudioContainer from '../../containers/audio/AudioContainer'
 import Moment from 'react-moment'
 import { AnimationWrapper } from 'react-hover-animation'
 import TextTruncate from 'react-text-truncate'

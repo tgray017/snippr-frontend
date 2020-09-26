@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav'
 export default class NavBar extends PureComponent {
 
   renderLogo = () => {
-    let logo = require('../images/snippr-logo-gray.svg')
+    let logo = require('../../assets/images/logos/snippr-logo-gray.svg')
     return (
       <Navbar.Brand as={Link} to="/">
         <img

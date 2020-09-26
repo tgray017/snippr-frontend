@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import SignUpForm from '../components/SignUpForm'
+import SignUpForm from '../../components/user/SignUpForm'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { signup } from '../actions/signup'
+import { signup } from '../../actions/signup'
 
 
 export class SignUpContainer extends Component {

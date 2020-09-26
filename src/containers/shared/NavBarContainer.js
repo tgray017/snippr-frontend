@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import NavBar from '../components/NavBar'
+import NavBar from '../../components/shared/NavBar'
 import { connect } from 'react-redux'
 
 class NavBarContainer extends PureComponent {

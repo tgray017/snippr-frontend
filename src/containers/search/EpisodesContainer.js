@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import PaginationContainer from '../containers/PaginationContainer'
-import EpisodeContainer from '../containers/EpisodeContainer'
+import PaginationContainer from './PaginationContainer'
+import EpisodeContainer from './EpisodeContainer'
 import { connect } from 'react-redux'
 
 class EpisodesContainer extends Component {

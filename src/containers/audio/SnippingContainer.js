@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
-import { addSnipToLibrary } from '../actions/addSnipToLibrary'
-import { addEpisodeToLibrary } from '../actions/addEpisodeToLibrary'
-import { downloadSnip } from '../actions/downloadSnip'
+import { addSnipToLibrary } from '../../actions/addSnipToLibrary'
+import { addEpisodeToLibrary } from '../../actions/addEpisodeToLibrary'
+import { downloadSnip } from '../../actions/downloadSnip'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import RingLoader from 'react-spinners/RingLoader'
-import '../stylesheets/Audio.css'
+import '../../stylesheets/Audio.css'
 
 class SnippingContainer extends Component {
 
@@ -61,9 +61,9 @@ class SnippingContainer extends Component {
     if (type === 'snippet') {
       snipToolTipText = text
     } else if (type === 'episode-library') {
-      snipToolTipText = (this.props.authenticated || this.state.clickNumber !== 2)  ? 'Add episode to library' : 'Log in to add episode to library'
+      snipToolTipText = this.props.authenticated ? 'Add episode to library' : 'Log in to add episode to library'
     } else if (type === 'snippet-library') {
-      snipToolTipText = (this.props.authenticated) ? 'Add snippet to library' : 'Log in to add snippet to library'
+      snipToolTipText = this.props.authenticated ? 'Add snippet to library' : 'Log in to add snippet to library'
     } else if (type === 'snippet-download') {
       snipToolTipText = 'Download snippet'
     }
@@ -76,7 +76,7 @@ class SnippingContainer extends Component {
   }
 
   renderDownloadSnipButton = () => {
-    let downloadSnippetImage = this.props.downloading ? require('../images/downloading-snippet.gif') : require('../images/download-snippet-new.svg')
+    let downloadSnippetImage = this.props.downloading ? require('../../assets/images/icons/downloading-snippet.gif') : require('../../assets/images/icons/download-snippet-new.svg')
 
     let addSnipOption
     if (this.state.clickNumber === 0) {
@@ -118,7 +118,7 @@ class SnippingContainer extends Component {
   }
 
   renderAddEpisodeToLibrary = () => {
-    let addEpisodeToLibraryImage = require('../images/add-episode-to-library.svg')
+    let addEpisodeToLibraryImage = require('../../assets/images/icons/add-episode-to-library.svg')
 
     if (this.props.audioType !== 'library-episode') {
       return (
@@ -147,20 +147,20 @@ class SnippingContainer extends Component {
     let snipToolTipText
     let addSnipOption
     if (this.state.clickNumber === 0) {
-      snipImage = require('../images/start-snip-icon.svg')
+      snipImage = require('../../assets/images/icons/start-snip.svg')
       snipToolTipText = 'Start snipping'
       addSnipOption = true
     } else if (this.state.clickNumber === 1) {
-      snipImage = require('../images/stop-snip-icon.svg')
+      snipImage = require('../../assets/images/icons/stop-snip.svg')
       snipToolTipText = 'Stop snipping'
       addSnipOption = true
     } else {
-      snipImage = require('../images/trash-can-icon.svg')
+      snipImage = require('../../assets/images/icons/trash-can.svg')
       snipToolTipText = 'Discard snip'
       addSnipOption = false
     }
 
-    let addSnippetToLibraryImage = require('../images/add-snippet-to-library.svg')
+    let addSnippetToLibraryImage = require('../../assets/images/icons/add-snippet-to-library.svg')
 
     return (
       <div className="mt-3 snipping-container">

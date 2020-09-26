@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import PaginationComponent from '../components/PaginationComponent'
-import { fetchEpisodes } from '../actions/fetchEpisodes'
-import { updateOffset } from '../actions/updateOffset'
-import { updatePrevPages } from '../actions/updatePrevPages'
+import PaginationComponent from '../../components/search/PaginationComponent'
+import { fetchEpisodes } from '../../actions/fetchEpisodes'
+import { updateOffset } from '../../actions/updateOffset'
+import { updatePrevPages } from '../../actions/updatePrevPages'
 import { connect } from 'react-redux'
 
 class PaginationContainer extends Component {

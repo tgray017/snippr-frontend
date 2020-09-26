@@ -18,7 +18,7 @@ export default class Home extends Component {
             <br/>
             <video
               width='600'
-              src={require('../images/snippr-tutorial.mov')}
+              src={require('../assets/images/snippr-tutorial.mov')}
               autoPlay
               controls
             >
