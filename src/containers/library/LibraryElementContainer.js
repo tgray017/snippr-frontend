@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import LibraryElement from '../../components/library/LibraryElement'
-import { removeFromLibrary } from '../../actions/removeFromLibrary'
+import { removeFromLibrary } from '../../actions/library'
 import { connect } from 'react-redux'
 
 class LibraryElementContainer extends Component {

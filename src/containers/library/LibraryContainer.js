@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { fetchLibrary } from '../../actions/fetchLibrary'
+import { fetchLibrary } from '../../actions/library'
 import { connect } from 'react-redux'
 import Container from 'react-bootstrap/Container'
 import LibraryElementContainer from './LibraryElementContainer'

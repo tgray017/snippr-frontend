@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import LogInForm from '../../components/user/LogInForm'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { login } from '../../actions/login'
+import { login } from '../../actions/user'
 
 
 class LogInContainer extends Component {

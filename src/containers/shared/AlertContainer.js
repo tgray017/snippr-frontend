@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { hideAlert } from '../../actions/hideAlert'
+import { hideAlert } from '../../actions/shared'
 import AlertComponent from '../../components/shared/AlertComponent'
 import { connect } from 'react-redux'
 

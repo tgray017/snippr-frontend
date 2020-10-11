@@ -2,16 +2,18 @@ import React, { Component } from 'react'
 import Bar from '../../components/audio/Bar'
 import PlayPause from '../../components/audio/PlayPause'
 import SnippingContainer from './SnippingContainer'
-import { setSnipStartTime } from '../../actions/setSnipStartTime'
-import { setSnipStopTime } from '../../actions/setSnipStopTime'
-import { startSnipping } from '../../actions/startSnipping'
-import { stopSnipping } from '../../actions/stopSnipping'
-import { discardSnip } from '../../actions/discardSnip'
-import { play } from '../../actions/play'
-import { pause } from '../../actions/pause'
-import { setAudio } from '../../actions/setAudio'
-import { setAudioDuration } from '../../actions/setAudioDuration'
-import { setAudioCurrentTime } from '../../actions/setAudioCurrentTime'
+import {
+  setSnipStartTime,
+  setSnipStopTime,
+  startSnipping,
+  stopSnipping,
+  discardSnip,
+  play,
+  pause,
+  setAudio,
+  setAudioDuration,
+  setAudioCurrentTime
+} from '../../actions/audio'
 import { connect } from 'react-redux'
 import '../../stylesheets/Audio.css'
 

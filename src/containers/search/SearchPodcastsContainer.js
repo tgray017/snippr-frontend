@@ -3,8 +3,7 @@ import SearchPodcastsInput from '../../components/search/SearchPodcastsInput'
 import SearchPodcastsResults from '../../components/search/SearchPodcastsResults'
 import Container from 'react-bootstrap/Container'
 import { connect } from 'react-redux'
-import { fetchPodcasts } from '../../actions/fetchPodcasts'
-import { updateSearchInput } from '../../actions/updateSearchInput'
+import { fetchPodcasts, updateSearchInput } from '../../actions/search'
 import PaginationContainer from './PaginationContainer'
 
 class SearchPodcastsContainer extends Component {

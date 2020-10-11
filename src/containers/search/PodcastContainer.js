@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import Podcast from '../../components/search/Podcast'
 import EpisodesContainer from './EpisodesContainer'
 import { connect } from 'react-redux'
-import { fetchPodcast } from '../../actions/fetchPodcast'
-import { fetchEpisodes } from '../../actions/fetchEpisodes'
+import { fetchPodcast, fetchEpisodes } from '../../actions/search'
 
 
 class PodcastContainer extends Component {
