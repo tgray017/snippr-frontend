@@ -1,14 +1,11 @@
 import { setAlert } from './shared'
 import { sessionService } from 'redux-react-session'
 import { alertify } from '../Utils.js'
-
-//
-// if (response.ok)
-// throw new Error(user.errors)
+const baseUrl = 'http://localhost:3000/api/v1'
 
 export const login = (userObject) => {
   return (dispatch) => {
-    fetch('http://localhost:3000/api/v1/sessions/', {
+    fetch(`${baseUrl}/sessions/`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -37,7 +34,7 @@ export const logout = () => {
 
 export const signup = (userObject) => {
   return (dispatch) => {
-    fetch('http://localhost:3000/api/v1/users/', {
+    fetch(`${baseUrl}/users/`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'

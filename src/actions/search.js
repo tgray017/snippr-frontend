@@ -1,3 +1,5 @@
+const baseUrl = 'https://listen-api.listennotes.com/api/v2'
+
 export const fetchEpisodes = (podcastId, nextEpisodePubDate, direction) => {
   return (dispatch) => {
     /* can we ignore the payload in this dispatch? */
@@ -18,7 +20,7 @@ export const fetchEpisodes = (podcastId, nextEpisodePubDate, direction) => {
       }
     }
 
-    let url = `https://listen-api.listennotes.com/api/v2/podcasts/${podcastId}?next_episode_pub_date=${nextEpisodePubDate}`
+    let url = `${baseUrl}/podcasts/${podcastId}?next_episode_pub_date=${nextEpisodePubDate}`
 
     fetch(url, obj)
       .then(resp => resp.json())
@@ -40,7 +42,7 @@ export const fetchPodcast = (id, nextEpisodePubDate = null) => {
       }
     }
 
-    let url = `https://listen-api.listennotes.com/api/v2/podcasts/${id}?next_episode_pub_date=${nextEpisodePubDate}`
+    let url = `${baseUrl}/podcasts/${id}?next_episode_pub_date=${nextEpisodePubDate}`
 
     fetch(url, obj)
       .then(resp => resp.json())
@@ -63,7 +65,7 @@ export const fetchPodcasts = (input, offset = 0) => {
       }
     }
 
-    let url = `https://listen-api.listennotes.com/api/v2/search?q=${input}&type=podcast&language=English&offset=${offset}`
+    let url = `${baseUrl}/search?q=${input}&type=podcast&language=English&offset=${offset}`
 
     fetch(url, obj)
       .then(resp => resp.json())

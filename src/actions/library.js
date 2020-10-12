@@ -1,12 +1,13 @@
 import { setAlert } from './shared'
 import { alertify } from '../Utils.js'
 var contentDisposition = require('content-disposition')
+const baseUrl = 'http://localhost:3000/api/v1'
 
 export const addEpisodeToLibrary = (userId, title, description, audio, audioLength, podcastName, podcastId, rawSrc) => {
   return (dispatch) => {
     dispatch({ type: 'ADD_EPISODE_TO_LIBRARY' })
 
-    fetch(`http://localhost:3000/api/v1/users/${userId}/episodes`, {
+    fetch(`${baseUrl}/users/${userId}/episodes`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -41,7 +42,7 @@ export const addSnipToLibrary = (userId, title, audio, audioLength, podcastName,
     let titleEnd = Math.round(snipStopTime)
     let length = snipStopTime - snipStartTime
     let audio = `${rawSrc}#t=${snipStartTime},${snipStopTime}`
-    fetch(`http://localhost:3000/api/v1/users/${userId}/snippets`, {
+    fetch(`${baseUrl}/users/${userId}/snippets`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -76,7 +77,7 @@ export const fetchLibrary = (userId) => {
   return (dispatch) => {
     dispatch({ type: 'START_FETCHING_LIBRARY' })
 
-    let url = `http://localhost:3000/api/v1/users/${userId}/library`
+    let url = `${baseUrl}/users/${userId}/library`
     fetch(url)
     .then(response => response.json())
     .then(library => {
@@ -99,7 +100,7 @@ export const downloadSnip = (title, audio, audioLength, snipStartTime, snipStopT
     let titleEnd = Math.round(snipStopTime)
     let length = snipStopTime - snipStartTime
 
-    fetch(`http://localhost:3000/api/v1/snippets/download`, {
+    fetch(`${baseUrl}/snippets/download`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -143,7 +144,7 @@ export const removeFromLibrary = (id, userId) => {
   return (dispatch) => {
     dispatch({ type: 'REMOVE_FROM_LIBRARY' })
 
-    fetch(`http://localhost:3000/api/v1/library/${id}`, {
+    fetch(`${baseUrl}/library/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
