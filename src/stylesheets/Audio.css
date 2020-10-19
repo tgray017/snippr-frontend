@@ -153,6 +153,10 @@ div.menu-options > .dropdown-toggle:after {
 .submit-button {
   background-color: #4e54c8 !important;
   border-color: #4e54c8 !important;
+  display: flex !important;
+  height: 40px !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
 .audio-type-indicator {
@@ -172,4 +176,15 @@ div.menu-options > .dropdown-toggle:after {
 .library-indicator-remove-container {
   display: flex;
   align-items: center;
+}
+
+#oauth-container {
+  border: solid;
+  border-color: #4e54c8;
+  border-width: 2px;
+  border-radius: 5px;
+}
+
+.facebook-oauth-icon {
+  margin-left: 7px;
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import OauthContainer from './OauthContainer'
 import SignUpForm from '../../components/user/SignUpForm'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -7,7 +8,18 @@ import { signup } from '../../actions/user'
 
 export class SignUpContainer extends Component {
   render() {
-    return this.props.authenticated ? <Redirect to='/' /> : <SignUpForm signup={this.props.signup}/>
+    if (this.props.authenticated) {
+      return <Redirect to='/' />
+    } else {
+      return (
+        <>
+          <SignUpForm
+            signup={this.props.signup}
+          />
+          <OauthContainer/>
+        </>
+      )
+    }
   }
 }
 

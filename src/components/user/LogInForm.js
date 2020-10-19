@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import { Button } from 'react-bootstrap'
+import OauthContainer from '../../containers/user/OauthContainer'
 
 export default class LogInForm extends Component {
 

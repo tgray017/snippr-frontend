@@ -6,20 +6,21 @@ import { logout } from '../../actions/user'
 
 class LogOutContainer extends Component {
   render() {
-    this.props.logout()
+    this.props.logout(this.props.authStrategy)
     return <Redirect to='/' />
   }
 }
 
 const mapStateToProps = state => {
   return {
-    authenticated: state.session.authenticated
+    authenticated: state.session.authenticated,
+    authStrategy: state.session.user.authStrategy
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout: () => dispatch(logout())
+    logout: (authStrategy) => dispatch(logout(authStrategy))
   }
 }
 

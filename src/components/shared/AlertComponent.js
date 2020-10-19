@@ -8,7 +8,7 @@ export default class AlertComponent extends Component {
   }
 
   renderErrorMessage = () => {
-    const listItems = this.props.message.map((message) => <li>{message}</li>)
+    const listItems = this.props.message.map((message, key) => <li key={key}>{message}</li>)
     return (
       <ul className="mb-0">
         {listItems}

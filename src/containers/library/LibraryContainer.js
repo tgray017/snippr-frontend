@@ -38,15 +38,13 @@ class LibraryContainer extends Component {
           )
         })
       )
-    } else if (this.props.library && this.props.library.length === 0){
+    } else {
       return (
         <Container className="mt-4 text-center text-secondary">
           <h3 className="mb-3">There's nothing in your library.</h3>
           <h5><a href="/search">Search podcasts</a> to add snips and episodes to it.</h5>
         </Container>
       )
-    } else {
-      return null
     }
   }
 

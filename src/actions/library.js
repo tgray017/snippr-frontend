@@ -30,6 +30,7 @@ export const addEpisodeToLibrary = (userId, title, description, audio, audioLeng
         dispatch(setAlert('error', alertify(episode.errors)))
       } else {
         dispatch(setAlert('success', alertify('Episode added to library')))
+        dispatch(fetchLibrary(userId))
       }
     })
   }
