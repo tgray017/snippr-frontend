@@ -86,5 +86,6 @@ export const loginWithFacebook = (userObject) => {
           })
         }
       })
-    }}
+    }
   }
+}

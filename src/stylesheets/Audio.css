@@ -179,9 +179,8 @@ div.menu-options > .dropdown-toggle:after {
 }
 
 #oauth-container {
-  border: solid;
+  border: solid 2px;
   border-color: #4e54c8;
-  border-width: 2px;
   border-radius: 5px;
 }
 
