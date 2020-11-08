@@ -15,10 +15,10 @@ class PodcastContainer extends Component {
   render() {
     return (
       <div>
-        <div style={{height: "30vh", "overflowY": "scroll"}}>
+        <div id="podcast-container">
           <Podcast {...this.props}/>
         </div>
-        <div style={{height: "60vh", "overflowY": "scroll"}}>
+        <div id="episodes-container">
           <EpisodesContainer/>
         </div>
       </div>

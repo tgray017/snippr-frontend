@@ -16,17 +16,32 @@ export const play = () => {
   }
 }
 
-export const setAudio = (audioId, audioUrl, podcastName, podcastId, description) => {
+export const setAudio = (audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId) => {
   return (dispatch) => {
     dispatch({type: 'SET_AUDIO', payload: {
       audioId: audioId,
       audioUrl: audioUrl,
+      audioLength: audioLength,
+      title: title,
+      description: description,
+      audioType: audioType,
+      startTime: startTime,
+      stopTime: stopTime,
       podcastName: podcastName,
-      podcastId: podcastId,
-      description: description
+      podcastId: podcastId
     }})
   }
 }
+
+/*
+export const playTest = (audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId) => {
+
+  setAudio(audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId)
+  console.log('dispatched')
+
+}
+*/
+
 
 export const setAudioCurrentTime = (currentTime) => {
   return (dispatch) => {

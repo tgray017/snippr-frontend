@@ -121,7 +121,7 @@ class SnippingContainer extends Component {
     if (this.props.audioType !== 'library-episode') {
       return (
         <OverlayTrigger
-          placement="bottom"
+          placement="top"
           delay={{ show: 100, hide: 100 }}
           overlay={this.renderTooltip('episode-library')}
         >
@@ -163,7 +163,7 @@ class SnippingContainer extends Component {
     return (
       <div className="mt-3 snipping-container">
         <OverlayTrigger
-          placement="bottom"
+          placement="top"
           delay={{ show: 100, hide: 100 }}
           overlay={this.renderTooltip('snippet', snipToolTipText)}
         >
@@ -181,7 +181,7 @@ class SnippingContainer extends Component {
         {this.renderAddEpisodeToLibrary()}
 
         <OverlayTrigger
-          placement="bottom"
+          placement="top"
           delay={{ show: 100, hide: 100 }}
           overlay={this.renderTooltip('snippet-library')}
         >
@@ -198,7 +198,7 @@ class SnippingContainer extends Component {
         </OverlayTrigger>
 
         <OverlayTrigger
-          placement="bottom"
+          placement="top"
           delay={{ show: 100, hide: 100 }}
           overlay={this.renderTooltip('snippet-download')}
         >

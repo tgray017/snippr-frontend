@@ -32,7 +32,7 @@ export default class Bar extends Component {
   }
 
   mouseMove = e => {
-    let episodeOffsetLeft = document.getElementsByClassName('episode')[0].offsetLeft
+    let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
     let timelineWidth = this.timeline.offsetWidth
     let handleWidth = this.state.dragElement.getBoundingClientRect().width
     let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
@@ -78,7 +78,7 @@ export default class Bar extends Component {
   }
 
   startSnipMouseMove = (e) => {
-    let episodeOffsetLeft = document.getElementsByClassName('episode')[0].offsetLeft
+    let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
     let timelineWidth = this.timeline.offsetWidth
     let handleWidth = this.state.dragElement.getBoundingClientRect().width
     let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
@@ -128,7 +128,7 @@ export default class Bar extends Component {
   }
 
   stopSnipMouseMove = (e) => {
-    let episodeOffsetLeft = document.getElementsByClassName('episode')[0].offsetLeft
+    let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
     let timelineWidth = this.timeline.offsetWidth
     let handleWidth = this.state.dragElement.getBoundingClientRect().width
     let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
@@ -240,7 +240,7 @@ export default class Bar extends Component {
   renderStartSnipKnob = () => {
     let offsetRatio = (this.props.snipStartTime/this.props.audioLength)*100
 
-    if(this.props.snipping && (this.props.snipStartTime || this.props.snipStartTime === 0) && this.props.audioId === this.props.currentAudioId) {
+    if(this.props.snipping && (this.props.snipStartTime || this.props.snipStartTime === 0)) {
       return (
         <div
           className="bar__snipping__knob__container"
@@ -271,7 +271,7 @@ export default class Bar extends Component {
   renderStopSnipKnob = () => {
     let offsetRatio = (this.props.snipStopTime/this.props.audioLength)*100
 
-    if(this.props.snipping && (this.props.snipStopTime || this.props.snipStopTime === 0) && this.props.audioId === this.props.currentAudioId) {
+    if(this.props.snipping && (this.props.snipStopTime || this.props.snipStopTime === 0)) {
       return (
         <div
           className="bar__snipping__knob__container"

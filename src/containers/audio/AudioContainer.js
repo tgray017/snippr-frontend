@@ -10,7 +10,6 @@ import {
   discardSnip,
   play,
   pause,
-  setAudio,
   setAudioDuration,
   setAudioCurrentTime
 } from '../../actions/audio'
@@ -26,7 +25,6 @@ class AudioContainer extends Component {
     let currentTime = this.props.audioType === 'snippet' ? this.props.startTime : 0
 
     this.state = {
-      audioLength: this.props.audioLength,
       currentTime: currentTime,
       startSnipTime: 0,
       playing: false,
@@ -35,30 +33,13 @@ class AudioContainer extends Component {
   }
 
   togglePlay = () => {
-
-    if (this.props.playing && this.audioRef.current.src === this.props.audioUrl) {
+    if (this.props.playing) {
       this.props.pause()
       this.audioRef.current.pause()
     } else {
-      let endTime = this.props.audioType === 'snippet' ? this.props.stopTime : this.state.audioLength
-      if (!(this.audioRef.current.currentTime >= endTime)) {
-        this.props.play()
-        this.audioRef.current.play()
-      }
+      this.props.play()
+      this.audioRef.current.play()
     }
-
-    /*
-    this.setState({
-      ...this.state,
-      playing: this.state.playAfterDrag ? true : !this.state.playing
-    }, () => {
-      this.state.playing && (this.audioRef.current.paused || this.state.playAfterDrag) ? this.audioRef.current.play() : this.audioRef.current.pause()
-      this.setState({
-        ...this.state,
-        playAfterDrag: false
-      })
-    })
-    */
   }
 
   handleTimeUpdate = () => {
@@ -66,7 +47,7 @@ class AudioContainer extends Component {
     if (this.props.audioType === 'snippet') {
       currentTime = this.audioRef.current.currentTime >= this.props.stopTime ? this.props.stopTime : this.audioRef.current.currentTime
     } else {
-      currentTime = this.audioRef.current.currentTime >= this.state.audioLength ? this.state.audioLength : this.audioRef.current.currentTime
+      currentTime = this.audioRef.current.currentTime >= this.props.audioLength ? this.props.audioLength : this.audioRef.current.currentTime
     }
 
     if (currentTime >= this.props.stopTime) {
@@ -83,9 +64,9 @@ class AudioContainer extends Component {
   handleTimeDrag = (offsetRatio) => {
     let currentTime
     if (this.props.audioType === 'snippet') {
-      currentTime = this.props.startTime + (this.state.audioLength*offsetRatio)
+      currentTime = this.props.startTime + (this.props.audioLength*offsetRatio)
     } else {
-      currentTime = this.state.audioLength*offsetRatio
+      currentTime = this.props.audioLength*offsetRatio
     }
 
     this.setState({
@@ -96,16 +77,12 @@ class AudioContainer extends Component {
     })
   }
 
-  handlePlay = () => {
-    this.props.setAudio(this.props.id, this.props.audio, this.props.podcastName, this.props.podcastId, this.props.description)
-  }
-
   renderSnippingContainer = () => {
-    if(this.props.id === this.props.audioId && this.props.audioType !== 'snippet') {
+    if(this.props.audioType !== 'snippet') {
       return (
         <SnippingContainer
           currentTime={this.state.currentTime}
-          audioLength={this.state.audioLength}
+          audioLength={this.props.audioLength}
           startSnipping={this.props.startSnipping}
           stopSnipping={this.props.stopSnipping}
           discardSnip={this.props.discardSnip}
@@ -113,14 +90,14 @@ class AudioContainer extends Component {
           setSnipStopTime={this.props.setSnipStopTime}
           snipStartTime={this.props.snipStartTime}
           snipStopTime={this.props.snipStopTime}
-          audio={this.props.audio}
+          audio={this.props.audioUrl}
           title={this.props.title}
           description={this.props.description}
           podcastName={this.props.podcastName}
           podcastId={this.props.podcastId}
           audioUrl={this.props.audioUrl}
           snipping={this.props.snipping}
-          src={this.props.audio}
+          src={this.props.audioUrl}
           audioType={this.props.audioType}
         />
       )
@@ -131,21 +108,21 @@ class AudioContainer extends Component {
     let offsetRatio
     let timeFromEnd
     if (this.props.audioType === 'snippet') {
-      offsetRatio = ((this.state.currentTime - this.props.startTime)/this.state.audioLength)*100
+      offsetRatio = ((this.state.currentTime - this.props.startTime)/this.props.audioLength)*100
       timeFromEnd = (this.props.stopTime - this.state.currentTime) + this.props.startTime
     } else {
-      offsetRatio = (this.state.currentTime/this.state.audioLength)*100
-      timeFromEnd = this.state.audioLength - this.state.currentTime
+      offsetRatio = (this.state.currentTime/this.props.audioLength)*100
+      timeFromEnd = this.props.audioLength - this.state.currentTime
     }
 
     return (
-      <>
-        <div style={{display: 'flex', alignItems:'center'}}>
+      <div id='current-audio-player-container'>
+        <div id='current-audio-player'>
           <audio
-            src={this.props.audio}
+            id={this.props.audioId}
+            src={this.props.audioUrl}
             ref={this.audioRef}
             onTimeUpdate={this.handleTimeUpdate}
-            onPlay={this.handlePlay}
           />
           <PlayPause
             togglePlay={this.togglePlay}
@@ -158,7 +135,7 @@ class AudioContainer extends Component {
           />
           <Bar
             audioRef={this.audioRef}
-            audioLength={this.state.audioLength}
+            audioLength={this.props.audioLength}
             audioId={this.props.id}
             currentAudioId={this.props.audioId}
             timeFromEnd={timeFromEnd}
@@ -175,7 +152,7 @@ class AudioContainer extends Component {
           />
         </div>
         {this.renderSnippingContainer()}
-      </>
+      </div>
     )
   }
 }
@@ -190,13 +167,12 @@ const mapStateToProps = state => {
     snipStopTime: state.currentAudio.snipStopTime,
     endTime: state.currentAudio.endTime,
     currentTime: state.currentAudio.audioCurrentTime,
-    duration: state.currentAudio.audioDuration,
+    audioLength: state.currentAudio.audioLength
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setAudio: (audioId, audioUrl, podcastName, podcastId, description) => dispatch(setAudio(audioId, audioUrl, podcastName, podcastId, description)),
     setSnipStartTime: (startTime) => dispatch(setSnipStartTime(startTime)),
     setSnipStopTime: (stopTime) => dispatch(setSnipStopTime(stopTime)),
     startSnipping: () => dispatch(startSnipping()),
