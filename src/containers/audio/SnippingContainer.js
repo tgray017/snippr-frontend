@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
-import { addSnipToLibrary,  addEpisodeToLibrary, downloadSnip } from '../../actions/library'
+import {
+  setSnipStartTime,
+  setSnipStopTime,
+  startSnipping,
+  stopSnipping,
+  discardSnip
+} from '../../actions/audio'
+import {
+  addSnipToLibrary,
+  addEpisodeToLibrary,
+  downloadSnip
+} from '../../actions/library'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import RingLoader from 'react-spinners/RingLoader'
@@ -81,8 +92,10 @@ class SnippingContainer extends Component {
       addSnipOption = true
     } else if (this.state.clickNumber === 1) {
       addSnipOption = true
-    } else {
+    } else if (this.props.snipping) {
       addSnipOption = false
+    } else {
+      addSnipOption = true
     }
 
     if (this.props.downloading) {
@@ -121,7 +134,7 @@ class SnippingContainer extends Component {
     if (this.props.audioType !== 'library-episode') {
       return (
         <OverlayTrigger
-          placement="bottom"
+          placement="top"
           delay={{ show: 100, hide: 100 }}
           overlay={this.renderTooltip('episode-library')}
         >
@@ -144,26 +157,27 @@ class SnippingContainer extends Component {
     let snipImage
     let snipToolTipText
     let addSnipOption
-    if (this.state.clickNumber === 0) {
-      snipImage = require('../../assets/images/icons/start-snip.svg')
-      snipToolTipText = 'Start snipping'
-      addSnipOption = true
-    } else if (this.state.clickNumber === 1) {
+
+    if (this.state.clickNumber === 1 && this.props.snipping) {
       snipImage = require('../../assets/images/icons/stop-snip.svg')
       snipToolTipText = 'Stop snipping'
       addSnipOption = true
-    } else {
+    } else if (this.state.clickNumber === 2 && this.props.snipping) {
       snipImage = require('../../assets/images/icons/trash-can.svg')
       snipToolTipText = 'Discard snip'
       addSnipOption = false
+    } else {
+      snipImage = require('../../assets/images/icons/start-snip.svg')
+      snipToolTipText = 'Start snipping'
+      addSnipOption = true
     }
 
     let addSnippetToLibraryImage = require('../../assets/images/icons/add-snippet-to-library.svg')
 
     return (
-      <div className="mt-3 snipping-container">
+      <div className="mt-1 snipping-container">
         <OverlayTrigger
-          placement="bottom"
+          placement="top"
           delay={{ show: 100, hide: 100 }}
           overlay={this.renderTooltip('snippet', snipToolTipText)}
         >
@@ -181,7 +195,7 @@ class SnippingContainer extends Component {
         {this.renderAddEpisodeToLibrary()}
 
         <OverlayTrigger
-          placement="bottom"
+          placement="top"
           delay={{ show: 100, hide: 100 }}
           overlay={this.renderTooltip('snippet-library')}
         >
@@ -198,7 +212,7 @@ class SnippingContainer extends Component {
         </OverlayTrigger>
 
         <OverlayTrigger
-          placement="bottom"
+          placement="top"
           delay={{ show: 100, hide: 100 }}
           overlay={this.renderTooltip('snippet-download')}
         >
@@ -215,12 +229,27 @@ const mapStateToProps = state => {
   return {
     authenticated: state.session.authenticated,
     userId: state.session.user.id,
-    downloading: state.alerts.downloading
+    downloading: state.alerts.downloading,
+    title: state.currentAudio.title,
+    audioLength: state.currentAudio.audioLength,
+    snipStartTime: state.currentAudio.snipStartTime,
+    snipStopTime: state.currentAudio.snipStopTime,
+    podcastName: state.currentAudio.podcastName,
+    podcastId: state.currentAudio.podcastId,
+    description: state.currentAudio.description,
+    audio: state.currentAudio.audioUrl,
+    src: state.currentAudio.audioUrl,
+    snipping: state.currentAudio.snipping
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    startSnipping: () => dispatch(startSnipping()),
+    stopSnipping: () => dispatch(stopSnipping()),
+    discardSnip: () => dispatch(discardSnip()),
+    setSnipStartTime: (startTime) => dispatch(setSnipStartTime(startTime)),
+    setSnipStopTime: (stopTime) => dispatch(setSnipStopTime(stopTime)),
     addSnipToLibrary: (userId, title, audio, audioLength, podcastName, podcastId, rawSrc, snipStartTime, snipStopTime) => dispatch(addSnipToLibrary(userId, title, audio, audioLength, podcastName, podcastId, rawSrc, snipStartTime, snipStopTime)),
     addEpisodeToLibrary: (userId, title, description, audio, audioLength, podcastName, podcastId, rawSrc) => dispatch(addEpisodeToLibrary(userId, title, description, audio, audioLength, podcastName, podcastId, rawSrc)),
     downloadSnip: (title, audio, audioLength, snipStartTime, snipStopTime) => dispatch(downloadSnip(title, audio, audioLength, snipStartTime, snipStopTime))

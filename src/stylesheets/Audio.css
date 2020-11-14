@@ -187,3 +187,57 @@ div.menu-options > .dropdown-toggle:after {
 .facebook-oauth-icon {
   margin-left: 7px;
 }
+
+.clearfix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-column {
+  float: left;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.episode-play-pause {
+  width: 10%;
+  max-width: 90px;
+}
+
+.episode-details {
+  width: 90%;
+}
+
+#snippr-container {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+#snippr-body {
+  flex: 1 1 auto;
+  overflow-y: scroll;
+}
+
+#snippr-audio {
+  background-color: rgb(231, 231, 231);
+}
+
+#current-audio-player {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-bottom: 10px;
+}
+
+.expand-collapse-button {
+  width: 20px;
+  margin: 5px;
+}

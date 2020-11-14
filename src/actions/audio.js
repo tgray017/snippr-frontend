@@ -16,30 +16,19 @@ export const play = () => {
   }
 }
 
-export const setAudio = (audioId, audioUrl, podcastName, podcastId, description) => {
+export const setAudio = (audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId) => {
   return (dispatch) => {
     dispatch({type: 'SET_AUDIO', payload: {
       audioId: audioId,
       audioUrl: audioUrl,
+      audioLength: audioLength,
+      title: title,
+      description: description,
+      audioType: audioType,
+      startTime: startTime,
+      stopTime: stopTime,
       podcastName: podcastName,
-      podcastId: podcastId,
-      description: description
-    }})
-  }
-}
-
-export const setAudioCurrentTime = (currentTime) => {
-  return (dispatch) => {
-    dispatch({type: 'SET_AUDIO_CURRENT_TIME', payload: {
-      audioCurrentTime: currentTime
-    }})
-  }
-}
-
-export const setAudioDuration = (duration) => {
-  return (dispatch) => {
-    dispatch({type: 'SET_AUDIO_DURATION', payload: {
-      audioDuration: duration
+      podcastId: podcastId
     }})
   }
 }
@@ -69,5 +58,37 @@ export const startSnipping = () => {
 export const stopSnipping = () => {
   return (dispatch) => {
     dispatch({type: 'STOP_SNIPPING'})
+  }
+}
+
+export const expand = () => {
+  return (dispatch) => {
+    dispatch({type: 'EXPAND'})
+  }
+}
+
+export const collapse = () => {
+  return (dispatch) => {
+    dispatch({type: 'COLLAPSE'})
+  }
+}
+
+export const updateAudioDuration = (audioLength) => {
+  return (dispatch) => {
+    dispatch({type: 'UPDATE_AUDIO_DURATION', payload: {
+      audioLength: audioLength
+    }})
+  }
+}
+
+export const startLoading = () => {
+  return (dispatch) => {
+    dispatch({type: 'START_LOADING'})
+  }
+}
+
+export const stopLoading = () => {
+  return (dispatch) => {
+    dispatch({type: 'STOP_LOADING'})
   }
 }
