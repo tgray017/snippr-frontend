@@ -3,17 +3,18 @@ import Bar from '../../components/audio/Bar'
 import PlayPause from '../../components/audio/PlayPause'
 import SnippingContainer from './SnippingContainer'
 import {
-  setSnipStartTime,
-  setSnipStopTime,
-  startSnipping,
-  stopSnipping,
-  discardSnip,
   play,
   pause,
-  setAudioDuration,
-  setAudioCurrentTime
+  expand,
+  collapse,
+  updateAudioDuration,
+  setSnipStartTime,
+  setSnipStopTime,
+  startLoading,
+  stopLoading
 } from '../../actions/audio'
 import { connect } from 'react-redux'
+import LoadingOverlay from 'react-loading-overlay'
 import '../../stylesheets/Audio.css'
 
 
@@ -78,30 +79,50 @@ class AudioContainer extends Component {
   }
 
   renderSnippingContainer = () => {
-    if(this.props.audioType !== 'snippet') {
+    if(this.props.expanded) {
       return (
         <SnippingContainer
           currentTime={this.state.currentTime}
-          audioLength={this.props.audioLength}
-          startSnipping={this.props.startSnipping}
-          stopSnipping={this.props.stopSnipping}
-          discardSnip={this.props.discardSnip}
-          setSnipStartTime={this.props.setSnipStartTime}
-          setSnipStopTime={this.props.setSnipStopTime}
-          snipStartTime={this.props.snipStartTime}
-          snipStopTime={this.props.snipStopTime}
-          audio={this.props.audioUrl}
-          title={this.props.title}
-          description={this.props.description}
-          podcastName={this.props.podcastName}
-          podcastId={this.props.podcastId}
-          audioUrl={this.props.audioUrl}
-          snipping={this.props.snipping}
-          src={this.props.audioUrl}
           audioType={this.props.audioType}
         />
       )
     }
+  }
+
+  toggleExpandCollapse = () => {
+    if (this.props.expanded) {
+      this.props.collapse()
+    } else {
+      this.props.expand()
+    }
+  }
+
+  renderExpandCollapseButton = () => {
+    const expandCollapseImg = this.props.expanded ? require("../../assets/images/icons/collapse-arrow.svg") : require("../../assets/images/icons/expand-arrow.svg")
+
+    return (
+      <div>
+        <input
+          type="image"
+          className="expand-collapse-button"
+          src={expandCollapseImg}
+          onClick={this.toggleExpandCollapse}
+        />
+      </div>
+    )
+  }
+
+  updateAudioDuration = () => {
+    let audio = document.getElementById(this.props.audioId)
+    this.props.updateAudioDuration(audio.duration)
+  }
+
+  startLoading = () => {
+    this.props.startLoading()
+  }
+
+  stopLoading = () => {
+    this.props.stopLoading()
   }
 
   render() {
@@ -115,45 +136,67 @@ class AudioContainer extends Component {
       timeFromEnd = this.props.audioLength - this.state.currentTime
     }
 
-    return (
-      <div id='current-audio-player-container'>
-        <div id='current-audio-player'>
-          <audio
-            id={this.props.audioId}
-            src={this.props.audioUrl}
-            ref={this.audioRef}
-            onTimeUpdate={this.handleTimeUpdate}
-          />
-          <PlayPause
-            togglePlay={this.togglePlay}
-            playing={this.props.playing}
-            currentAudioUrl={this.props.audioUrl}
-            audioRef={this.audioRef}
-            currentAudioId={this.props.audioId}
-            audioId={this.props.id}
-            stopSnipping={this.props.stopSnipping}
-          />
-          <Bar
-            audioRef={this.audioRef}
-            audioLength={this.props.audioLength}
-            audioId={this.props.id}
-            currentAudioId={this.props.audioId}
-            timeFromEnd={timeFromEnd}
-            timeFromStart={this.state.currentTime}
-            offsetRatio={offsetRatio}
-            /*handleKnobClick={this.handleKnobClick}*/
-            handleTimeDrag={this.handleTimeDrag}
-            /*handleMouseUp={this.handleMouseUp}*/
-            snipping={this.props.snipping}
-            snipStartTime={this.props.snipStartTime}
-            snipStopTime={this.props.snipStopTime}
-            setSnipStartTime={this.props.setSnipStartTime}
-            setSnipStopTime={this.props.setSnipStopTime}
-          />
+    if (this.props.showing) {
+      return (
+        <LoadingOverlay
+          active={this.props.loading}
+          spinner
+        >
+        <div id='current-audio-player-container'>
+          <div id='current-audio-player'>
+            <audio
+              id={this.props.audioId}
+              src={this.props.audioUrl}
+              ref={this.audioRef}
+              onTimeUpdate={this.handleTimeUpdate}
+              onLoadedMetadata={this.updateAudioDuration}
+              onLoadStart={this.startLoading}
+              onCanPlay={this.stopLoading}
+            />
+            <PlayPause
+              togglePlay={this.togglePlay}
+              playing={this.props.playing}
+              currentAudioUrl={this.props.audioUrl}
+              audioRef={this.audioRef}
+              currentAudioId={this.props.audioId}
+              audioId={this.props.id}
+              stopSnipping={this.props.stopSnipping}
+            />
+            <Bar
+              audioRef={this.audioRef}
+              audioLength={this.props.audioLength}
+              audioId={this.props.id}
+              currentAudioId={this.props.audioId}
+              timeFromEnd={timeFromEnd}
+              timeFromStart={this.state.currentTime}
+              offsetRatio={offsetRatio}
+              handleTimeDrag={this.handleTimeDrag}
+              snipping={this.props.snipping}
+              snipStartTime={this.props.snipStartTime}
+              snipStopTime={this.props.snipStopTime}
+              setSnipStartTime={this.props.setSnipStartTime}
+              setSnipStopTime={this.props.setSnipStopTime}
+            />
+            {this.renderExpandCollapseButton()}
+          </div>
+          {this.renderSnippingContainer()}
         </div>
-        {this.renderSnippingContainer()}
-      </div>
-    )
+      </LoadingOverlay>
+      )
+    } else {
+      return (
+        <div>
+          <div>
+            <audio
+              id={this.props.audioId}
+              src={this.props.audioUrl}
+              ref={this.audioRef}
+              onTimeUpdate={this.handleTimeUpdate}
+            />
+          </div>
+        </div>
+      )
+    }
   }
 }
 
@@ -163,25 +206,26 @@ const mapStateToProps = state => {
     audioUrl: state.currentAudio.audioUrl,
     snipping: state.currentAudio.snipping,
     playing: state.currentAudio.playing,
+    showing: state.currentAudio.showing,
+    expanded: state.currentAudio.expanded,
     snipStartTime: state.currentAudio.snipStartTime,
     snipStopTime: state.currentAudio.snipStopTime,
-    endTime: state.currentAudio.endTime,
-    currentTime: state.currentAudio.audioCurrentTime,
-    audioLength: state.currentAudio.audioLength
+    audioLength: state.currentAudio.audioLength,
+    loading: state.currentAudio.loading
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setSnipStartTime: (startTime) => dispatch(setSnipStartTime(startTime)),
-    setSnipStopTime: (stopTime) => dispatch(setSnipStopTime(stopTime)),
-    startSnipping: () => dispatch(startSnipping()),
-    stopSnipping: () => dispatch(stopSnipping()),
-    discardSnip: () => dispatch(discardSnip()),
     play: () => dispatch(play()),
     pause: () => dispatch(pause()),
-    setAudioDuration: (duration) => dispatch(setAudioDuration(duration)),
-    setAudioCurrentTime: (currentTime) => dispatch(setAudioCurrentTime(currentTime))
+    expand: () => dispatch(expand()),
+    collapse: () => dispatch(collapse()),
+    updateAudioDuration: (duration) => dispatch(updateAudioDuration(duration)),
+    startLoading: () => dispatch(startLoading()),
+    stopLoading: () => dispatch(stopLoading()),
+    setSnipStartTime: (startTime) => dispatch(setSnipStartTime(startTime)),
+    setSnipStopTime: (stopTime) => dispatch(setSnipStopTime(stopTime)),
   }
 }
 

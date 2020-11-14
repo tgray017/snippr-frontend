@@ -34,8 +34,8 @@ export default class Bar extends Component {
   mouseMove = e => {
     let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
     let timelineWidth = this.timeline.offsetWidth
-    let handleWidth = this.state.dragElement.getBoundingClientRect().width
-    let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
+    let handleWidth = this.state.dragElement.children[0].getBoundingClientRect().width
+    let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft + (handleWidth/2)
 
     let offsetRatio
 
@@ -81,6 +81,7 @@ export default class Bar extends Component {
     let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
     let timelineWidth = this.timeline.offsetWidth
     let handleWidth = this.state.dragElement.getBoundingClientRect().width
+    /* dis bad need 2 figure out */
     let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
 
     let offsetRatio
@@ -93,6 +94,7 @@ export default class Bar extends Component {
       offsetRatio = handlePosition/timelineWidth
     }
 
+    /* need 2 add in additional offset from handle width here */
     if(this.stopSnipHandleContainer && handlePosition > this.stopSnipHandleContainer.offsetLeft) {
       this.stopSnipMouseMove(e)
     }

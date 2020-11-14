@@ -35,33 +35,24 @@ export default class Episode extends Component {
 
   togglePlay = async () => {
     let currentAudioElement
+    console.log(this.props)
 
     if (this.props.playing && this.props.id === this.props.currentAudioId) {
       currentAudioElement = document.getElementById(this.props.currentAudioId)
       currentAudioElement.pause()
       this.props.pause()
+    } else if (this.props.id === this.props.currentAudioId) {
+      currentAudioElement = document.getElementById(this.props.currentAudioId)
+      currentAudioElement.play()
+      this.props.play()
     } else {
+      this.props.discardSnip()
       await this.setAudio()
       currentAudioElement = document.getElementById(this.props.currentAudioId)
       currentAudioElement.play()
       this.props.play()
     }
-
-    /* why does ListenNotes say episodes are longer than they actually are?? */
-
-
-    /* clicking this button should send an action that sets the current audio in the reducer */
-    /* when currentAudio is non-null, a component should appear fixed to the bottom of the browser that renders the audio container */
-    /* this component should have a collapse/expand button that lets you hide the component while the audio is still playing */
-    /* when togglePlay is called, that should set AUDIO_EXPANDED to true */
-    /* if AUDIO_EXPANDED, show the expanded component; else show the collapsed component (just a bar with a ^ button)*/
-    /* should also set PLAYING to true */
-    /* will need to be able to set PLAYING and PAUSED in the same manner as the audio container */
   }
-
-
-
-
 
   renderDescription = () => {
     if(this.props.description) {

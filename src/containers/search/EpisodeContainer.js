@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Episode from '../../components/search/Episode'
-import { setAudio, play, pause } from '../../actions/audio'
+import { setAudio, play, pause, discardSnip } from '../../actions/audio'
 import { connect } from 'react-redux'
 /*import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'*/
 
@@ -26,6 +26,7 @@ class EpisodeContainer extends Component {
         playing={this.props.playing}
         play={this.props.play}
         pause={this.props.pause}
+        discardSnip={this.props.discardSnip}
       />
     )
   }
@@ -43,7 +44,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setAudio: (audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId) => dispatch(setAudio(audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId)),
     play: () => dispatch(play()),
-    pause: () => dispatch(pause())
+    pause: () => dispatch(pause()),
+    discardSnip: () => dispatch(discardSnip())
   }
 }
 

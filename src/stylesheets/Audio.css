@@ -234,4 +234,10 @@ div.menu-options > .dropdown-toggle:after {
   padding-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
+  padding-bottom: 10px;
+}
+
+.expand-collapse-button {
+  width: 20px;
+  margin: 5px;
 }

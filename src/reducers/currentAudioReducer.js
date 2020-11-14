@@ -1,6 +1,9 @@
 export default function currentAudioReducer(state = {
   playing: false,
+  showing: false,
+  expanded: true,
   snipping: false,
+  loading: false,
   snipStartTime: null,
   snipStopTime: null
 }, action) {
@@ -18,18 +21,6 @@ export default function currentAudioReducer(state = {
         stopTime: action.payload.stopTime,
         podcastName: action.payload.podcastName,
         podcastId: action.payload.podcastId
-      }
-
-    case 'SET_AUDIO_DURATION':
-      return {
-        ...state,
-        audioDuration: action.payload.audioDuration
-      }
-
-    case 'SET_AUDIO_CURRENT_TIME':
-      return {
-        ...state,
-        audioCurrentTime: action.payload.audioCurrentTime
       }
 
     case 'SET_SNIP_START_TIME':
@@ -69,13 +60,44 @@ export default function currentAudioReducer(state = {
     case 'PLAY':
       return {
         ...state,
-        playing: true
+        playing: true,
+        showing: true
       }
 
     case 'PAUSE':
       return {
         ...state,
         playing: false
+      }
+
+    case 'EXPAND':
+      return {
+        ...state,
+        expanded: true
+      }
+
+    case 'COLLAPSE':
+      return {
+        ...state,
+        expanded: false
+      }
+
+    case 'UPDATE_AUDIO_DURATION':
+      return {
+        ...state,
+        audioLength: action.payload.audioLength
+      }
+
+    case 'START_LOADING':
+      return {
+        ...state,
+        loading: true
+      }
+
+    case 'STOP_LOADING':
+      return {
+        ...state,
+        loading: false
       }
 
     default:
