@@ -1,23 +1,32 @@
+import { setAlert } from './shared'
+import { alertify } from '../Utils.js'
+
 export const discardSnip = () => {
   return (dispatch) => {
     dispatch({type: 'DISCARD_SNIP'})
   }
 }
 
-export const pause = () => {
+export const pause = (audioElement) => {
   return (dispatch) => {
+    audioElement.pause()
     dispatch({type: 'PAUSE'})
   }
 }
 
-export const play = () => {
+export const play = (audioElement) => {
   return (dispatch) => {
     dispatch({type: 'PLAY'})
+    audioElement.play()
+    .catch(error => {
+      dispatch(setAlert('error', alertify('Error playing audio')))
+    })
   }
 }
 
 export const setAudio = (audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId) => {
   return (dispatch) => {
+    dispatch({type: 'SHOW_AUDIO_CONTAINER'})
     dispatch({type: 'SET_AUDIO', payload: {
       audioId: audioId,
       audioUrl: audioUrl,

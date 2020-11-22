@@ -57,11 +57,16 @@ export default function currentAudioReducer(state = {
         snipStopTime: null
       }
 
+    case 'SHOW_AUDIO_CONTAINER':
+      return {
+        ...state,
+        showing: true
+      }
+
     case 'PLAY':
       return {
         ...state,
-        playing: true,
-        showing: true
+        playing: true
       }
 
     case 'PAUSE':

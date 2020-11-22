@@ -35,22 +35,18 @@ export default class Episode extends Component {
 
   togglePlay = async () => {
     let currentAudioElement
-    console.log(this.props)
 
     if (this.props.playing && this.props.id === this.props.currentAudioId) {
       currentAudioElement = document.getElementById(this.props.currentAudioId)
-      currentAudioElement.pause()
-      this.props.pause()
+      this.props.pause(currentAudioElement)
     } else if (this.props.id === this.props.currentAudioId) {
       currentAudioElement = document.getElementById(this.props.currentAudioId)
-      currentAudioElement.play()
-      this.props.play()
+      this.props.play(currentAudioElement)
     } else {
       this.props.discardSnip()
       await this.setAudio()
       currentAudioElement = document.getElementById(this.props.currentAudioId)
-      currentAudioElement.play()
-      this.props.play()
+      this.props.play(currentAudioElement)
     }
   }
 

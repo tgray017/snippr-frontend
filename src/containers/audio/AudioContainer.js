@@ -35,11 +35,9 @@ class AudioContainer extends Component {
 
   togglePlay = () => {
     if (this.props.playing) {
-      this.props.pause()
-      this.audioRef.current.pause()
+      this.props.pause(this.audioRef.current)
     } else {
-      this.props.play()
-      this.audioRef.current.play()
+      this.props.play(this.audioRef.current)
     }
   }
 
@@ -52,8 +50,7 @@ class AudioContainer extends Component {
     }
 
     if (currentTime >= this.props.stopTime) {
-      this.props.pause()
-      this.audioRef.current.pause()
+      this.props.pause(this.audioRef.current)
     }
 
     this.setState({
@@ -184,18 +181,7 @@ class AudioContainer extends Component {
       </LoadingOverlay>
       )
     } else {
-      return (
-        <div>
-          <div>
-            <audio
-              id={this.props.audioId}
-              src={this.props.audioUrl}
-              ref={this.audioRef}
-              onTimeUpdate={this.handleTimeUpdate}
-            />
-          </div>
-        </div>
-      )
+      return null
     }
   }
 }
@@ -217,8 +203,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    play: () => dispatch(play()),
-    pause: () => dispatch(pause()),
+    play: (audioElement) => dispatch(play(audioElement)),
+    pause: (audioElement) => dispatch(pause(audioElement)),
     expand: () => dispatch(expand()),
     collapse: () => dispatch(collapse()),
     updateAudioDuration: (duration) => dispatch(updateAudioDuration(duration)),

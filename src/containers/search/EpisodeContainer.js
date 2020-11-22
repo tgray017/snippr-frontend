@@ -43,8 +43,8 @@ const mapDispatchToProps = dispatch => {
   /* a bunch of this isn't being used; update here, in the reducer, and in the child components */
   return {
     setAudio: (audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId) => dispatch(setAudio(audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId)),
-    play: () => dispatch(play()),
-    pause: () => dispatch(pause()),
+    play: (audioElement) => dispatch(play(audioElement)),
+    pause: (audioElement) => dispatch(pause(audioElement)),
     discardSnip: () => dispatch(discardSnip())
   }
 }

@@ -20,6 +20,7 @@ export default class AlertComponent extends Component {
     let variant = this.props.status === 'success' ? 'success' : 'danger'
     return (
       <Alert
+        className='sticky-top'
         variant={variant}
         onClose={this.handleClose}
         dismissible
