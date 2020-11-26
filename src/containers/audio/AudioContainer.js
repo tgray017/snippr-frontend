@@ -110,8 +110,10 @@ class AudioContainer extends Component {
   }
 
   updateAudioDuration = () => {
-    let audio = document.getElementById(this.props.audioId)
-    this.props.updateAudioDuration(audio.duration)
+    if (this.props.audioType !== 'snippet') {
+      let audio = document.getElementById(this.props.audioId)
+      this.props.updateAudioDuration(audio.duration)
+    }
   }
 
   startLoading = () => {
@@ -197,7 +199,10 @@ const mapStateToProps = state => {
     snipStartTime: state.currentAudio.snipStartTime,
     snipStopTime: state.currentAudio.snipStopTime,
     audioLength: state.currentAudio.audioLength,
-    loading: state.currentAudio.loading
+    loading: state.currentAudio.loading,
+    audioType: state.currentAudio.audioType,
+    startTime: state.currentAudio.startTime,
+    stopTime: state.currentAudio.stopTime
   }
 }
 

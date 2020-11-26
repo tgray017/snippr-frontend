@@ -130,49 +130,79 @@ export default class LibraryElement extends Component {
     )
   }
 
+  setAudio = () => {
+    this.props.setAudio(
+      this.props.id,
+      this.props.audio,
+      this.props.audioLength,
+      this.props.title,
+      this.props.description,
+      this.props.audioType,
+      this.props.startTime,
+      this.props.stopTime,
+      this.props.podcastName,
+      this.props.podcastId
+    )
+  }
+
+  togglePlay = async () => {
+    let currentAudioElement
+
+    if (this.props.playing && this.props.id === this.props.currentAudioId) {
+      currentAudioElement = document.getElementById(this.props.currentAudioId)
+      this.props.pause(currentAudioElement)
+    } else if (this.props.id === this.props.currentAudioId) {
+      currentAudioElement = document.getElementById(this.props.currentAudioId)
+      this.props.play(currentAudioElement)
+    } else {
+      this.props.discardSnip()
+      await this.setAudio()
+      currentAudioElement = document.getElementById(this.props.currentAudioId)
+      this.props.play(currentAudioElement)
+    }
+  }
+
   render() {
+    const playPauseImg = (this.props.playing && this.props.id === this.props.currentAudioId) ? require("../../assets/images/icons/pause-circle-outline.svg") : require("../../assets/images/icons/play-circle-outline.svg")
+
     return (
       <div className = "m-3 episode">
-      <AnimationWrapper
-        reset={true}
-        config={{
-          color: {
-            initial: 'black',
-            onHover: '#4e54c8',
-          },
-        }}
-      >
-        <Card
-          className="mb-3"
+        <AnimationWrapper
+          reset={true}
+          config={{
+            color: {
+              initial: 'black',
+              onHover: '#4e54c8',
+            },
+          }}
         >
-          <Card.Body>
-            <Card.Title>
-              {this.props.title}
-              {this.renderAudioTypeIndicator()}
-
-            </Card.Title>
-            <Card.Text>
-              {this.renderDescription()}
-            </Card.Text>
-            {this.renderSourceDetails()}
-            {this.renderDate()}
-          </Card.Body>
-          <Card.Footer>
-            <AudioContainer
-              id={this.props.id}
-              audio={this.props.audio}
-              audioLength={this.props.audioLength}
-              title={this.props.title}
-              description={this.props.description}
-              audioType={this.props.audioType}
-              startTime={this.props.startTime}
-              stopTime={this.props.stopTime}
-              podcastName={this.props.podcastName}
-              podcastId={this.props.podcastId}
-            />
-          </Card.Footer>
-        </Card>
-      </AnimationWrapper>
+          <Card
+            className="mb-3"
+          >
+            <div className="clearfix">
+              <div className="custom-column episode-play-pause">
+                <input
+                  type="image"
+                  src={playPauseImg}
+                  onClick={this.togglePlay}
+                />
+              </div>
+              <div className="custom-column episode-details">
+                <Card.Body>
+                  <Card.Title>
+                    {this.props.title}
+                    {this.renderAudioTypeIndicator()}
+                  </Card.Title>
+                  <Card.Text>
+                    {this.renderDescription()}
+                  </Card.Text>
+                    {this.renderSourceDetails()}
+                    {this.renderDate()}
+                </Card.Body>
+              </div>
+            </div>
+          </Card>
+        </AnimationWrapper>
       </div>
     )
   }

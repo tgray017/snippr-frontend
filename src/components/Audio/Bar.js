@@ -32,10 +32,8 @@ export default class Bar extends Component {
   }
 
   mouseMove = e => {
-    let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
-    let timelineWidth = this.timeline.offsetWidth
-    let handleWidth = this.state.dragElement.children[0].getBoundingClientRect().width
-    let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft + (handleWidth/2)
+    let timelineWidth = document.getElementById('audio-progress-bar').getBoundingClientRect().width
+    let handlePosition = e.pageX - document.getElementById('audio-progress-bar').getBoundingClientRect().x
 
     let offsetRatio
 
@@ -81,8 +79,10 @@ export default class Bar extends Component {
     let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
     let timelineWidth = this.timeline.offsetWidth
     let handleWidth = this.state.dragElement.getBoundingClientRect().width
-    /* dis bad need 2 figure out */
+
     let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
+    timelineWidth = document.getElementById('audio-progress-bar').getBoundingClientRect().width
+    handlePosition = e.pageX - document.getElementById('audio-progress-bar').getBoundingClientRect().x
 
     let offsetRatio
 
@@ -310,6 +310,7 @@ export default class Bar extends Component {
           })}
         </span>
         <div
+          id='audio-progress-bar'
           className="bar__progress"
           ref={(timeline) => { this.timeline = timeline }}
           onClick={this.timelineClick}
@@ -322,6 +323,7 @@ export default class Bar extends Component {
           }}
         >
           <span
+            id='audio-progress-knob'
             className="bar__progress__knob lady-lips-gradient color-block-5 mx-auto rounded-circle z-depth-1-half"
             ref={(barProgressKnob) => { this.barProgressKnob = barProgressKnob }}
             onMouseDown={this.mouseDown}

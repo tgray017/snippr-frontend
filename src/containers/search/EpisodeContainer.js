@@ -19,6 +19,7 @@ class EpisodeContainer extends Component {
         audio={this.props.audio}
         audioLength={this.props.audioLength}
         id={this.props.id}
+        audioType={this.props.audioType}
         podcastName={this.props.podcastName}
         podcastId={this.props.podcastId}
         setAudio={this.props.setAudio}

@@ -59,7 +59,11 @@ class SnippingContainer extends Component {
     if (type === 'snippet-library') {
       this.props.addSnipToLibrary(this.props.userId, this.props.title, this.props.audio, this.props.audioLength, this.props.podcastName, this.props.podcastId, this.props.src, this.props.snipStartTime, this.props.snipStopTime)
     } else if (type === 'snippet-download') {
-      this.props.downloadSnip(this.props.title, this.props.audio, this.props.audioLength, this.props.snipStartTime, this.props.snipStopTime)
+      if (this.props.audioType === 'snippet') {
+        this.props.downloadSnip(this.props.title, this.props.audio.split('#t=')[0], this.props.audioLength, this.props.startTime, this.props.stopTime)
+      } else {
+        this.props.downloadSnip(this.props.title, this.props.audio, this.props.audioLength, this.props.snipStartTime, this.props.snipStopTime)
+      }
     } else if (type === 'episode-library') {
       this.props.addEpisodeToLibrary(this.props.userId, this.props.title, this.props.description, this.props.audio, this.props.audioLength, this.props.podcastName, this.props.podcastId, this.props.src)
     }
@@ -87,43 +91,93 @@ class SnippingContainer extends Component {
   renderDownloadSnipButton = () => {
     let downloadSnippetImage = this.props.downloading ? require('../../assets/images/icons/downloading-snippet.gif') : require('../../assets/images/icons/download-snippet-new.svg')
 
-    let addSnipOption
-    if (this.state.clickNumber === 0) {
-      addSnipOption = true
+    let disableSnipOption
+    if (this.props.audioType === 'snippet') {
+      disableSnipOption = false
+    } else if (this.state.clickNumber === 0) {
+      disableSnipOption = true
     } else if (this.state.clickNumber === 1) {
-      addSnipOption = true
+      disableSnipOption = true
     } else if (this.props.snipping) {
-      addSnipOption = false
+      disableSnipOption = false
     } else {
-      addSnipOption = true
+      disableSnipOption = true
     }
 
     if (this.props.downloading) {
       return (
-        <Button
-           variant="outline-secondary"
-           className="m-2 p-1 button-container"
-           disabled={addSnipOption}
-           onClick={() => this.handleActionClick('snippet-download')}
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 100, hide: 100 }}
+          overlay={this.renderTooltip('snippet-download')}
         >
-          <RingLoader
-            loading={this.props.downloading}
-            size={50}
-            margin={0}
-            padding={0}
-          />
-        </Button>
+          <Button
+             variant="outline-secondary"
+             className="m-2 p-1 button-container"
+             disabled={disableSnipOption}
+             onClick={() => this.handleActionClick('snippet-download')}
+          >
+            <RingLoader
+              loading={this.props.downloading}
+              size={50}
+              margin={0}
+              padding={0}
+            />
+          </Button>
+        </OverlayTrigger>
       )
     } else {
       return (
-        <Button
-           variant="outline-secondary"
-           className="m-2 p-1 button-container"
-           disabled={addSnipOption}
-           onClick={() => this.handleActionClick('snippet-download')}
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 100, hide: 100 }}
+          overlay={this.renderTooltip('snippet-download')}
         >
-          <img className='button' src={`${downloadSnippetImage}`} alt='download snippet'></img>
-        </Button>
+          <Button
+             variant="outline-secondary"
+             className="m-2 p-1 button-container"
+             disabled={disableSnipOption}
+             onClick={() => this.handleActionClick('snippet-download')}
+          >
+            <img className='button' src={`${downloadSnippetImage}`} alt='download snippet'></img>
+          </Button>
+        </OverlayTrigger>
+      )
+    }
+  }
+
+  renderSnipButton = () => {
+    let snipImage
+    let snipToolTipText
+
+    if (this.state.clickNumber === 1 && this.props.snipping) {
+      snipImage = require('../../assets/images/icons/stop-snip.svg')
+      snipToolTipText = 'Stop snipping'
+    } else if (this.state.clickNumber === 2 && this.props.snipping) {
+      snipImage = require('../../assets/images/icons/trash-can.svg')
+      snipToolTipText = 'Discard snip'
+    } else {
+      snipImage = require('../../assets/images/icons/start-snip.svg')
+      snipToolTipText = 'Start snipping'
+    }
+
+    if (this.props.audioType !== 'snippet') {
+      return (
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 100, hide: 100 }}
+          overlay={this.renderTooltip('snippet', snipToolTipText)}
+        >
+          <div>
+            <Button
+               variant="outline-secondary"
+               className="m-2 p-1 button-container"
+               onClick={this.handleSnipClick}
+            >
+              <img className='button' src={`${snipImage}`} alt= 'snip button'></img>
+            </Button>
+          </div>
+        </OverlayTrigger>
       )
     }
   }
@@ -131,7 +185,7 @@ class SnippingContainer extends Component {
   renderAddEpisodeToLibrary = () => {
     let addEpisodeToLibraryImage = require('../../assets/images/icons/add-episode-to-library.svg')
 
-    if (this.props.audioType !== 'library-episode') {
+    if (this.props.audioType === 'search-episode') {
       return (
         <OverlayTrigger
           placement="top"
@@ -146,6 +200,39 @@ class SnippingContainer extends Component {
                onClick={() => this.handleActionClick('episode-library')}
             >
               <img className='button' src={`${addEpisodeToLibraryImage}`} alt='add episode to library'></img>
+            </Button>
+          </div>
+        </OverlayTrigger>
+      )
+    }
+  }
+
+  renderAddSnippetToLibrary = () => {
+    let addSnippetToLibraryImage = require('../../assets/images/icons/add-snippet-to-library.svg')
+    let addSnipOption
+    if (this.state.clickNumber === 1 && this.props.snipping) {
+      addSnipOption = true
+    } else if (this.state.clickNumber === 2 && this.props.snipping) {
+      addSnipOption = false
+    } else {
+      addSnipOption = true
+    }
+
+    if (this.props.audioType !== 'snippet') {
+      return (
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 100, hide: 100 }}
+          overlay={this.renderTooltip('snippet-library')}
+        >
+          <div>
+            <Button
+               variant="outline-secondary"
+               className="m-2 p-1 button-container"
+               disabled={addSnipOption || !this.props.authenticated}
+               onClick={() => this.handleActionClick('snippet-library')}
+            >
+              <img className='button' src={`${addSnippetToLibraryImage}`} alt='add snippet to library'></img>
             </Button>
           </div>
         </OverlayTrigger>
@@ -172,54 +259,13 @@ class SnippingContainer extends Component {
       addSnipOption = true
     }
 
-    let addSnippetToLibraryImage = require('../../assets/images/icons/add-snippet-to-library.svg')
 
     return (
       <div className="mt-1 snipping-container">
-        <OverlayTrigger
-          placement="top"
-          delay={{ show: 100, hide: 100 }}
-          overlay={this.renderTooltip('snippet', snipToolTipText)}
-        >
-          <div>
-            <Button
-               variant="outline-secondary"
-               className="m-2 p-1 button-container"
-               onClick={this.handleSnipClick}
-            >
-              <img className='button' src={`${snipImage}`} alt= 'snip button'></img>
-            </Button>
-          </div>
-        </OverlayTrigger>
-
+        {this.renderSnipButton()}
         {this.renderAddEpisodeToLibrary()}
-
-        <OverlayTrigger
-          placement="top"
-          delay={{ show: 100, hide: 100 }}
-          overlay={this.renderTooltip('snippet-library')}
-        >
-          <div>
-            <Button
-               variant="outline-secondary"
-               className="m-2 p-1 button-container"
-               disabled={addSnipOption || !this.props.authenticated}
-               onClick={() => this.handleActionClick('snippet-library')}
-            >
-              <img className='button' src={`${addSnippetToLibraryImage}`} alt='add snippet to library'></img>
-            </Button>
-          </div>
-        </OverlayTrigger>
-
-        <OverlayTrigger
-          placement="top"
-          delay={{ show: 100, hide: 100 }}
-          overlay={this.renderTooltip('snippet-download')}
-        >
-          <div>
-            {this.renderDownloadSnipButton()}
-          </div>
-        </OverlayTrigger>
+        {this.renderAddSnippetToLibrary()}
+        {this.renderDownloadSnipButton()}
       </div>
     )
   }
@@ -239,7 +285,9 @@ const mapStateToProps = state => {
     description: state.currentAudio.description,
     audio: state.currentAudio.audioUrl,
     src: state.currentAudio.audioUrl,
-    snipping: state.currentAudio.snipping
+    snipping: state.currentAudio.snipping,
+    startTime: state.currentAudio.startTime,
+    stopTime: state.currentAudio.stopTime
   }
 }
 
