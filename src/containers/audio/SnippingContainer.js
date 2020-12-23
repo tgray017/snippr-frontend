@@ -240,32 +240,52 @@ class SnippingContainer extends Component {
     }
   }
 
-  render() {
-    let snipImage
-    let snipToolTipText
-    let addSnipOption
-
-    if (this.state.clickNumber === 1 && this.props.snipping) {
-      snipImage = require('../../assets/images/icons/stop-snip.svg')
-      snipToolTipText = 'Stop snipping'
-      addSnipOption = true
-    } else if (this.state.clickNumber === 2 && this.props.snipping) {
-      snipImage = require('../../assets/images/icons/trash-can.svg')
-      snipToolTipText = 'Discard snip'
-      addSnipOption = false
-    } else {
-      snipImage = require('../../assets/images/icons/start-snip.svg')
-      snipToolTipText = 'Start snipping'
-      addSnipOption = true
-    }
-
-
+  renderForwardButton = () => {
+    let forwardImage = require('../../assets/images/icons/forward-10.svg')
     return (
-      <div className="mt-1 snipping-container">
-        {this.renderSnipButton()}
-        {this.renderAddEpisodeToLibrary()}
-        {this.renderAddSnippetToLibrary()}
-        {this.renderDownloadSnipButton()}
+      <div id="forward-10-button">
+        <input
+          type="image"
+          src={forwardImage}
+          onClick={this.props.handleFastForward}
+        />
+      </div>
+    )
+  }
+
+  renderRewindButton = () => {
+    let rewindImage = require('../../assets/images/icons/rewind-10.svg')
+    return (
+      <div id="rewind-10-button">
+        <input
+          type="image"
+          src={rewindImage}
+          onClick={this.props.handleRewind}
+        />
+      </div>
+    )
+  }
+
+  renderEpisodeName = () => {
+    return (
+      <div id="current-audio-podcast-name">
+        {this.props.podcastName} - {this.props.title}
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <div>
+        {this.renderEpisodeName()}
+        <div className="mt-1 snipping-container">
+          {this.renderRewindButton()}
+          {this.renderSnipButton()}
+          {this.renderAddEpisodeToLibrary()}
+          {this.renderAddSnippetToLibrary()}
+          {this.renderDownloadSnipButton()}
+          {this.renderForwardButton()}
+        </div>
       </div>
     )
   }

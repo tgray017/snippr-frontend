@@ -29,7 +29,7 @@ export const logout = (strategy = null) => {
   return () => {
     sessionService.deleteSession()
     sessionService.deleteUser()
-    if (strategy === "facebook") {
+    if (strategy === "facebook" && window.FB) {
       window.FB.logout()
     }
   }

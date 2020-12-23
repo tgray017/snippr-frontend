@@ -32,6 +32,7 @@ export default class SearchPodcastsInput extends Component {
         <Form.Group controlId="search-podcasts">
           <Form.Control
             type="text"
+            className="center"
             placeholder="Search podcasts"
             onChange={this.handleChange}
             value={this.state.searchInput}

@@ -49,6 +49,8 @@
     color-stop(0.50, #6164d2),
     color-stop(0.92, #8079eb),
     to(#8f94fb));
+
+  z-index: 100;
 }
 
 .bar__snipping__knob__container {
@@ -60,7 +62,7 @@
 
 .bar__snip__start__knob {
   position: absolute;
-  height: 40px;
+  height: 35px;
   width: 2px;
   background-color: red;
   border-radius: 5%;
@@ -68,7 +70,7 @@
 
 .bar__snip__stop__knob {
   position: absolute;
-  height: 40px;
+  height: 35px;
   width: 2px;
   background-color: red;
   border-radius: 5%;
@@ -100,14 +102,16 @@
   position: absolute;
   right: 2px;
   color: red;
-  top: 20px;
+  top: 14px;
+  font-size: 14px;
 }
 
 .bar__snip__stop__knob__time {
   position: absolute;
   left: 2px;
   color: red;
-  top: 20px;
+  top: 14px;
+  font-size: 14px;
 }
 
 .bar__time {
@@ -231,15 +235,29 @@ div.menu-options > .dropdown-toggle:after {
 #current-audio-player {
   display: flex;
   align-items: center;
-  padding-top: 10px;
-  /*margin-left: 10px;*/
-  /*margin-right: 10px;*/
+  padding-top: 5px;
   padding-left: 10px;
   padding-right: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+#current-audio-podcast-name {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 2px;
 }
 
 .expand-collapse-button {
   width: 20px;
   margin: 5px;
+}
+
+#forward-10-button {
+  width: 40px;
+  margin-left: 10px
+}
+
+#rewind-10-button {
+  width: 40px;
+  margin-right: 10px
 }

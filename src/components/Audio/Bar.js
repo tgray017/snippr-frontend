@@ -212,6 +212,7 @@ export default class Bar extends Component {
       this.props.setSnipStartTime(this.state.snipStartTime)
     }
     if(this.state.snipStopTime || this.state.snipStopTime === 0) {
+      console.log(this)
       this.props.setSnipStopTime(this.state.snipStopTime)
     }
   }
@@ -223,6 +224,7 @@ export default class Bar extends Component {
       this.props.setSnipStartTime(this.state.snipStartTime)
     }
     if(this.state.snipStopTime || this.state.snipStopTime === 0) {
+      console.log(this)
       this.props.setSnipStopTime(this.state.snipStopTime)
     }
   }
@@ -240,6 +242,12 @@ export default class Bar extends Component {
   }
 
   renderStartSnipKnob = () => {
+    /* the problem is that state isn't updated when props are updated */
+    /* so this.props.snipStartTime may be null after discarding snip */
+    /* but this.state.snipStartTime is still a non-null value */
+    /* need to update this.state.snipStartTime when new props are received */
+    /* or is it vice versa? */
+
     let offsetRatio = (this.props.snipStartTime/this.props.audioLength)*100
 
     if(this.props.snipping && (this.props.snipStartTime || this.props.snipStartTime === 0)) {
@@ -333,7 +341,7 @@ export default class Bar extends Component {
           {this.renderStopSnipKnob()}
         </div>
         <span className={`bar__time ${this.state.timeWidthClass}`}>
-          {moment.duration(this.props.timeFromEnd, 'seconds').format(this.state.timeFormat, {
+          -{moment.duration(this.props.timeFromEnd, 'seconds').format(this.state.timeFormat, {
             trim: false
           })}
         </span>

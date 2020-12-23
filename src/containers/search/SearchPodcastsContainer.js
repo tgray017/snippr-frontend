@@ -39,7 +39,6 @@ class SearchPodcastsContainer extends Component {
   }
 
   renderListenNotesLogo = () => {
-    if(this.props.results && this.props.results.length !== 0) {
       return (
         <div
           className="mb-4 text-center"
@@ -51,7 +50,6 @@ class SearchPodcastsContainer extends Component {
           />
         </div>
       )
-    }
   }
 
   render() {

@@ -79,6 +79,7 @@ export const expand = () => {
 export const collapse = () => {
   return (dispatch) => {
     dispatch({type: 'COLLAPSE'})
+    dispatch({type: 'DISCARD_SNIP'})
   }
 }
 

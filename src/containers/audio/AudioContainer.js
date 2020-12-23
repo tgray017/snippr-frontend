@@ -31,6 +31,23 @@ class AudioContainer extends Component {
       playing: false,
       playAfterDrag: false
     }
+
+    document.addEventListener('keydown', e => {
+      if (this.audioRef.current) {
+        if (e.keyCode === 37) {
+          this.handleRewind(1)
+        } else if (e.keyCode === 39) {
+          this.handleFastForward(1)
+
+        /* removed as this prevents searching */
+        /*
+        } else if (e.keyCode === 32) {
+          e.preventDefault()
+          this.togglePlay()
+        */
+        }
+      }
+    })
   }
 
   togglePlay = () => {
@@ -75,12 +92,50 @@ class AudioContainer extends Component {
     })
   }
 
+  handleFastForward = (seconds = 10) => {
+    let currentTime
+    let maxTime = this.props.audioType === 'snippet' ? this.props.stopTime : this.props.audioLength
+
+    if (this.state.currentTime + seconds >= maxTime) {
+      currentTime = maxTime
+    } else {
+      currentTime = this.state.currentTime + seconds
+    }
+
+    this.setState({
+      ...this.state,
+      currentTime: currentTime
+    }, () => {
+      this.audioRef.current.currentTime = this.state.currentTime
+    })
+  }
+
+  handleRewind = (seconds = 10) => {
+    let currentTime
+    let minTime = this.props.audioType === 'snippet' ? this.props.startTime : 0
+
+    if (this.state.currentTime - seconds <= minTime) {
+      currentTime = minTime
+    } else {
+      currentTime = this.state.currentTime - seconds
+    }
+
+    this.setState({
+      ...this.state,
+      currentTime: currentTime
+    }, () => {
+      this.audioRef.current.currentTime = this.state.currentTime
+    })
+  }
+
   renderSnippingContainer = () => {
     if(this.props.expanded) {
       return (
         <SnippingContainer
           currentTime={this.state.currentTime}
           audioType={this.props.audioType}
+          handleFastForward={() => this.handleFastForward()}
+          handleRewind={() => this.handleRewind()}
         />
       )
     }
@@ -141,7 +196,9 @@ class AudioContainer extends Component {
           active={this.props.loading}
           spinner
         >
-        <div id='current-audio-player-container'>
+        <div
+          id='current-audio-player-container'
+        >
           <div id='current-audio-player'>
             <audio
               id={this.props.audioId}
@@ -216,7 +273,7 @@ const mapDispatchToProps = dispatch => {
     startLoading: () => dispatch(startLoading()),
     stopLoading: () => dispatch(stopLoading()),
     setSnipStartTime: (startTime) => dispatch(setSnipStartTime(startTime)),
-    setSnipStopTime: (stopTime) => dispatch(setSnipStopTime(stopTime)),
+    setSnipStopTime: (stopTime) => dispatch(setSnipStopTime(stopTime))
   }
 }
 

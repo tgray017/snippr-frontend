@@ -24,7 +24,9 @@ export default class LibraryElement extends Component {
   }
 
   removeFromLibrary = () => {
-    this.props.removeFromLibrary(this.props.id, this.props.userId)
+    if (window.confirm("Are you sure you want to remove this from your library?")) {
+      this.props.removeFromLibrary(this.props.id, this.props.userId)
+    }
   }
 
   renderDescription = () => {
@@ -116,7 +118,7 @@ export default class LibraryElement extends Component {
         >
           <Button
              className='ml-2 p-0'
-             onClick={() => this.removeFromLibrary()}
+             onClick={this.removeFromLibrary}
              variant='link'
           >
             <img
