@@ -60,56 +60,30 @@
   justify-content: center;
 }
 
-.bar__snip__start__knob {
+#snip-start-knob {
   position: absolute;
-  height: 35px;
-  width: 2px;
-  background-color: red;
-  border-radius: 5%;
+  right: 100%;
+  height: 50px;
 }
 
-.bar__snip__stop__knob {
+#snip-stop-knob {
   position: absolute;
-  height: 35px;
-  width: 2px;
-  background-color: red;
-  border-radius: 5%;
-}
-
-.bar__snip__start__knob:before {
-  position: absolute;
-  top: -20%;
-  right: 0px;
-  height: 12px;
-  width: 12px;
-  background: red;
-  content: "";
-  border-radius: 50%;
-}
-
-.bar__snip__stop__knob:before {
-  position: absolute;
-  top: -20%;
-  left: 0px;
-  height: 12px;
-  width: 12px;
-  background: red;
-  content: "";
-  border-radius: 50%;
+  left: 100%;
+  height: 50px;
 }
 
 .bar__snip__start__knob__time {
   position: absolute;
-  right: 2px;
-  color: red;
+  right: 5px;
+  color: rgb(100, 105, 209);
   top: 14px;
   font-size: 14px;
 }
 
 .bar__snip__stop__knob__time {
   position: absolute;
-  left: 2px;
-  color: red;
+  left: 5px;
+  color: rgb(100, 105, 209);
   top: 14px;
   font-size: 14px;
 }

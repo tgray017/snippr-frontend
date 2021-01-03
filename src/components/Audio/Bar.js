@@ -24,13 +24,6 @@ export default class Bar extends Component {
     }
   }
 
-  componentDidMount() {
-    this.setState({
-      ...this.state,
-      dragElement: this.barProgressKnobContainer
-    })
-  }
-
   mouseMove = e => {
     let timelineWidth = document.getElementById('audio-progress-bar').getBoundingClientRect().width
     let handlePosition = e.pageX - document.getElementById('audio-progress-bar').getBoundingClientRect().x
@@ -46,13 +39,13 @@ export default class Bar extends Component {
     }
 
     if (handlePosition >= 0 && handlePosition <= timelineWidth) {
-      this.state.dragElement.style.marginLeft = `${offsetRatio*100}%`
+      this.barProgressKnobContainer.style.marginLeft = `${offsetRatio*100}%`
     }
     if (handlePosition < 0) {
-      this.state.dragElement.style.marginLeft = "0%"
+      this.barProgressKnobContainer.style.marginLeft = "0%"
     }
     if (handlePosition > timelineWidth) {
-      this.state.dragElement.style.marginLeft = "100%"
+      this.barProgressKnobContainer.style.marginLeft = "100%"
     }
     this.props.handleTimeDrag(offsetRatio)
   }
@@ -60,13 +53,8 @@ export default class Bar extends Component {
   mouseDown = (e) => {
     e.preventDefault()
     if(e.target === this.barProgressKnob) {
-      this.setState({
-        ...this.state,
-        dragElement: this.barProgressKnobContainer
-      }, () => {
-        window.addEventListener('mousemove', this.mouseMove)
-        window.addEventListener('mouseup', this.mouseUp)
-      })
+      window.addEventListener('mousemove', this.mouseMove)
+      window.addEventListener('mouseup', this.mouseUp)
     }
   }
 
@@ -78,7 +66,7 @@ export default class Bar extends Component {
   startSnipMouseMove = (e) => {
     let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
     let timelineWidth = this.timeline.offsetWidth
-    let handleWidth = this.state.dragElement.getBoundingClientRect().width
+    let handleWidth = this.startSnipHandleContainer.getBoundingClientRect().width
 
     let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
     timelineWidth = document.getElementById('audio-progress-bar').getBoundingClientRect().width
@@ -132,7 +120,7 @@ export default class Bar extends Component {
   stopSnipMouseMove = (e) => {
     let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
     let timelineWidth = this.timeline.offsetWidth
-    let handleWidth = this.state.dragElement.getBoundingClientRect().width
+    let handleWidth = this.stopSnipHandleContainer.getBoundingClientRect().width
     let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
 
     let offsetRatio
@@ -182,26 +170,8 @@ export default class Bar extends Component {
   startSnipMouseDown = (e) => {
     e.preventDefault()
     if(e.target === this.startSnipHandle) {
-      this.setState({
-        ...this.state,
-        dragElement: this.startSnipHandleContainer
-      }, () => {
-        window.addEventListener('mousemove', this.startSnipMouseMove)
-        window.addEventListener('mouseup', this.startSnipMouseUp)
-      })
-    }
-  }
-
-  stopSnipMouseDown = (e) => {
-    e.preventDefault()
-    if(e.target === this.stopSnipHandle) {
-      this.setState({
-        ...this.state,
-        dragElement: this.stopSnipHandleContainer
-      }, () => {
-        window.addEventListener('mousemove', this.stopSnipMouseMove)
-        window.addEventListener('mouseup', this.stopSnipMouseUp)
-      })
+      window.addEventListener('mousemove', this.startSnipMouseMove)
+      window.addEventListener('mouseup', this.startSnipMouseUp)
     }
   }
 
@@ -212,9 +182,9 @@ export default class Bar extends Component {
       this.props.setSnipStartTime(this.state.snipStartTime)
     }
     if(this.state.snipStopTime || this.state.snipStopTime === 0) {
-      console.log(this)
       this.props.setSnipStopTime(this.state.snipStopTime)
     }
+    this.snippingKnobDrag = true
   }
 
   stopSnipMouseUp = (e) => {
@@ -224,21 +194,26 @@ export default class Bar extends Component {
       this.props.setSnipStartTime(this.state.snipStartTime)
     }
     if(this.state.snipStopTime || this.state.snipStopTime === 0) {
-      console.log(this)
       this.props.setSnipStopTime(this.state.snipStopTime)
+    }
+    this.snippingKnobDrag = true
+  }
+
+  stopSnipMouseDown = (e) => {
+    e.preventDefault()
+    if(e.target === this.stopSnipHandle) {
+      window.addEventListener('mousemove', this.stopSnipMouseMove)
+      window.addEventListener('mouseup', this.stopSnipMouseUp)
     }
   }
 
   timelineClick = (e) => {
-    if(e.target === this.timeline && this.state.dragElement === this.barProgressKnobContainer) {
+    /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+    if (!this.snippingKnobDrag && e.target === this.timeline) {
       e.persist()
-      this.setState({
-        ...this.state,
-        dragElement: this.barProgressKnobContainer
-      }, () => {
-        this.mouseMove(e)
-      })
+      this.mouseMove(e)
     }
+    this.snippingKnobDrag = false
   }
 
   renderStartSnipKnob = () => {
@@ -247,6 +222,7 @@ export default class Bar extends Component {
     /* but this.state.snipStartTime is still a non-null value */
     /* need to update this.state.snipStartTime when new props are received */
     /* or is it vice versa? */
+    let img = require('../../assets/images/icons/start-snip-knob.svg')
 
     let offsetRatio = (this.props.snipStartTime/this.props.audioLength)*100
 
@@ -259,12 +235,23 @@ export default class Bar extends Component {
             marginLeft: `${offsetRatio}%`
           }}
         >
+
+          {/*
           <span
             className="bar__snip__start__knob"
             ref={(startSnipHandle) => { this.startSnipHandle = startSnipHandle }}
             onMouseDown={this.startSnipMouseDown}
           >
           </span>
+          */}
+          <input
+            type="image"
+            id="snip-start-knob"
+            ref={(startSnipHandle) => { this.startSnipHandle = startSnipHandle }}
+            src={img}
+            alt="start snip knob"
+            onMouseDown={this.startSnipMouseDown}
+          />
           <span
             className="bar__snip__start__knob__time"
             ref={(startSnipHandleTime) => { this.startSnipHandleTime = startSnipHandleTime }}
@@ -279,6 +266,7 @@ export default class Bar extends Component {
   }
 
   renderStopSnipKnob = () => {
+    let img = require('../../assets/images/icons/stop-snip-knob.svg')
     let offsetRatio = (this.props.snipStopTime/this.props.audioLength)*100
 
     if(this.props.snipping && (this.props.snipStopTime || this.props.snipStopTime === 0)) {
@@ -290,12 +278,26 @@ export default class Bar extends Component {
             marginLeft: `${offsetRatio}%`
           }}
         >
+          {/*
           <span
             className="bar__snip__stop__knob"
             ref={(stopSnipHandle) => { this.stopSnipHandle = stopSnipHandle }}
             onMouseDown={this.stopSnipMouseDown}
           >
           </span>
+          */}
+
+
+          <input
+            type="image"
+            id="snip-stop-knob"
+            ref={(stopSnipHandle) => { this.stopSnipHandle = stopSnipHandle }}
+            src={img}
+            alt="stop snip knob"
+            onMouseDown={this.stopSnipMouseDown}
+          />
+
+
           <span
             className="bar__snip__stop__knob__time"
             ref={(stopSnipHandleTime) => { this.stopSnipHandleTime = stopSnipHandleTime }}
