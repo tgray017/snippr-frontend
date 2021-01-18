@@ -20,38 +20,15 @@ import '../../stylesheets/Audio.css'
 
 class SnippingContainer extends Component {
 
-  state = {
-    clickNumber: 0
-  }
-
   handleSnipClick = () => {
-    /* the following condition is meant to handle the third click */
-    if(this.props.snipping && this.props.snipStartTime && this.props.snipStopTime) {
-      this.props.discardSnip()
-      this.setState({
-        clickNumber: 0
-      })
-    /* the following two conditions are meant to handle the second click */
-    /* the first of the two conditions handles the case where the snipStart handle */
-    /* is ahead of the current time, to prevent the stopSnip handle from appearing */
-    /* before the startSnip handle */
-    } else if (this.props.snipping && this.props.snipStartTime && this.props.currentTime < this.props.snipStartTime) {
-      this.props.setSnipStopTime(this.props.snipStartTime)
-      this.setState({
-        clickNumber: 2
-      })
-    } else if (this.props.snipping) {
-      this.props.setSnipStopTime(this.props.currentTime)
-      this.setState({
-        clickNumber: 2
-      })
-    /* the following condition is meant to handle the first click */
-    } else {
+    if (this.props.snipStatus === 'NOT_STARTED') {
       this.props.startSnipping()
       this.props.setSnipStartTime(this.props.currentTime)
-      this.setState({
-        clickNumber: 1
-      })
+    } else if (this.props.snipStatus === 'START_TIME_SET') {
+      this.props.stopSnipping()
+      this.props.setSnipStopTime(this.props.currentTime < this.props.snipStartTime ? this.props.snipStartTime : this.props.currentTime)
+    } else {
+      this.props.discardSnip()
     }
   }
 
@@ -92,13 +69,7 @@ class SnippingContainer extends Component {
     let downloadSnippetImage = this.props.downloading ? require('../../assets/images/icons/downloading-snippet.gif') : require('../../assets/images/icons/download-snippet-new.svg')
 
     let disableSnipOption
-    if (this.props.audioType === 'snippet') {
-      disableSnipOption = false
-    } else if (this.state.clickNumber === 0) {
-      disableSnipOption = true
-    } else if (this.state.clickNumber === 1) {
-      disableSnipOption = true
-    } else if (this.props.snipping) {
+    if (this.props.snipStatus === 'STOP_TIME_SET' || this.props.audioType === 'snippet') {
       disableSnipOption = false
     } else {
       disableSnipOption = true
@@ -150,15 +121,15 @@ class SnippingContainer extends Component {
     let snipImage
     let snipToolTipText
 
-    if (this.state.clickNumber === 1 && this.props.snipping) {
-      snipImage = require('../../assets/images/icons/stop-snip.svg')
-      snipToolTipText = 'Stop snipping'
-    } else if (this.state.clickNumber === 2 && this.props.snipping) {
-      snipImage = require('../../assets/images/icons/trash-can.svg')
-      snipToolTipText = 'Discard snip'
-    } else {
+    if (this.props.snipStatus === 'NOT_STARTED') {
       snipImage = require('../../assets/images/icons/start-snip.svg')
       snipToolTipText = 'Start snipping'
+    } else if (this.props.snipStatus === 'START_TIME_SET') {
+      snipImage = require('../../assets/images/icons/stop-snip.svg')
+      snipToolTipText = 'Stop snipping'
+    } else {
+      snipImage = require('../../assets/images/icons/trash-can.svg')
+      snipToolTipText = 'Discard snip'
     }
 
     if (this.props.audioType !== 'snippet') {
@@ -209,13 +180,12 @@ class SnippingContainer extends Component {
 
   renderAddSnippetToLibrary = () => {
     let addSnippetToLibraryImage = require('../../assets/images/icons/add-snippet-to-library.svg')
-    let addSnipOption
-    if (this.state.clickNumber === 1 && this.props.snipping) {
-      addSnipOption = true
-    } else if (this.state.clickNumber === 2 && this.props.snipping) {
-      addSnipOption = false
+
+    let disableSnipOption
+    if (this.props.snipStatus === 'STOP_TIME_SET') {
+      disableSnipOption = false
     } else {
-      addSnipOption = true
+      disableSnipOption = true
     }
 
     if (this.props.audioType !== 'snippet') {
@@ -229,7 +199,7 @@ class SnippingContainer extends Component {
             <Button
                variant="outline-secondary"
                className="m-2 p-1 button-container"
-               disabled={addSnipOption || !this.props.authenticated}
+               disabled={disableSnipOption || !this.props.authenticated}
                onClick={() => this.handleActionClick('snippet-library')}
             >
               <img className='button' src={`${addSnippetToLibraryImage}`} alt='add snippet to library'></img>
@@ -306,6 +276,7 @@ const mapStateToProps = state => {
     audio: state.currentAudio.audioUrl,
     src: state.currentAudio.audioUrl,
     snipping: state.currentAudio.snipping,
+    snipStatus: state.currentAudio.snipStatus,
     startTime: state.currentAudio.startTime,
     stopTime: state.currentAudio.stopTime
   }
