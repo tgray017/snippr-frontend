@@ -12,12 +12,9 @@ class LogInContainer extends Component {
       return <Redirect to='/' />
     } else {
       return (
-        <>
-          <LogInForm
-            login={this.props.login}
-          />
-          <OauthContainer/>
-        </>
+        <LogInForm
+          login={this.props.login}
+        />
       )
     }
   }

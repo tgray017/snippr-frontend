@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import { Button } from 'react-bootstrap'
+import OauthContainer from '../../containers/user/OauthContainer'
 
 export default class SignUpForm extends Component {
 
@@ -65,6 +66,7 @@ export default class SignUpForm extends Component {
           <Button variant="primary" type="submit" className="submit-button">
             Sign up
           </Button>
+          <OauthContainer/>
         </Form>
       </Container>
     )

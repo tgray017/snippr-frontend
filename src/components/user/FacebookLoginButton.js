@@ -7,23 +7,22 @@ export default class FacebookLoginButton extends Component {
 
   render() {
     return (
-          <FacebookLogin
-            appId={this.props.facebookAppId}
-            autoLoad={false}
-            fields="name,email,picture"
-            callback={this.props.loginWithFacebook}
-            render={renderProps => (
-              <Button
-                variant="primary"
-                type="submit"
-                className="submit-button"
-                onClick={renderProps.onClick}
-              >
-                <ion-icon name="logo-facebook" size="large"></ion-icon>
-                <span className="facebook-oauth-icon">Log in with Facebook</span>
-              </Button>
-            )}
-          />
+      <FacebookLogin
+        appId={this.props.facebookAppId}
+        autoLoad={false}
+        fields="name,email,picture"
+        callback={this.props.loginWithFacebook}
+        render={renderProps => (
+          <Button
+            variant="primary"
+            className="submit-button"
+            onClick={renderProps.onClick}
+          >
+            <ion-icon name="logo-facebook" size="large"></ion-icon>
+            <span className="facebook-oauth-icon">Log in with Facebook</span>
+          </Button>
+        )}
+      />
     )
   }
 }

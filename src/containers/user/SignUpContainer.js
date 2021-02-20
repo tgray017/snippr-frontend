@@ -12,12 +12,9 @@ export class SignUpContainer extends Component {
       return <Redirect to='/' />
     } else {
       return (
-        <>
-          <SignUpForm
-            signup={this.props.signup}
-          />
-          <OauthContainer/>
-        </>
+        <SignUpForm
+          signup={this.props.signup}
+        />
       )
     }
   }
