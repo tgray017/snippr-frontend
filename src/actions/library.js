@@ -67,7 +67,7 @@ export const addSnipToLibrary = (userId, title, audio, audioLength, podcastName,
       if(snip.errors) {
         dispatch(setAlert('error', alertify(snip.errors)))
       } else {
-        dispatch(setAlert('success', alertify('Snip added to library')))
+        dispatch(setAlert('success', alertify('Snippet added to library')))
         dispatch(fetchLibrary(userId))
       }
     })

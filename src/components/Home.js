@@ -16,13 +16,14 @@ export default class Home extends Component {
 
           <p>
             <br/>
-            <video
-              width='600'
-              src={require('../assets/images/snippr-tutorial.mov')}
-              autoPlay
-              controls
-            >
-            </video>
+            <div className="snippr-tutorial">
+              <video
+                width='600'
+                src={require('../assets/images/snippr-tutorial.mov')}
+                autoPlay
+                controls
+              />
+            </div>
           </p>
 
           <p>
