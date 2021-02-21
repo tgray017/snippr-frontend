@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
-import Container from 'react-bootstrap/Container'
 import { Button } from 'react-bootstrap'
 
 export default class FacebookLoginButton extends Component {

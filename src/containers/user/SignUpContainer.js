@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import OauthContainer from './OauthContainer'
 import SignUpForm from '../../components/user/SignUpForm'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'

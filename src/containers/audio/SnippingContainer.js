@@ -110,7 +110,11 @@ class SnippingContainer extends Component {
              disabled={disableSnipOption}
              onClick={() => this.handleActionClick('snippet-download')}
           >
-            <img className='button' src={`${downloadSnippetImage}`} alt='download snippet'></img>
+            <img
+              className='button'
+              src={`${downloadSnippetImage}`}
+              alt='download snippet'>
+            </img>
           </Button>
         </OverlayTrigger>
       )
@@ -145,7 +149,11 @@ class SnippingContainer extends Component {
                className="m-2 p-1 button-container"
                onClick={this.handleSnipClick}
             >
-              <img className='button' src={`${snipImage}`} alt= 'snip button'></img>
+              <img
+                className='button'
+                src={`${snipImage}`}
+                alt='snip button'>
+              </img>
             </Button>
           </div>
         </OverlayTrigger>
@@ -170,7 +178,11 @@ class SnippingContainer extends Component {
                disabled={!this.props.authenticated}
                onClick={() => this.handleActionClick('episode-library')}
             >
-              <img className='button' src={`${addEpisodeToLibraryImage}`} alt='add episode to library'></img>
+              <img
+                className='button'
+                src={`${addEpisodeToLibraryImage}`}
+                alt='add episode to library'>
+              </img>
             </Button>
           </div>
         </OverlayTrigger>
@@ -202,7 +214,11 @@ class SnippingContainer extends Component {
                disabled={disableSnipOption || !this.props.authenticated}
                onClick={() => this.handleActionClick('snippet-library')}
             >
-              <img className='button' src={`${addSnippetToLibraryImage}`} alt='add snippet to library'></img>
+              <img
+                className='button'
+                src={`${addSnippetToLibraryImage}`}
+                alt='add snippet to library'>
+              </img>
             </Button>
           </div>
         </OverlayTrigger>
@@ -218,6 +234,7 @@ class SnippingContainer extends Component {
           type="image"
           src={forwardImage}
           onClick={this.props.handleFastForward}
+          alt="fast forward"
         />
       </div>
     )
@@ -231,6 +248,7 @@ class SnippingContainer extends Component {
           type="image"
           src={rewindImage}
           onClick={this.props.handleRewind}
+          alt="rewind"
         />
       </div>
     )

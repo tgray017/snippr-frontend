@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
-import AudioContainer from '../../containers/audio/AudioContainer'
 import Moment from 'react-moment'
 import { AnimationWrapper } from 'react-hover-animation'
 import TextTruncate from 'react-text-truncate'
 import { Button } from 'react-bootstrap'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
-
-
 /*import EditableLabel from 'react-inline-editing'*/
 
 export default class LibraryElement extends Component {
@@ -185,6 +182,7 @@ export default class LibraryElement extends Component {
               <div className="custom-column episode-play-pause">
                 <input
                   type="image"
+                  alt="play pause button"
                   src={playPauseImg}
                   onClick={this.togglePlay}
                 />

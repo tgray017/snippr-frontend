@@ -156,6 +156,7 @@ class AudioContainer extends Component {
       <div>
         <input
           type="image"
+          alt="expand collapse button"
           className="expand-collapse-button"
           src={expandCollapseImg}
           onClick={this.toggleExpandCollapse}
