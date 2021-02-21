@@ -156,7 +156,11 @@ div.menu-options > .dropdown-toggle:after {
   align-items: center;
 }
 
-.facebook-oauth-icon {
+.facebook-login-button {
+  background-color: rgb(54,85,148) !important;
+}
+
+.facebook-login-text {
   margin-left: 7px;
 }
 

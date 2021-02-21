@@ -14,11 +14,11 @@ export default class FacebookLoginButton extends Component {
         render={renderProps => (
           <Button
             variant="primary"
-            className="submit-button"
+            className="submit-button facebook-login-button"
             onClick={renderProps.onClick}
           >
             <ion-icon name="logo-facebook" size="large"></ion-icon>
-            <span className="facebook-oauth-icon">Log in with Facebook</span>
+            <span className="facebook-login-text">Log in with Facebook</span>
           </Button>
         )}
       />
