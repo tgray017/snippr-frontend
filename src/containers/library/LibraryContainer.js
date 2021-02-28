@@ -7,8 +7,8 @@ import LibraryElementContainer from './LibraryElementContainer'
 
 class LibraryContainer extends Component {
 
-  componentDidUpdate(prevProps) {
-    if(this.props.userId && (prevProps.userId !== this.props.userId)) {
+  componentDidMount() {
+    if(this.props.userId) {
       this.props.fetchLibrary(this.props.userId)
     }
   }
@@ -42,7 +42,7 @@ class LibraryContainer extends Component {
       return (
         <Container className="mt-4 text-center text-secondary">
           <h3 className="mb-3">There's nothing in your library.</h3>
-          <h5><a href="/search">Search podcasts</a> to add snips and episodes to it.</h5>
+          <h5><a href="/search">Search podcasts</a> to add snippets and episodes to your library.</h5>
         </Container>
       )
     }

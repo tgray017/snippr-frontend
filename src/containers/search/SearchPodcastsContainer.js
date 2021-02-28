@@ -39,7 +39,6 @@ class SearchPodcastsContainer extends Component {
   }
 
   renderListenNotesLogo = () => {
-    if(this.props.results && this.props.results.length !== 0) {
       return (
         <div
           className="mb-4 text-center"
@@ -47,11 +46,10 @@ class SearchPodcastsContainer extends Component {
           <img
             src={require('../../assets/images/logos/listen-notes-logo.png')}
             width='200'
-            alt='listen-notes-logo'
+            alt='listen notes logo'
           />
         </div>
       )
-    }
   }
 
   render() {

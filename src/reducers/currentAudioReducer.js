@@ -3,6 +3,7 @@ export default function currentAudioReducer(state = {
   showing: false,
   expanded: true,
   snipping: false,
+  snipStatus: 'NOT_STARTED',
   loading: false,
   snipStartTime: null,
   snipStopTime: null
@@ -39,6 +40,7 @@ export default function currentAudioReducer(state = {
       return {
         ...state,
         snipping: false,
+        snipStatus: 'NOT_STARTED',
         snipStartTime: null,
         snipStopTime: null
       }
@@ -46,22 +48,27 @@ export default function currentAudioReducer(state = {
     case 'START_SNIPPING':
       return {
         ...state,
-        snipping: true
+        snipping: true,
+        snipStatus: 'START_TIME_SET'
       }
 
     case 'STOP_SNIPPING':
       return {
         ...state,
-        snipping: false,
-        snipStartTime: null,
-        snipStopTime: null
+        snipping: true,
+        snipStatus: 'STOP_TIME_SET'
+      }
+
+    case 'SHOW_AUDIO_CONTAINER':
+      return {
+        ...state,
+        showing: true
       }
 
     case 'PLAY':
       return {
         ...state,
-        playing: true,
-        showing: true
+        playing: true
       }
 
     case 'PAUSE':

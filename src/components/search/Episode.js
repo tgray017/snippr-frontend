@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Card from 'react-bootstrap/Card'
-import AudioContainer from '../../containers/audio/AudioContainer'
 import Moment from 'react-moment'
 import { AnimationWrapper } from 'react-hover-animation'
 import TextTruncate from 'react-text-truncate'
@@ -35,22 +34,18 @@ export default class Episode extends Component {
 
   togglePlay = async () => {
     let currentAudioElement
-    console.log(this.props)
 
     if (this.props.playing && this.props.id === this.props.currentAudioId) {
       currentAudioElement = document.getElementById(this.props.currentAudioId)
-      currentAudioElement.pause()
-      this.props.pause()
+      this.props.pause(currentAudioElement)
     } else if (this.props.id === this.props.currentAudioId) {
       currentAudioElement = document.getElementById(this.props.currentAudioId)
-      currentAudioElement.play()
-      this.props.play()
+      this.props.play(currentAudioElement)
     } else {
       this.props.discardSnip()
       await this.setAudio()
       currentAudioElement = document.getElementById(this.props.currentAudioId)
-      currentAudioElement.play()
-      this.props.play()
+      this.props.play(currentAudioElement)
     }
   }
 
@@ -100,6 +95,7 @@ export default class Episode extends Component {
                 type="image"
                 src={playPauseImg}
                 onClick={this.togglePlay}
+                alt="play pause button"
               />
             </div>
             <div className="custom-column episode-details">

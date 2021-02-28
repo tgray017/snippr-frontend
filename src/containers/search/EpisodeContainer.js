@@ -19,6 +19,7 @@ class EpisodeContainer extends Component {
         audio={this.props.audio}
         audioLength={this.props.audioLength}
         id={this.props.id}
+        audioType={this.props.audioType}
         podcastName={this.props.podcastName}
         podcastId={this.props.podcastId}
         setAudio={this.props.setAudio}
@@ -43,8 +44,8 @@ const mapDispatchToProps = dispatch => {
   /* a bunch of this isn't being used; update here, in the reducer, and in the child components */
   return {
     setAudio: (audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId) => dispatch(setAudio(audioId, audioUrl, audioLength, title, description, audioType, startTime, stopTime, podcastName, podcastId)),
-    play: () => dispatch(play()),
-    pause: () => dispatch(pause()),
+    play: (audioElement) => dispatch(play(audioElement)),
+    pause: (audioElement) => dispatch(pause(audioElement)),
     discardSnip: () => dispatch(discardSnip())
   }
 }

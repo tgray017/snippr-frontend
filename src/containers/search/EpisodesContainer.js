@@ -10,6 +10,7 @@ class EpisodesContainer extends Component {
       <EpisodeContainer
         key={idx}
         id={episode.id}
+        audioType={'search-episode'}
         audio={episode.audio}
         audioLength={episode.audio_length_sec}
         title={episode.title}

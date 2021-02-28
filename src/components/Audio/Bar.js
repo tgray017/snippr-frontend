@@ -24,18 +24,30 @@ export default class Bar extends Component {
     }
   }
 
-  componentDidMount() {
-    this.setState({
-      ...this.state,
-      dragElement: this.barProgressKnobContainer
-    })
+  componentDidUpdate(prevProps) {
+    /* These statements handle the condition where this.state.snipStartTime and this.props.snipStartTime */
+    /* are out of sync. The internal state of the component can be different if you've started snipping */
+    /* on one audio ref, and started playing another audio ref, in which case this.props.snipStartTime */
+    /* would be null (since playing another audio ref discards the snip) but this.state.snipStartTime would be non-null */
+    /* We can't directly reference this.props.snipStartTime in the mouseMove functions because that */
+    /* degrades performance significantly */
+    if (prevProps.snipStartTime !== this.props.snipStartTime) {
+      this.setState({
+        ...this.state,
+        snipStartTime: this.props.snipStartTime
+      })
+    }
+    if (prevProps.snipStopTime !== this.props.snipStopTime) {
+      this.setState({
+        ...this.state,
+        snipStopTime: this.props.snipStopTime
+      })
+    }
   }
 
   mouseMove = e => {
-    let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
-    let timelineWidth = this.timeline.offsetWidth
-    let handleWidth = this.state.dragElement.children[0].getBoundingClientRect().width
-    let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft + (handleWidth/2)
+    let timelineWidth = document.getElementById('audio-progress-bar').getBoundingClientRect().width
+    let handlePosition = e.pageX - document.getElementById('audio-progress-bar').getBoundingClientRect().x
 
     let offsetRatio
 
@@ -48,13 +60,13 @@ export default class Bar extends Component {
     }
 
     if (handlePosition >= 0 && handlePosition <= timelineWidth) {
-      this.state.dragElement.style.marginLeft = `${offsetRatio*100}%`
+      this.barProgressKnobContainer.style.marginLeft = `${offsetRatio*100}%`
     }
     if (handlePosition < 0) {
-      this.state.dragElement.style.marginLeft = "0%"
+      this.barProgressKnobContainer.style.marginLeft = "0%"
     }
     if (handlePosition > timelineWidth) {
-      this.state.dragElement.style.marginLeft = "100%"
+      this.barProgressKnobContainer.style.marginLeft = "100%"
     }
     this.props.handleTimeDrag(offsetRatio)
   }
@@ -62,13 +74,8 @@ export default class Bar extends Component {
   mouseDown = (e) => {
     e.preventDefault()
     if(e.target === this.barProgressKnob) {
-      this.setState({
-        ...this.state,
-        dragElement: this.barProgressKnobContainer
-      }, () => {
-        window.addEventListener('mousemove', this.mouseMove)
-        window.addEventListener('mouseup', this.mouseUp)
-      })
+      window.addEventListener('mousemove', this.mouseMove)
+      window.addEventListener('mouseup', this.mouseUp)
     }
   }
 
@@ -77,51 +84,12 @@ export default class Bar extends Component {
     window.removeEventListener('mouseup', this.mouseUp)
   }
 
-  startSnipMouseMove = (e) => {
-    let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
-    let timelineWidth = this.timeline.offsetWidth
-    let handleWidth = this.state.dragElement.getBoundingClientRect().width
-    /* dis bad need 2 figure out */
-    let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
-
-    let offsetRatio
-
-    if(handlePosition/timelineWidth < 0) {
-      offsetRatio = 0
-    } else if (handlePosition/timelineWidth > 1) {
-      offsetRatio = 1
-    } else {
-      offsetRatio = handlePosition/timelineWidth
-    }
-
-    /* need 2 add in additional offset from handle width here */
-    if(this.stopSnipHandleContainer && handlePosition > this.stopSnipHandleContainer.offsetLeft) {
-      this.stopSnipMouseMove(e)
-    }
-
-    let startSnipHandleTime
-
-    if(handlePosition >= 0 && handlePosition <= timelineWidth) {
-      this.startSnipHandleContainer.style.marginLeft = `${offsetRatio*100}%`
-      startSnipHandleTime = this.props.audioLength*offsetRatio
-      this.startSnipHandleTime.innerText = moment.duration(startSnipHandleTime, 'seconds').format(this.state.timeFormat, {
-        trim: false
-      })
-    }
-    if(handlePosition < 0) {
-      this.startSnipHandleContainer.style.marginLeft = "0%"
-      startSnipHandleTime = 0
-      this.startSnipHandleTime.innerText = moment.duration(startSnipHandleTime, 'seconds').format(this.state.timeFormat, {
-        trim: false
-      })
-    }
-    if(handlePosition > timelineWidth) {
-      this.startSnipHandleContainer.style.marginLeft = "100%"
-      startSnipHandleTime = this.props.audioLength
-      this.startSnipHandleTime.innerText = moment.duration(startSnipHandleTime, 'seconds').format(this.state.timeFormat, {
-        trim: false
-      })
-    }
+  moveStartSnipKnob = (offsetRatio) => {
+    this.startSnipHandleContainer.style.marginLeft = `${offsetRatio*100}%`
+    let startSnipHandleTime = this.props.audioLength*offsetRatio
+    this.startSnipHandleTime.innerText = moment.duration(startSnipHandleTime, 'seconds').format(this.state.timeFormat, {
+      trim: false
+    })
 
     this.setState({
       ...this.state,
@@ -129,10 +97,49 @@ export default class Bar extends Component {
     })
   }
 
+  moveStopSnipKnob = (offsetRatio) => {
+    this.stopSnipHandleContainer.style.marginLeft = `${offsetRatio*100}%`
+    let stopSnipHandleTime = this.props.audioLength*offsetRatio
+    this.stopSnipHandleTime.innerText = moment.duration(stopSnipHandleTime, 'seconds').format(this.state.timeFormat, {
+      trim: false
+    })
+
+    this.setState({
+      ...this.state,
+      snipStopTime: stopSnipHandleTime
+    })
+  }
+
+  startSnipMouseMove = (e) => {
+    let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
+    let timelineWidth = this.timeline.offsetWidth
+    let handleWidth = this.startSnipHandleContainer.getBoundingClientRect().width
+
+    let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
+    timelineWidth = document.getElementById('audio-progress-bar').getBoundingClientRect().width
+    handlePosition = e.pageX - document.getElementById('audio-progress-bar').getBoundingClientRect().x
+
+    let offsetRatio
+
+    if(handlePosition/timelineWidth < 0) {
+      offsetRatio = 0
+    } else if (handlePosition/timelineWidth > 1) {
+      offsetRatio = 1
+    } else {
+      offsetRatio = handlePosition/timelineWidth
+    }
+
+    this.moveStartSnipKnob(offsetRatio)
+
+    if(this.stopSnipHandleContainer && handlePosition > this.stopSnipHandleContainer.offsetLeft) {
+      this.moveStopSnipKnob(offsetRatio)
+    }
+  }
+
   stopSnipMouseMove = (e) => {
     let episodeOffsetLeft = document.getElementById('current-audio-player').offsetLeft
     let timelineWidth = this.timeline.offsetWidth
-    let handleWidth = this.state.dragElement.getBoundingClientRect().width
+    let handleWidth = this.stopSnipHandleContainer.getBoundingClientRect().width
     let handlePosition = e.pageX - this.timeline.offsetLeft - episodeOffsetLeft - (handleWidth/2)
 
     let offsetRatio
@@ -145,63 +152,18 @@ export default class Bar extends Component {
       offsetRatio = handlePosition/timelineWidth
     }
 
+    this.moveStopSnipKnob(offsetRatio)
+
     if(this.startSnipHandleContainer && handlePosition < this.startSnipHandleContainer.offsetLeft) {
-      this.startSnipMouseMove(e)
+      this.moveStartSnipKnob(offsetRatio)
     }
-
-    let stopSnipHandleTime
-
-    if(handlePosition >= 0 && handlePosition <= timelineWidth) {
-      this.stopSnipHandleContainer.style.marginLeft = `${offsetRatio*100}%`
-      stopSnipHandleTime = this.props.audioLength*offsetRatio
-      this.stopSnipHandleTime.innerText = moment.duration(stopSnipHandleTime, 'seconds').format(this.state.timeFormat, {
-        trim: false
-      })
-    }
-    if(handlePosition < 0) {
-      this.stopSnipHandleContainer.style.marginLeft = "0%"
-      stopSnipHandleTime = 0
-      this.stopSnipHandleTime.innerText = moment.duration(stopSnipHandleTime, 'seconds').format(this.state.timeFormat, {
-        trim: false
-      })
-    }
-    if(handlePosition > timelineWidth) {
-      this.stopSnipHandleContainer.style.marginLeft = "100%"
-      stopSnipHandleTime = this.props.audioLength
-      this.stopSnipHandleTime.innerText = moment.duration(stopSnipHandleTime, 'seconds').format(this.state.timeFormat, {
-        trim: false
-      })
-    }
-
-    this.setState({
-      ...this.state,
-      snipStopTime: stopSnipHandleTime
-    })
   }
 
   startSnipMouseDown = (e) => {
     e.preventDefault()
     if(e.target === this.startSnipHandle) {
-      this.setState({
-        ...this.state,
-        dragElement: this.startSnipHandleContainer
-      }, () => {
-        window.addEventListener('mousemove', this.startSnipMouseMove)
-        window.addEventListener('mouseup', this.startSnipMouseUp)
-      })
-    }
-  }
-
-  stopSnipMouseDown = (e) => {
-    e.preventDefault()
-    if(e.target === this.stopSnipHandle) {
-      this.setState({
-        ...this.state,
-        dragElement: this.stopSnipHandleContainer
-      }, () => {
-        window.addEventListener('mousemove', this.stopSnipMouseMove)
-        window.addEventListener('mouseup', this.stopSnipMouseUp)
-      })
+      window.addEventListener('mousemove', this.startSnipMouseMove)
+      window.addEventListener('mouseup', this.startSnipMouseUp)
     }
   }
 
@@ -214,6 +176,15 @@ export default class Bar extends Component {
     if(this.state.snipStopTime || this.state.snipStopTime === 0) {
       this.props.setSnipStopTime(this.state.snipStopTime)
     }
+    this.snippingKnobDrag = true
+  }
+
+  stopSnipMouseDown = (e) => {
+    e.preventDefault()
+    if(e.target === this.stopSnipHandle) {
+      window.addEventListener('mousemove', this.stopSnipMouseMove)
+      window.addEventListener('mouseup', this.stopSnipMouseUp)
+    }
   }
 
   stopSnipMouseUp = (e) => {
@@ -225,21 +196,25 @@ export default class Bar extends Component {
     if(this.state.snipStopTime || this.state.snipStopTime === 0) {
       this.props.setSnipStopTime(this.state.snipStopTime)
     }
+    this.snippingKnobDrag = true
   }
 
   timelineClick = (e) => {
-    if(e.target === this.timeline && this.state.dragElement === this.barProgressKnobContainer) {
+    if (!this.snippingKnobDrag && e.target === this.timeline) {
       e.persist()
-      this.setState({
-        ...this.state,
-        dragElement: this.barProgressKnobContainer
-      }, () => {
-        this.mouseMove(e)
-      })
+      this.mouseMove(e)
     }
+    this.snippingKnobDrag = false
   }
 
   renderStartSnipKnob = () => {
+    /* the problem is that state isn't updated when props are updated */
+    /* so this.props.snipStartTime may be null after discarding snip */
+    /* but this.state.snipStartTime is still a non-null value */
+    /* need to update this.state.snipStartTime when new props are received */
+    /* or is it vice versa? */
+    let img = require('../../assets/images/icons/start-snip-knob.svg')
+
     let offsetRatio = (this.props.snipStartTime/this.props.audioLength)*100
 
     if(this.props.snipping && (this.props.snipStartTime || this.props.snipStartTime === 0)) {
@@ -251,12 +226,23 @@ export default class Bar extends Component {
             marginLeft: `${offsetRatio}%`
           }}
         >
+
+          {/*
           <span
             className="bar__snip__start__knob"
             ref={(startSnipHandle) => { this.startSnipHandle = startSnipHandle }}
             onMouseDown={this.startSnipMouseDown}
           >
           </span>
+          */}
+          <input
+            type="image"
+            id="snip-start-knob"
+            ref={(startSnipHandle) => { this.startSnipHandle = startSnipHandle }}
+            src={img}
+            alt="start snip knob"
+            onMouseDown={this.startSnipMouseDown}
+          />
           <span
             className="bar__snip__start__knob__time"
             ref={(startSnipHandleTime) => { this.startSnipHandleTime = startSnipHandleTime }}
@@ -271,6 +257,7 @@ export default class Bar extends Component {
   }
 
   renderStopSnipKnob = () => {
+    let img = require('../../assets/images/icons/stop-snip-knob.svg')
     let offsetRatio = (this.props.snipStopTime/this.props.audioLength)*100
 
     if(this.props.snipping && (this.props.snipStopTime || this.props.snipStopTime === 0)) {
@@ -282,12 +269,26 @@ export default class Bar extends Component {
             marginLeft: `${offsetRatio}%`
           }}
         >
+          {/*
           <span
             className="bar__snip__stop__knob"
             ref={(stopSnipHandle) => { this.stopSnipHandle = stopSnipHandle }}
             onMouseDown={this.stopSnipMouseDown}
           >
           </span>
+          */}
+
+
+          <input
+            type="image"
+            id="snip-stop-knob"
+            ref={(stopSnipHandle) => { this.stopSnipHandle = stopSnipHandle }}
+            src={img}
+            alt="stop snip knob"
+            onMouseDown={this.stopSnipMouseDown}
+          />
+
+
           <span
             className="bar__snip__stop__knob__time"
             ref={(stopSnipHandleTime) => { this.stopSnipHandleTime = stopSnipHandleTime }}
@@ -310,6 +311,7 @@ export default class Bar extends Component {
           })}
         </span>
         <div
+          id='audio-progress-bar'
           className="bar__progress"
           ref={(timeline) => { this.timeline = timeline }}
           onClick={this.timelineClick}
@@ -322,6 +324,7 @@ export default class Bar extends Component {
           }}
         >
           <span
+            id='audio-progress-knob'
             className="bar__progress__knob lady-lips-gradient color-block-5 mx-auto rounded-circle z-depth-1-half"
             ref={(barProgressKnob) => { this.barProgressKnob = barProgressKnob }}
             onMouseDown={this.mouseDown}
@@ -331,7 +334,7 @@ export default class Bar extends Component {
           {this.renderStopSnipKnob()}
         </div>
         <span className={`bar__time ${this.state.timeWidthClass}`}>
-          {moment.duration(this.props.timeFromEnd, 'seconds').format(this.state.timeFormat, {
+          -{moment.duration(this.props.timeFromEnd, 'seconds').format(this.state.timeFormat, {
             trim: false
           })}
         </span>

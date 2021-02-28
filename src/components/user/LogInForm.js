@@ -54,6 +54,7 @@ export default class LogInForm extends Component {
           <Button variant="primary" type="submit" className="submit-button">
             Log in
           </Button>
+          <OauthContainer/>
         </Form>
       </Container>
     )
